@@ -2,8 +2,9 @@ X3D GUIDE
 =============
 
 ## Abstract
-Web3D is a family of interactive online three-dimensional (3D) graphics standards that includes such powerful technologies as Extensible 3D (X3D) modeling language. The X3D language has been widely adopted by professional organizations, researchers, and 3D designers worldwide. Despite the rich functionality, the language does not currently provide tools for rapid development of conventional graphical user interfaces (GUIs). An X3D author is responsible for building—from primitives—a purpose-specific set of required interface components, often for a single use. 
-    In this thesis we address the challenge of creating consistent, efficient, interactive, and visually appealing GUIs by proposing the X3D Graphical User Interface Development Environment (X3D GUIDE) library. This library includes a wide range of cross-compatible X3D widgets, equipped with configurable appearance and behavior. With X3D GUIDE, we attempt to standardize the GUI construction across various X3D-driven projects, and improve the reusability, compatibility, adaptability, readability, and flexibility of many existing applications.
+Web3D is a family of interactive online three-dimensional (3D) graphics standards that includes such powerful technologies as Extensible 3D (X3D) modeling language. The X3D language has been widely adopted by professional organizations, researchers, and 3D designers worldwide. Despite the rich functionality, the language does not currently provide tools for rapid development of conventional graphical user interfaces (GUIs). An X3D author is responsible for building---from primitives---a purpose-specific set of required interface components, often for a single use. 
+
+In this thesis we address the challenge of creating consistent, efficient, interactive, and visually appealing GUIs by proposing the X3D Graphical User Interface Development Environment (X3D GUIDE) library. This library includes a wide range of cross-compatible X3D widgets, equipped with configurable appearance and behavior. With X3D GUIDE, we attempt to standardize the GUI construction across various X3D-driven projects, and improve the reusability, compatibility, adaptability, readability, and flexibility of many existing applications.
 
 ## Resources
 
