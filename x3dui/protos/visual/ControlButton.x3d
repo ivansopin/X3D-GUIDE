@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+	
+		<ExternProtoDeclare name="Button" url='"Button.x3d#Button"'>
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+							
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			
+			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+			
+			<field name="isPressed" type="SFBool" accessType="outputOnly" />
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+		</ExternProtoDeclare>
+	
+		<!-- This prototype implements a control button object to be displayed on the
+				top right of a <proto>Frame</proto> instance. The prototype should not
+				normally be instantiated as an independent GUI component. -->
+		<ProtoDeclare name="ControlButton">
+			<ProtoInterface>
+				<!-- <proto>Settings</proto> object should be passed in this parameter. -->
+				<field name="settings" type="SFNode" accessType="inputOnly"></field>
+				<!-- Initializes the component and prepares it for visualization. -->
+				<field name="setup" type="SFBool" accessType="inputOnly" />
+				<!-- Causes the component to reposition itself and all its children in the z-depth stack. -->
+				<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+				
+				<!-- Specifies the size of the component. -->
+				<field name="size" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				<!-- Specifies what color the component should be. -->
+				<field name="color" type="SFColor" accessType="initializeOnly" value="0.832 0.8164 0.7852" />
+				<!-- Specifies the transparency level of the component. -->
+				<field name="transparency" type="SFFloat" accessType="initializeOnly" value="0" />
+				<!-- Determines if the button will be interactive. -->
+				<field name="enabled" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies the type of the graphics the the button should have. 
+						Possible options are 
+						<ul>
+							<li><tt>MINIMIZE</tt> &ndash; an underscore icon will be shown</li>
+							<li><tt>MAXIMIZE</tt> &ndash; a two-window icon will be shown</li>
+							<li><tt>NORMALIZE</tt> &ndash; a one-window icon will be shown</li>
+							<li><tt>CLOSE</tt> &ndash; a cross icon will be shown</li>
+						</ul> -->
+				<field name="type" type="SFString" accessType="initializeOnly" value="CLOSE" />
+				
+				<!-- Returns the size of the component. -->
+				<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+				<!-- Returns the color of the component. -->
+				<field name="getColor" type="SFColor" accessType="outputOnly" />
+				<!-- Returns the component's transparency level. -->
+				<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+				<!-- Indicates whether the button is enabled. -->
+				<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the type of the button. For more details refer to the
+						<field>type</field> parameter. -->
+				<field name="getType" type="SFString" accessType="outputOnly" />
+				<!-- Fires <tt>true</tt> when the button is pressed down, 
+						and false when the button is released. -->
+				<field name="isPressed" type="SFBool" accessType="outputOnly" />
+				<!-- Fires <tt>true</tt> when the button is first pressed down, 
+						and then released. Compare with <field>isPressed</field>. -->
+				<field name="isClicked" type="SFBool" accessType="outputOnly" />
+								
+				<!-- Sets the size of the component. -->
+				<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+				<!-- Sets the color of the component. -->
+				<field name="setColor" type="SFColor" accessType="inputOnly" />
+				<!-- Sets the component's transparency level. -->
+				<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+				<!-- Sets the status of the button. -->
+				<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+				<!-- Sets the type of the button. For more details, refer to the 
+						<field>type</field> parameter. -->
+				<field name="setType" type="SFString" accessType="inputOnly" />
+			</ProtoInterface>
+			<ProtoBody>
+				<Group>					
+					<ProtoInstance DEF="button" name="Button">
+						<fieldValue name="children">
+							<Transform DEF="iconHolder">
+								<Shape>
+									<ImageTexture DEF="icon" url='' repeatS="false" repeatT="false" />
+									<IndexedFaceSet coordIndex="0 1 2 3 -1" texCoordIndex="0 1 2 3 -1">
+										<Coordinate DEF="buttonCoords" point="0 0 0, 0 0 0, 0 0 0, 0 0 0"/>
+									</IndexedFaceSet>
+								</Shape>
+							</Transform>
+						</fieldValue>
+						<fieldValue name="visible" value="true" />
+
+						<IS>
+							<connect nodeField="color" protoField="color"/>
+							<connect nodeField="transparency" protoField="transparency"/>
+							
+							<connect nodeField="getColor" protoField="getColor"/>
+							<connect nodeField="getSize" protoField="getSize"/>
+							<connect nodeField="getTransparency" protoField="getTransparency"/>
+							<connect nodeField="isEnabled" protoField="isEnabled"/>
+							<connect nodeField="isPressed" protoField="isPressed"/>
+							<connect nodeField="isClicked" protoField="isClicked"/>
+							
+							<connect nodeField="setColor" protoField="setColor"/>
+							<connect nodeField="setTransparency" protoField="setTransparency"/>
+						</IS>
+					</ProtoInstance>
+				</Group>
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="button" type="SFNode" accessType="initializeOnly">
+						<Button USE="button" />
+					</field>
+					<field name="iconHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="iconHolder" />
+					</field>
+					<field name="icon" type="SFNode" accessType="initializeOnly">
+						<ImageTexture USE="icon" />
+					</field>
+					<field name="buttonCoords" type="SFNode" accessType="initializeOnly">
+						<Coordinate USE="buttonCoords" />
+					</field>
+					
+					<!-- constants -->
+					<field name="COMPONENT_ID" accessType="inputOutput" type="SFInt32" />
+
+					<field name="settings" accessType="inputOnly" type="SFNode" />
+					<field name="setup" accessType="inputOnly" type="SFBool" />
+					<field name="applyZOrder" accessType="inputOnly" type="SFBool" />
+					
+					<field name="size" type="SFVec2f" accessType="initializeOnly" />
+					<field name="enabled" type="SFBool" accessType="initializeOnly" />
+					<field name="type" type="SFString" accessType="initializeOnly" />
+					
+					<field name="getType" type="SFString" accessType="outputOnly" />
+					
+					<field name="_setSize" type="SFVec2f" accessType="inputOnly" />
+					<field name="_setEnabled" type="SFBool" accessType="inputOnly" />
+					<field name="_setType" type="SFString" accessType="inputOnly" />
+					
+					<field name="INITIALIZED" accessType="inputOutput" type="SFBool" />
+					
+					<IS>
+						<connect nodeField="settings" protoField="settings"/>
+						<connect nodeField="setup" protoField="setup"/>
+						<connect nodeField="applyZOrder" protoField="applyZOrder"/>
+						
+						<connect nodeField="size" protoField="size"/>
+						<connect nodeField="enabled" protoField="enabled"/>
+						<connect nodeField="type" protoField="type"/>
+						
+						<connect nodeField="getType" protoField="getType"/>
+						
+						<connect nodeField="_setSize" protoField="setSize"/>
+						<connect nodeField="_setEnabled" protoField="setEnabled"/>
+						<connect nodeField="_setType" protoField="setType"/>
+					</IS>
+
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+					}
+					
+					function setup() {
+						INITIALIZED = false;
+					
+						button.settings = settings;
+						button.setup = true;
+						
+						COMPONENT_ID = settings.COMPONENT_ID++;
+					
+						if (settings.DEBUG) print("control button setup(" + COMPONENT_ID + ")");
+						
+						setSize(size);
+						setType(type);
+						setEnabled(enabled);
+						
+						INITIALIZED = true;
+					}
+					
+					function applyZOrder() {
+						button.applyZOrder = true;
+						
+						if (settings.DEBUG) print("\tcontrol button applyZOrder(" + settings.Z_ORDER_COUNT + ")");
+					}
+					
+					function _setSize(newSize) {
+						if (INITIALIZED) {
+							setSize(newSize);
+						}
+					}
+					
+					function setSize(newSize) {
+						if (newSize.x < settings.DEFAULT_BUTTON_MINIMUM_SIZE.x) {
+							newSize.x = settings.DEFAULT_BUTTON_MINIMUM_SIZE.x;
+						}
+						
+						if (newSize.y < settings.DEFAULT_BUTTON_MINIMUM_SIZE.y) {
+							newSize.y = settings.DEFAULT_BUTTON_MINIMUM_SIZE.y;
+						}
+					
+						button.setSize = newSize;
+						
+						buttonCoords.point[0] = new SFVec3f(0, -button.getSize.y, 0);
+						buttonCoords.point[1] = new SFVec3f(button.getSize.x, -button.getSize.y, 0);
+						buttonCoords.point[2] = new SFVec3f(button.getSize.x, 0, 0);
+						buttonCoords.point[3] = new SFVec3f(0, 0, 0);
+					}
+					
+					function _setType(newType) {
+						if (INITIALIZED) {
+							setType(newType);
+						}
+					}
+					
+					function setType(newType) {
+						getType = newType;
+						
+						if (INITIALIZED) {
+							setEnabled(button.isEnabled);
+						}
+					}
+					
+					function _setEnabled(newEnabled) {
+						if (INITIALIZED) {
+							setEnabled(newEnabled);
+						}
+					}
+					
+					function setEnabled(newEnabled) {
+						if (newEnabled) {
+							if (getType == "MINIMIZE") {
+								icon.url[0] = settings.IMAGES_DIR + "minimizeButton.png";
+							} else if (getType == "MAXIMIZE") {
+								icon.url[0] = settings.IMAGES_DIR + "maximizeButton.png";
+							} else if (getType == "NORMALIZE") {
+								icon.url[0] = settings.IMAGES_DIR + "normalizeButton.png";
+							} else {
+								icon.url[0] = settings.IMAGES_DIR + "closeButton.png";
+							}
+						} else {
+							if (getType == "MINIMIZE") {
+								icon.url[0] = settings.IMAGES_DIR + "minimizeButtonDisabled.png";
+							} else if (getType == "MAXIMIZE") {
+								icon.url[0] = settings.IMAGES_DIR + "maximizeButtonDisabled.png";
+							} else if (getType == "NORMALIZE") {
+								icon.url[0] = settings.IMAGES_DIR + "normalizeButtonDisabled.png";
+							} else {
+								icon.url[0] = settings.IMAGES_DIR + "closeButtonDisabled.png";
+							}
+						}
+						
+						button.setEnabled = newEnabled;
+					}
+				]]>
+				</Script>
+
+			</ProtoBody>
+		</ProtoDeclare>
+		
+	</Scene>
+</X3D>

@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+	
+		<ExternProtoDeclare name="Layer" url='"Layer.x3d#Layer"'>
+			<field name="settings" type="SFNode" accessType="inputOnly" />					
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			<field name="movable" type="SFBool" accessType="initializeOnly" />
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			
+			<field name="isMovable" type="SFBool" accessType="outputOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			
+			<field name="setMovable" type="SFBool" accessType="inputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+		</ExternProtoDeclare>
+	
+		<!-- This prototype is a movable alternative to <proto>Rectangle</proto>.
+				Both prototypes serve the same purpose, but since Plane descends from
+				<proto>Layer</proto>, it is used to allow objects in the
+				<field>children</field> attribute be movable. The prototype should not
+				normally be instantiated as an independent GUI component. 
+				Such prototypes as <proto>Panel</proto> and <proto>Frame</proto>
+				are based on the Plane prototype. -->
+		<ProtoDeclare name="Plane">
+			<ProtoInterface>
+				<!-- <proto>Settings</proto> object should be passed in this parameter. -->
+				<field name="settings" type="SFNode" accessType="inputOnly"></field>
+				<!-- Initializes the component and prepares it for visualization. -->
+				<field name="setup" type="SFBool" accessType="inputOnly" />
+				<!-- Causes the component to reposition itself and all its children in the z-depth stack. -->
+				<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+
+				<!-- Accepts X3DUI nodes to be displayed within this component -->
+				<field name="children" type="MFNode" accessType="initializeOnly"></field>
+				<!-- Specifies the size of the component, which ultimately affects how bounds
+						for in-screen translations will be calculated. -->
+				<field name="size" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				<!-- Specifies whether the component should be visible. -->
+				<field name="visible" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies what color the component should be. -->
+				<field name="color" type="SFColor" accessType="initializeOnly" value="0.832 0.8164 0.7852" />
+				<!-- Specifies the transparency level of the component. -->
+				<field name="transparency" type="SFFloat" accessType="initializeOnly" value="0" />
+				<!-- Specifies the type of the border that the component should have. 
+						Possible options are 
+						<ul>
+							<li><tt>NONE</tt> &ndash; no border will be displayed</li>
+							<li><tt>EQUAL</tt> &ndash; a solid single line will drawn</li>
+							<li><tt>TOP_LEFT</tt> &ndash; embossed-style border will be used</li>
+							<li><tt>BOTTOM_RIGHT</tt> &ndash; bulged-in-style border will be used</li>
+						</ul>-->
+				<field name="border" type="SFString" accessType="initializeOnly" value="TOP_LEFT" />				
+				<!-- Specifies whether the objects in the <field>children</field> attribute
+						should be movable. -->
+				<field name="movable" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies the initial position of the <field>children</field> 
+						group on the screen. -->
+				<field name="position" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				
+				<!-- Returns the size of the component. -->
+				<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+				<!-- Indicates whether the component is visible. -->
+				<field name="isVisible" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the color of the component. -->
+				<field name="getColor" type="SFColor" accessType="outputOnly" />
+				<!-- Returns the component's transparency level. -->
+				<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+				<!-- Indicates what type of border the component is using. 
+						For possible options, please see <field>border</field> attribute. -->
+				<field name="getBorder" type="SFString" accessType="outputOnly" />
+				<!-- Indicates whether the <field>children</field> group is movable. -->
+				<field name="isMovable" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the current position of <field>children</field> group 
+						on the screen. -->
+				<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+				
+				<!-- Sets the size of the component. -->
+				<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+				<!-- Sets the visibility status of the component. -->
+				<field name="setVisible" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the color of the component. -->
+				<field name="setColor" type="SFColor" accessType="inputOnly" />
+				<!-- Sets the component's transparency level. -->
+				<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+				<!-- Sets the type of border the component should use. 
+						For possible options, please see <field>border</field> attribute. -->
+				<field name="setBorder" type="SFString" accessType="inputOnly" />
+				<!-- Makes the objects in the <field>children</field> group movable or static. -->
+				<field name="setMovable" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the position of <field>children</field> group on the screen. -->
+				<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+			</ProtoInterface>
+			<ProtoBody>
+				<Group>
+					<Switch DEF="display" whichChoice="0">
+						<Group>
+							<!-- the main frame area -->							
+							<ProtoInstance DEF="layer" name="Layer">
+								<fieldValue name="children">
+									<OrderedGroup DEF="orderedGroup">
+										<Shape>
+											<Appearance>
+												<Material DEF="boxMaterial">
+													<IS>
+														<connect nodeField="transparency" protoField="transparency"/>
+													</IS>
+												</Material>
+											</Appearance>
+											<IndexedFaceSet colorIndex="0 0 0 0 0" coordIndex="0 1 2 3 -1">
+												<Coordinate DEF="boxCoords" point="0 0 0, 0 0 0, 0 0 0, 0 0 0"/>
+												<Color DEF="boxColors" color="0 0 0"/>
+											</IndexedFaceSet>
+										</Shape>
+
+										<Shape>
+											<Appearance>
+												<Material USE="boxMaterial" />
+											</Appearance>
+											<IndexedLineSet colorIndex="0 0 0 0 0 0 1 1 1 1 1 1" coordIndex="0 1 -1 0 3 -1 2 1 -1 2 3 -1">
+												<Coordinate DEF="lineCoords" point="0 0 0, 0 0 0, 0 0 0, 0 0 0"/>
+												<Color DEF="lineColors" color="0 0 0, 0 0 0"/>
+											</IndexedLineSet>
+										</Shape>
+										
+										<OrderedGroup DEF="orderedGroup2">
+											<IS>
+												<connect nodeField="children" protoField="children" />
+											</IS>
+										</OrderedGroup>
+									</OrderedGroup>
+								</fieldValue>
+								<IS>
+									<connect nodeField="movable" protoField="movable"/>
+									<connect nodeField="position" protoField="position"/>
+									<connect nodeField="size" protoField="size"/>
+									
+									<connect nodeField="isMovable" protoField="isMovable"/>
+									<connect nodeField="getPosition" protoField="getPosition"/>
+			
+									<connect nodeField="setMovable" protoField="setMovable"/>
+									<connect nodeField="setPosition" protoField="setPosition"/>
+								</IS>
+							</ProtoInstance>
+						</Group>
+					</Switch>
+				</Group>
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="layer" type="SFNode" accessType="initializeOnly">
+						<Layer USE="layer" />
+					</field>
+					<field name="display" type="SFNode" accessType="initializeOnly">
+						<Switch USE="display" />
+					</field>
+					<field name="boxMaterial" type="SFNode" accessType="initializeOnly">
+						<Material USE="boxMaterial" />
+					</field>
+					<field name="boxColors" type="SFNode" accessType="initializeOnly">
+						<Color USE="boxColors" />
+					</field>
+					<field name="lineColors" type="SFNode" accessType="initializeOnly">
+						<Color USE="lineColors" />
+					</field>
+					<field name="boxCoords" type="SFNode" accessType="initializeOnly">
+						<Coordinate USE="boxCoords" />
+					</field>
+					<field name="lineCoords" type="SFNode" accessType="initializeOnly">
+						<Coordinate USE="lineCoords" />
+					</field>
+					<field name="orderedGroup" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup" />
+					</field>
+					<field name="orderedGroup2" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup2" />
+					</field>
+					
+					<field name="settings" accessType="inputOnly" type="SFNode" />
+					<field name="setup" accessType="inputOnly" type="SFBool" />
+					<field name="applyZOrder" accessType="inputOnly" type="SFBool" />
+					
+					<!-- constants -->
+					<field name="COMPONENT_ID" accessType="inputOutput" type="SFInt32" />
+					<field name="WHITE_COLOR" accessType="inputOutput" type="SFColor" value="1 1 1" />
+					<field name="DARK_COLOR" accessType="inputOutput" type="SFColor" value="0.3 0.3 0.3" />
+					
+					<!-- attributes of the class -->
+					<field name="visible" type="SFBool" accessType="inputOutput" />
+					<field name="color" type="SFColor" accessType="inputOutput" />
+					<field name="transparency" type="SFFloat" accessType="inputOutput" />
+					<field name="size" type="SFVec2f" accessType="inputOutput" />
+					<field name="border" type="SFString" accessType="inputOutput" />
+					
+					<field name="INITIALIZED" accessType="inputOutput" type="SFBool" />
+					
+					<!-- methods of the class -->
+					<field name="isVisible" type="SFBool" accessType="outputOnly" />
+					<field name="getColor" type="SFColor" accessType="outputOnly" />
+					<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+					<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+					<field name="getBorder" type="SFString" accessType="outputOnly" />
+					
+					<field name="_setVisible" type="SFBool" accessType="inputOnly" />
+					<field name="_setColor" type="SFColor" accessType="inputOnly" />
+					<field name="_setTransparency" type="SFFloat" accessType="inputOnly" />
+					<field name="_setSize" type="SFVec2f" accessType="inputOnly" />
+					<field name="_setBorder" type="SFString" accessType="inputOnly" />
+					
+					<IS>
+						<connect nodeField="settings" protoField="settings"/>
+						<connect nodeField="setup" protoField="setup"/>
+						<connect nodeField="applyZOrder" protoField="applyZOrder"/>
+						
+						<connect nodeField="visible" protoField="visible"/>
+						<connect nodeField="color" protoField="color"/>
+						<connect nodeField="transparency" protoField="transparency"/>
+						<connect nodeField="size" protoField="size"/>
+						<connect nodeField="border" protoField="border"/>
+						
+						<connect nodeField="isVisible" protoField="isVisible"/>
+						<connect nodeField="getColor" protoField="getColor"/>
+						<connect nodeField="getTransparency" protoField="getTransparency"/>
+						<connect nodeField="getSize" protoField="getSize"/>
+						<connect nodeField="getBorder" protoField="getBorder"/>
+						
+						<connect nodeField="_setVisible" protoField="setVisible"/>
+						<connect nodeField="_setColor" protoField="setColor"/>
+						<connect nodeField="_setTransparency" protoField="setTransparency"/>
+						<connect nodeField="_setSize" protoField="setSize"/>
+						<connect nodeField="_setBorder" protoField="setBorder"/>
+					</IS>
+				<![CDATA[
+					ecmascript:
+				
+					function initialize() {
+					}
+					
+					function setup(ds) {
+						INITIALIZED = false;
+						
+						layer.settings = settings;
+						layer.setup = true;
+						
+						COMPONENT_ID = settings.COMPONENT_ID++;
+						
+						if (settings.DEBUG) print("plane setup(" + COMPONENT_ID + ")");
+					
+						setVisible(visible);
+						setColor(color);
+						setTransparency(transparency);
+						setSize(size);						
+						setBorder(border);
+						
+						INITIALIZED = true;
+					}
+					
+					function applyZOrder() {
+						layer.applyZOrder = true;
+					
+						if (settings.DEBUG) print("\tplane applyZOrder(" + settings.Z_ORDER_COUNT + ")");
+					
+						var l = orderedGroup.children.length;
+
+						for (var i = 0; i < l; i++) {
+							orderedGroup.order[i] = settings.Z_ORDER_COUNT + i * settings.Z_ORDER_STEP;
+						}
+						
+						var m = orderedGroup2.children.length;
+						
+						for (var i = 0; i < m; i++) {
+							orderedGroup2.order[i] = settings.Z_ORDER_COUNT + (i + l) * settings.Z_ORDER_STEP;
+						}
+						
+						settings.Z_ORDER_COUNT++;
+					}
+					
+					function _setVisible(newVisible) {
+						if (INITIALIZED) {
+							setVisible(newVisible);
+						}
+					}
+					
+					function setVisible(newVisible) {
+						isVisible = newVisible;
+						
+						display.whichChoice = (isVisible ? 0 : -1);
+					}
+					
+					function _setColor(newColor) {
+						if (INITIALIZED) {
+							setColor(newColor);
+						}
+					}
+					
+					function setColor(newColor) {
+						getColor = newColor;
+						
+						boxColors.color[0] = getColor;
+					}
+					
+					function _setTransparency(newTransparency) {
+						if (INITIALIZED) {
+							setTransparency(newTransparency);
+						}
+					}
+					
+					function setTransparency(newTransparency) {
+						getTransparency = newTransparency;
+						
+						boxMaterial.transparency = newTransparency;
+					}
+					
+					function _setSize(newSize) {
+						if (INITIALIZED) {
+							setSize(newSize);
+						}
+					}
+					
+					function setSize(newSize) {
+						getSize = newSize;
+						
+						boxCoords.point[0] = new SFVec3f(0, 0, 0);
+						boxCoords.point[1] = new SFVec3f(0, -getSize.y, 0);
+						boxCoords.point[2] = new SFVec3f(getSize.x, -getSize.y, 0);
+						boxCoords.point[3] = new SFVec3f(getSize.x, 0, 0);
+
+						if (INITIALIZED) {
+							setBorder(getBorder);
+						}
+						
+						layer.setSize = newSize;
+					}
+					
+					function _setBorder(newBorder) {
+						if (INITIALIZED) {
+							setBorder(newBorder);
+						}
+					}
+					
+					function setBorder(newBorder) {
+						getBorder = newBorder;
+
+						if (getBorder != "NONE") {
+							lineCoords.point[0] = new SFVec3f(0, 0, 0);
+							lineCoords.point[1] = new SFVec3f(0, -getSize.y, 0);
+							lineCoords.point[2] = new SFVec3f(getSize.x, -getSize.y, 0);
+							lineCoords.point[3] = new SFVec3f(getSize.x, 0, 0);
+						
+							if (getBorder == "BOTTOM_RIGHT") {
+								lineColors.color[0] = DARK_COLOR;
+								lineColors.color[1] = WHITE_COLOR;
+							} else if (getBorder == "EQUAL") {
+								lineColors.color[0] = DARK_COLOR;
+								lineColors.color[1] = DARK_COLOR;
+							} else {
+								lineColors.color[0] = WHITE_COLOR;
+								lineColors.color[1] = DARK_COLOR;
+								
+								getBorder = "TOP_LEFT";
+							}
+						} else {
+							lineCoords.point[0] = new SFVec3f(0, 0, 0);
+							lineCoords.point[1] = new SFVec3f(0, 0, 0);
+							lineCoords.point[2] = new SFVec3f(0, 0, 0);
+							lineCoords.point[3] = new SFVec3f(0, 0, 0);
+						}
+
+					}
+				]]>
+				</Script>
+			</ProtoBody>
+		</ProtoDeclare>
+		
+	</Scene>
+</X3D>

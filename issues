@@ -1,0 +1,11 @@
+2. fix the grid layout's vertical center and top alignment and also frame/layout height issue for grid layout 
+3. move the tab panel's/panel's children down a bit
+4. combo box cannot be set disabled
+5. panels do not support borders with title
+6. need a flag, so that text size should expand to fit all text
+7. if only one string is provided to text toggle button, it should be displayed in both states
+9. minimize overridings of the actual get-values and use temporary variables instead
+10. think about using duplicates of actual get-values, and do the reassignment only if INITIALIZED flag has been set
+12. ensure that combo box touch sensor is above everything else, even if temporarily
+13. RadioButton is missing transparency
+14. in the versions resizing doesn't work, and buttons only work if you aim to the right of where you intend to click

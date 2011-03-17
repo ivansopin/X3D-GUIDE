@@ -1,0 +1,1558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+
+<X3D profile="Full">
+	<head />
+	<Scene>
+
+		<ExternProtoDeclare name="Plane" url='"Plane.x3d#Plane"'>
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="movable" type="SFBool" accessType="initializeOnly" />
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			
+			<field name="isMovable" type="SFBool" accessType="outputOnly" />
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			
+			<field name="setMovable" type="SFBool" accessType="inputOnly" />
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+			
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="border" type="SFString" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getBorder" type="SFString" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setBorder" type="SFString" accessType="inputOnly" />
+		</ExternProtoDeclare>
+	
+		<ExternProtoDeclare name="ControlButton" url='"ControlButton.x3d#ControlButton"'>
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />				
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />				
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+			
+			<field name="isPressed" type="SFBool" accessType="outputOnly" />
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+			
+			<field name="type" type="SFString" accessType="initializeOnly" />
+			<field name="getType" type="SFString" accessType="outputOnly" />
+			<field name="setType" type="SFString" accessType="inputOnly" />
+		</ExternProtoDeclare>
+			
+		<ExternProtoDeclare name="LayoutManager" url='"../layout/LayoutManager.x3d#LayoutManager"'>
+			<field name="layout" type="SFNode" accessType="initializeOnly"></field>
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			
+			<field name="doLayout" type="SFVec2f" accessType="inputOnly" />
+			
+			<field name="getMinimumWidth" type="SFFloat" accessType="outputOnly" />
+			<field name="getMinimumHeight" type="SFFloat" accessType="outputOnly" />
+			<field name="getMinimumSize" type="SFVec2f" accessType="outputOnly" />
+				
+			<field name="getChildren" type="MFNode" accessType="outputOnly"></field>
+		</ExternProtoDeclare>	
+
+
+		<!-- This prototype implements a window that can contain most other X3DUI 
+				components. In a virtual desktop, controlled by <proto>Display</proto>, 
+				this prototype is the only allowed highest-level object, besides 
+				<proto>TaskBar</proto>. -->
+		<ProtoDeclare name="Frame">
+			<ProtoInterface>
+				<!-- <proto>Settings</proto> object should be passed in this parameter. -->
+				<field name="settings" type="SFNode" accessType="inputOnly"></field>
+				<!-- Initializes the component and prepares it for visualization. -->
+				<field name="setup" type="SFBool" accessType="inputOnly" />
+				<!-- Causes the component to reposition itself and all its children in the z-depth stack. -->
+				<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+				
+				<!-- Accepts X3DUI nodes to be displayed within this component -->
+				<field name="children" type="MFNode" accessType="initializeOnly"></field>
+				<!-- Specifies whether the objects in the <field>children</field> attribute
+						should be movable. -->
+				<field name="movable" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies the initial position of the <field>children</field> 
+						group on the screen. -->
+				<field name="position" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				<!-- Specifies the size of the component, which ultimately affects how bounds
+						for in-screen translations will be calculated. -->
+				<field name="size" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				<!-- Specifies whether the component should be visible. -->
+				<field name="visible" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies what color the component should be. -->
+				<field name="color" type="SFColor" accessType="initializeOnly" value="0.832 0.8164 0.7852" />
+				<!-- Specifies the transparency level of the component. 
+						If the value provided is positive, all children will also be assigned
+						the same transparency level; otherwise, only the container object
+						will be of the specified transparency. -->
+				<field name="transparency" type="SFFloat" accessType="initializeOnly" value="0" />
+				<!-- Specifies the type of the border that the component should have. 
+						Possible options are 
+						<ul>
+							<li><tt>NONE</tt> &ndash; no border will be displayed</li>
+							<li><tt>EQUAL</tt> &ndash; a solid single line will drawn</li>
+							<li><tt>TOP_LEFT</tt> &ndash; embossed-style border will be used</li>
+							<li><tt>BOTTOM_RIGHT</tt> &ndash; bulged-in-style border will be used</li>
+						</ul>-->
+				<field name="border" type="SFString" accessType="initializeOnly" value="TOP_LEFT" />
+				<!-- Accepts on the layout objects from the <group>layout</group> group. 
+						The specified layout will be in charge of positioning the children
+						inside this object. -->
+				<field name="layout" type="SFNode" accessType="initializeOnly"></field>
+				<!-- Specifies whether the window should have a header area with the title 
+						and control buttons at the top. -->
+				<field name="header" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies the title of the window that will be displayed in the 
+						<field>header</field>, if it is enabled, and the respective 
+						<proto>TaskBar</proto> buttons. -->
+				<field name="title" type="SFString" accessType="initializeOnly" value="" />
+				<!-- Specifies whether the window should be initially maximized. -->
+				<field name="startMaximized" type="SFBool" accessType="initializeOnly" value="false" />
+				<!-- Specifies whether the user should be able to resize the window. -->
+				<field name="resizable" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies whether the <tt>Minimize</tt>-type <proto>ControlButton</proto>
+						should be shown in the <field>header</field>. -->
+				<field name="minimizable" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies whether the <tt>Maximize</tt>-type <proto>ControlButton</proto>
+						should be shown in the <field>header</field>. -->
+				<field name="maximizable" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies whether the <tt>Close</tt>-type <proto>ControlButton</proto>
+						should be shown in the <field>header</field>. -->
+				<field name="closeable" type="SFBool" accessType="initializeOnly" value="true" />
+				
+				<!-- Returns the array of this object's children. -->
+				<field name="getChildren" type="MFNode" accessType="outputOnly" />
+				<!-- Indicates whether the <field>children</field> group is movable. -->
+				<field name="isMovable" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the current position of <field>children</field> group 
+						on the screen. -->
+				<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+				<!-- Returns the size of the component. -->
+				<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+				<!-- Indicates whether the component is visible. -->
+				<field name="isVisible" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the color of the component. -->
+				<field name="getColor" type="SFColor" accessType="outputOnly" />
+				<!-- Returns the component's transparency level. -->
+				<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+				<!-- Indicates what type of border the component is using. 
+						For possible options, please see <field>border</field> attribute. -->
+				<field name="getBorder" type="SFString" accessType="outputOnly" />
+				<!-- Indicates whether this object has a border. -->
+				<field name="hasHeader" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the title of this window. -->
+				<field name="getTitle" type="SFString" accessType="outputOnly" />
+				<!-- Indicates whether the window is resizable. -->
+				<field name="isResizable" type="SFBool" accessType="outputOnly" />
+				<!-- Indicates whether the window is minimizable. -->
+				<field name="isMinimizable" type="SFBool" accessType="outputOnly" />
+				<!-- Indicates whether the window is maximizable. -->
+				<field name="isMaximizable" type="SFBool" accessType="outputOnly" />
+				<!-- Indicates whether the window is closeable. -->
+				<field name="isCloseable" type="SFBool" accessType="outputOnly" />
+				<!-- Fires <tt>true</tt> when the window is minimized, and 
+						<tt>false</tt> when the window is restored. -->
+				<field name="isMinimized" type="SFBool" accessType="outputOnly" />
+				<!-- Fires <tt>true</tt> when the window is closed, and 
+						<tt>false</tt> when the window is opened. -->
+				<field name="isClosed" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the unique id of this object. This function is
+						used by <proto>Display</proto>. -->
+				<field name="getId" type="SFInt32" accessType="outputOnly" />
+				
+				<!-- Sets the array of this object's children. -->
+				<field name="setChildren" type="MFNode" accessType="inputOnly" />
+				<!-- Makes the objects in the <field>children</field> group movable or static. -->
+				<field name="setMovable" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the position of <field>children</field> group on the screen. -->
+				<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+				<!-- Sets the size of the component. -->
+				<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+				<!-- Sets the visibility status of the component. -->
+				<field name="setVisible" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the color of the component. -->
+				<field name="setColor" type="SFColor" accessType="inputOnly" />
+				<!-- Sets the component's transparency level. For more details, 
+						refer to <field>transparency</field> parameter. -->
+				<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+				<!-- Sets the type of border the component should use. 
+						For possible options, please see <field>border</field> attribute. -->
+				<field name="setBorder" type="SFString" accessType="inputOnly" />
+				<!-- Sets the status of the header to visible or invisible. -->
+				<field name="setHeader" type="SFBool" accessType="inputOnly"/>
+				<!-- Sets the title of this window. -->
+				<field name="setTitle" type="SFString" accessType="inputOnly"/>
+				<!-- Sets the mode of this window to resizable or static. -->
+				<field name="setResizable" type="SFBool" accessType="inputOnly"/>
+				<!-- Sets the visibility status of the <tt>MINIMIZE</tt>-type
+						<proto>ControlButton</proto>. -->
+				<field name="setMinimizable" type="SFBool" accessType="inputOnly"/>
+				<!-- Sets the visibility status of the <tt>MAXIMIZE</tt>-type
+						<proto>ControlButton</proto>. -->
+				<field name="setMaximizable" type="SFBool" accessType="inputOnly"/>
+				<!-- Sets the visibility status of the <tt>CLOSE</tt>-type
+						<proto>ControlButton</proto>. -->
+				<field name="setCloseable" type="SFBool" accessType="inputOnly"/>
+				<!-- Minimizes or restores this window. -->
+				<field name="setMinimized" type="SFBool" accessType="inputOnly"/>
+				<!-- Sets the status of this window to active or inactive. Making 
+						the window active will force all other windows in the scene
+						to become inactive. -->
+				<field name="setActive" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the z-depth elevation of the window. This method is used
+						by <proto>Display</proto> and should not be called from 
+						anywhere else. -->
+				<field name="setElevation" type="SFFloat" accessType="inputOnly" />
+				<!-- Forces the window to reposition its children according to
+						the specified <field>layout</field> object. This method
+						is called by <proto>LayoutManager</proto> and should not
+						be called from anywhere else. -->
+				<field name="doLayout" type="SFBool" accessType="inputOnly" />
+			</ProtoInterface>
+			<ProtoBody>
+				<Transform DEF="elevator">
+					<ProtoInstance DEF="plane" name="Plane">
+						<fieldValue name="children">
+							<Switch DEF="display" whichChoice="0">
+								<OrderedGroup DEF="orderedGroup">									
+									<!-- the title -->
+									<Switch DEF="headerDisplay" whichChoice="0">
+										<OrderedGroup DEF="orderedGroup2">
+											<Transform DEF="headerBox">
+												<Shape>
+													<Appearance>
+														<Material DEF="titleMaterial">
+															<IS>
+																<connect nodeField="transparency" protoField="transparency"/>
+															</IS>
+														</Material>
+													</Appearance>
+													<IndexedFaceSet colorIndex="0 0 1 1 0" coordIndex="0 1 2 3 -1">
+														<Coordinate DEF="titleCoords" point="0 0 0, 0 0 0, 0 0 0, 0 0 0"/>
+														<Color DEF="titleColor" color="0 0 0, 0 0 0"/>
+													</IndexedFaceSet>
+												</Shape>
+											</Transform>
+											<Transform DEF="titleHolder">
+												<Transform DEF="titleScale">
+													<Shape>
+														<Appearance>
+															<Material DEF="titleTextMaterial" diffuseColor="1 1 1" />
+														</Appearance>
+														<Text DEF="titleText" solid="true">
+															<FontStyle DEF="titleTextStyle" justify='"BEGIN"' size="11" style="BOLD USE_TEXTURE" />
+														</Text> 
+													</Shape>
+												</Transform>
+											</Transform>
+											<Transform DEF="controlButtonsHolder">
+												<Transform DEF="displayMinimizeHolder">
+													<Switch DEF="displayMinimize" whichChoice="0">
+														<ProtoInstance DEF="controlButtonMinimize" name="ControlButton">
+															<fieldValue name="type" value="MINIMIZE" />
+														</ProtoInstance>
+													</Switch>
+												</Transform>
+												<Transform DEF="displayMaximizeHolder">
+													<Switch DEF="displayMaximize" whichChoice="0">
+														<ProtoInstance DEF="controlButtonMaximize" name="ControlButton">
+															<fieldValue name="type" value="MAXIMIZE" />
+														</ProtoInstance>
+													</Switch>
+												</Transform>
+												<Transform DEF="displayCloseHolder">
+													<Switch DEF="displayClose" whichChoice="0">
+														<ProtoInstance DEF="controlButtonClose" name="ControlButton">
+															<fieldValue name="type" value="CLOSE" />
+														</ProtoInstance>
+													</Switch>
+												</Transform>
+											</Transform>
+										</OrderedGroup>
+									</Switch>
+									
+									<!-- the children -->
+									<Transform DEF="childrenHolder">
+										<OrderedGroup DEF="orderedGroup3">
+											<IS>
+												<connect nodeField="children" protoField="children"/>
+											</IS>
+										</OrderedGroup>
+									</Transform>
+									
+									<Transform DEF="resizeBorderHolder">
+										<OrderedGroup DEF="orderedGroup4">
+											<Group>
+												<TouchSensor DEF="touchSensor" />
+												
+												<Group>
+													<Shape>
+														<Appearance>
+															<Material transparency="1" />
+														</Appearance>
+														<IndexedFaceSet coordIndex="7 3 0 4 -1 4 0 1 5 -1 6 5 1 2 -1 3 7 6 2 -1">
+															<Coordinate DEF="resizeAreaCoords" point="0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0"/>
+														</IndexedFaceSet>
+													</Shape>
+												</Group>
+												
+												<Transform DEF="resizeProxyHolder">
+													<Shape>
+														<Appearance>
+															<Material transparency="1" />
+														</Appearance>
+														<Box DEF="resizeProxy" size="0 0 0" />
+													</Shape>
+												</Transform>
+											</Group>
+											
+											<Switch DEF="displayResizeBorder" whichChoice="-1">
+												<Shape>
+													<PixelTexture repeatS="true" repeatT="true" image="2 2 3 0x000000 0xFFFFFF 0xFFFFFF 0x000000" />
+													<IndexedFaceSet coordIndex="7 3 0 4 -1 4 0 1 5 -1 6 5 1 2 -1 3 7 6 2 -1">
+														<Coordinate DEF="resizeBorderCoords" point="0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0"/>
+														<TextureCoordinate point="0.003 0, 0.003 0.003, 0 0.003, 0 0" />
+													</IndexedFaceSet>
+												</Shape>
+											</Switch>
+											
+											<Transform DEF="displayArrowsHolder">
+												<Switch DEF="displayArrows" whichChoice="-1">
+													<Shape>
+														<ImageTexture DEF="arrows" url='' repeatS="false" repeatT="false" />
+														<IndexedFaceSet coordIndex="0 1 2 3 -1" texCoordIndex="0 1 2 3 -1">
+															<Coordinate DEF="arrowsCoords" point="0 0 0, 0 0 0, 0 0 0, 0 0 0" />
+														</IndexedFaceSet>
+													</Shape>
+												</Switch>
+											</Transform>
+										</OrderedGroup>
+									</Transform>
+								</OrderedGroup>
+							</Switch>
+						</fieldValue>
+						<IS>
+
+							<connect nodeField="visible" protoField="visible"/>
+							<connect nodeField="color" protoField="color"/>
+							<connect nodeField="transparency" protoField="transparency"/>
+							<connect nodeField="border" protoField="border"/>
+							<connect nodeField="movable" protoField="movable"/>
+							<connect nodeField="position" protoField="position"/>
+													
+							<connect nodeField="getSize" protoField="getSize"/>
+							<connect nodeField="isVisible" protoField="isVisible"/>
+							<connect nodeField="getColor" protoField="getColor"/>
+							<connect nodeField="getTransparency" protoField="getTransparency"/>
+							<connect nodeField="getBorder" protoField="getBorder"/>
+							<connect nodeField="isMovable" protoField="isMovable"/>
+							<connect nodeField="getPosition" protoField="getPosition"/>
+					
+							<connect nodeField="setColor" protoField="setColor"/>
+							<connect nodeField="setBorder" protoField="setBorder"/>
+							<connect nodeField="setMovable" protoField="setMovable"/>
+							<connect nodeField="setPosition" protoField="setPosition"/>
+						</IS>
+					</ProtoInstance>
+					
+					<ProtoInstance DEF="layoutManager" name="LayoutManager">
+						<IS>
+							<connect nodeField="layout" protoField="layout"/>
+							<connect nodeField="children" protoField="children"/>
+						</IS>
+					</ProtoInstance>
+				</Transform>
+														
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="plane" type="SFNode" accessType="initializeOnly">
+						<Plane USE="plane" />
+					</field>
+					<field name="display" type="SFNode" accessType="initializeOnly">
+						<Switch USE="display" />
+					</field>
+					<field name="childrenHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="childrenHolder" />
+					</field>
+					<field name="headerBox" type="SFNode" accessType="initializeOnly">
+						<Shape USE="headerBox" />
+					</field>
+					<field name="headerDisplay" type="SFNode" accessType="initializeOnly">
+						<Switch USE="headerDisplay" />
+					</field>
+					<field name="titleMaterial" type="SFNode" accessType="initializeOnly">
+						<Material USE="titleMaterial" />
+					</field>
+					<field name="titleColor" type="SFNode" accessType="initializeOnly">
+						<Color USE="titleColor" />
+					</field>
+					<field name="titleCoords" type="SFNode" accessType="initializeOnly">
+						<Coordinate USE="titleCoords" />
+					</field>
+					<field name="titleHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="titleHolder" />
+					</field>
+					<field name="titleScale" type="SFNode" accessType="initializeOnly">
+						<Transform USE="titleScale" />
+					</field>
+					<field name="titleText" type="SFNode" accessType="initializeOnly">
+						<Text USE="titleText" />
+					</field>
+					<field name="titleTextMaterial" type="SFNode" accessType="initializeOnly">
+						<Material USE="titleTextMaterial" />
+					</field>
+					<field name="titleTextStyle" type="SFNode" accessType="initializeOnly">
+						<Text USE="titleTextStyle" />
+					</field>
+					<field name="controlButtonsHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="controlButtonsHolder" />
+					</field>
+					<field name="displayMinimizeHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="displayMinimizeHolder" />
+					</field>
+					<field name="displayMaximizeHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="displayMaximizeHolder" />
+					</field>
+					<field name="displayCloseHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="displayCloseHolder" />
+					</field>
+					<field name="displayMinimize" type="SFNode" accessType="initializeOnly">
+						<Switch USE="displayMinimize" />
+					</field>
+					<field name="displayMaximize" type="SFNode" accessType="initializeOnly">
+						<Switch USE="displayMaximize" />
+					</field>
+					<field name="displayClose" type="SFNode" accessType="initializeOnly">
+						<Switch USE="displayClose" />
+					</field>
+					<field name="controlButtonMinimize" type="SFNode" accessType="initializeOnly">
+						<ControlButton USE="controlButtonMinimize" />
+					</field>
+					<field name="controlButtonMaximize" type="SFNode" accessType="initializeOnly">
+						<ControlButton USE="controlButtonMaximize" />
+					</field>
+					<field name="controlButtonClose" type="SFNode" accessType="initializeOnly">
+						<ControlButton USE="controlButtonClose" />
+					</field>
+					<field name="orderedGroup" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup" />
+					</field>
+					<field name="orderedGroup2" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup2" />
+					</field>
+					<field name="orderedGroup3" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup3" />
+					</field>
+					<field name="orderedGroup4" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup4" />
+					</field>
+					<field name="elevator" type="SFNode" accessType="initializeOnly">
+						<Transform USE="elevator" />
+					</field>
+					
+					<field name="layoutManager" type="SFNode" accessType="initializeOnly">
+						<LayoutManager USE="layoutManager" />
+					</field>
+
+					<field name="displayArrowsHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="displayArrowsHolder" />
+					</field>
+					<field name="displayArrows" type="SFNode" accessType="initializeOnly">
+						<Switch USE="displayArrows" />
+					</field>
+					<field name="arrows" type="SFNode" accessType="initializeOnly">
+						<ImageTexture USE="arrows" />
+					</field>
+					<field name="arrowsCoords" type="SFNode" accessType="initializeOnly">
+						<Coordinate USE="arrowsCoords" />
+					</field>
+					<field name="resizeAreaCoords" type="SFNode" accessType="initializeOnly">
+						<Coordinate USE="resizeAreaCoords" />
+					</field>
+					<field name="touchSensor" type="SFNode" accessType="initializeOnly">
+						<TouchSensor USE="touchSensor" />
+					</field>
+					<field name="displayResizeBorder" type="SFNode" accessType="initializeOnly">
+						<Switch USE="displayResizeBorder" />
+					</field>
+					<field name="resizeBorderHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="resizeBorderHolder" />
+					</field>
+					<field name="resizeBorderCoords" type="SFNode" accessType="initializeOnly">
+						<Coordinate USE="resizeBorderCoords" />
+					</field>
+					<field name="resizeProxyHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="resizeProxyHolder" />
+					</field>
+					<field name="resizeProxy" type="SFNode" accessType="initializeOnly">
+						<Box USE="resizeProxy" />
+					</field>
+					
+					
+					
+					<!-- constants -->
+					<field name="COMPONENT_ID" accessType="inputOutput" type="SFInt32" />
+
+					<field name="controlButtonWidth" accessType="inputOutput" type="SFFloat" />
+					<field name="headerHeight" accessType="inputOutput" type="SFFloat" />
+					<field name="minimized" accessType="inputOutput" type="SFBool" value="false" />					
+					<field name="maximized" accessType="inputOutput" type="SFBool" value="false" />
+					<field name="normalSize" accessType="inputOutput" type="SFVec2f" />
+					<field name="normalPosition" accessType="inputOutput" type="SFVec2f" />
+					<field name="arrowsSide" accessType="inputOutput" type="SFFloat" />
+					<field name="resizeBorderExtension" accessType="inputOutput" type="SFFloat" />
+					<field name="resizeDirection" accessType="inputOutput" type="SFInt32" value="-1" />
+					
+					<!-- attributes of the class -->
+					<field name="settings" accessType="inputOnly" type="SFNode" />
+					<field name="setup" accessType="inputOnly" type="SFBool" />
+					<field name="applyZOrder" accessType="inputOnly" type="SFBool" />
+					<field name="updateWindowSize" accessType="inputOnly" type="SFVec2f" />
+
+					<field name="getId" type="SFInt32" accessType="outputOnly" />
+
+					<field name="visible" type="SFBool" accessType="initializeOnly" />
+					<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+					<field name="size" type="SFVec2f" accessType="initializeOnly" />
+					<field name="header" type="SFBool" accessType="initializeOnly" />
+					<field name="title" type="SFString" accessType="initializeOnly" />
+					<field name="startMaximized" type="SFBool" accessType="initializeOnly" />
+					<field name="resizable" type="SFBool" accessType="initializeOnly"/>
+					<field name="minimizable" type="SFBool" accessType="initializeOnly"/>
+					<field name="maximizable" type="SFBool" accessType="initializeOnly"/>
+					<field name="closeable" type="SFBool" accessType="initializeOnly"/>
+					
+					<field name="hasHeader" type="SFBool" accessType="outputOnly" />
+					<field name="getTitle" type="SFString" accessType="outputOnly" />
+					<field name="isResizable" type="SFBool" accessType="outputOnly" />
+					<field name="isMinimizable" type="SFBool" accessType="outputOnly" />
+					<field name="isMinimized" type="SFBool" accessType="outputOnly" />
+					<field name="isMaximizable" type="SFBool" accessType="outputOnly" />
+					<field name="isCloseable" type="SFBool" accessType="outputOnly" />
+					<field name="isClosed" type="SFBool" accessType="outputOnly" />
+					
+					<field name="doLayout" type="SFBool" accessType="inputOnly" />
+					<field name="_setVisible" type="SFBool" accessType="inputOnly" />
+					<field name="_setTransparency" type="SFFloat" accessType="inputOnly" />
+					<field name="_setSize" type="SFVec2f" accessType="inputOnly" />
+					<field name="_setHeader" type="SFBool" accessType="inputOnly" />
+					<field name="_setTitle" type="SFString" accessType="inputOnly" />
+					<field name="_setResizable" type="SFBool" accessType="inputOnly"/>
+					<field name="_setMinimizable" type="SFBool" accessType="inputOnly"/>
+					<field name="_setMinimized" type="SFBool" accessType="inputOnly"/>
+					<field name="_setMaximizable" type="SFBool" accessType="inputOnly"/>
+					<field name="_setCloseable" type="SFBool" accessType="inputOnly"/>
+					<field name="setActive" type="SFBool" accessType="inputOnly"/>
+					<field name="setElevation" type="SFFloat" accessType="inputOnly"/>
+					
+					<field name="minimizeClicked" type="SFBool" accessType="inputOnly"/>
+					<field name="minimize" type="SFBool" accessType="inputOnly"/>
+					<field name="maximizeClicked" type="SFBool" accessType="inputOnly"/>
+					<field name="maximize" type="SFBool" accessType="inputOnly"/>
+					<field name="closeClicked" type="SFBool" accessType="inputOnly"/>
+					<field name="close" type="SFBool" accessType="inputOnly"/>
+					
+					<field name="hitPointChanged" type="SFVec3f" accessType="inputOnly"/>
+					<field name="isOver" type="SFBool" accessType="inputOnly"/>
+					<field name="isActive" type="SFBool" accessType="inputOnly"/>
+					
+					<field name="INITIALIZED" accessType="inputOutput" type="SFBool" />
+					
+					<field name="minimumWidth" accessType="inputOutput" type="SFFloat" />
+					<field name="minimumHeight" accessType="inputOutput" type="SFFloat" />
+					<field name="minimumSize" accessType="inputOutput" type="SFVec2f" />
+					
+					<IS>
+						<connect nodeField="settings" protoField="settings"/>
+						<connect nodeField="setup" protoField="setup"/>
+						<connect nodeField="applyZOrder" protoField="applyZOrder"/>
+						
+						<connect nodeField="getId" protoField="getId"/>
+						
+						<connect nodeField="visible" protoField="visible"/>
+						<connect nodeField="transparency" protoField="transparency"/>
+						<connect nodeField="size" protoField="size"/>
+						<connect nodeField="header" protoField="header"/>
+						<connect nodeField="title" protoField="title"/>
+						<connect nodeField="startMaximized" protoField="startMaximized"/>
+						<connect nodeField="resizable" protoField="resizable"/>
+						<connect nodeField="minimizable" protoField="minimizable"/>
+						<connect nodeField="maximizable" protoField="maximizable"/>
+						<connect nodeField="closeable" protoField="closeable"/>
+						
+						<connect nodeField="hasHeader" protoField="hasHeader"/>
+						<connect nodeField="getTitle" protoField="getTitle"/>
+						<connect nodeField="isResizable" protoField="isResizable"/>
+						<connect nodeField="isMinimizable" protoField="isMinimizable"/>
+						<connect nodeField="isMinimized" protoField="isMinimized"/>
+						<connect nodeField="isMaximizable" protoField="isMaximizable"/>
+						<connect nodeField="isCloseable" protoField="isCloseable"/>
+						<connect nodeField="isClosed" protoField="isClosed"/>
+						
+						<connect nodeField="doLayout" protoField="doLayout"/>					
+						<connect nodeField="_setVisible" protoField="setVisible"/>
+						<connect nodeField="_setTransparency" protoField="setTransparency"/>
+						<connect nodeField="_setSize" protoField="setSize"/>
+						<connect nodeField="_setHeader" protoField="setHeader"/>
+						<connect nodeField="_setTitle" protoField="setTitle"/>
+						<connect nodeField="_setResizable" protoField="setResizable"/>
+						<connect nodeField="_setMinimizable" protoField="setMinimizable"/>
+						<connect nodeField="_setMinimized" protoField="setMinimized"/>
+						<connect nodeField="_setMaximizable" protoField="setMaximizable"/>
+						<connect nodeField="_setCloseable" protoField="setCloseable"/>
+						<connect nodeField="setActive" protoField="setActive"/>
+						<connect nodeField="setElevation" protoField="setElevation"/>
+					</IS>
+				<![CDATA[
+					ecmascript:
+					
+					function initialize() {
+					}
+					
+					function setup() {
+						INITIALIZED = false;
+										
+						plane.settings = settings;
+						controlButtonMinimize.settings = settings;
+						controlButtonMaximize.settings = settings;
+						controlButtonClose.settings = settings;
+					
+						plane.setup = true;
+						controlButtonMinimize.setup = true;
+						controlButtonMaximize.setup = true;
+						controlButtonClose.setup = true;
+					
+						COMPONENT_ID = settings.COMPONENT_ID++;
+						getId = COMPONENT_ID;
+						
+						if (settings.DEBUG) print("frame setup(" + COMPONENT_ID + ")");
+						
+						var l = orderedGroup3.children.length;
+						
+						for (var i = 0; i < l; i++) {
+							if (orderedGroup3.children[i].hasEventIn("settings")) {
+								orderedGroup3.children[i].settings = settings;
+							}
+							
+							if (orderedGroup3.children[i].hasEventIn("setup")) {
+								orderedGroup3.children[i].setup = true;
+							}
+						}
+					
+						headerHeight = 
+							settings.DEFAULT_FRAME_HEADER_HEIGHT > settings.DEFAULT_FONT_SIZE * settings.DEFAULT_FONT_SCALE + 4 * settings.DEFAULT_DECORATION_GAP ?
+							settings.DEFAULT_FRAME_HEADER_HEIGHT : settings.DEFAULT_FONT_SIZE * settings.DEFAULT_FONT_SCALE + 4 * settings.DEFAULT_DECORATION_GAP;
+							
+						controlButtonWidth = headerHeight - 4 * settings.DEFAULT_DECORATION_GAP;
+					
+						setVisible(visible);
+						setTransparency(transparency);
+						setSize(size);
+						
+						// the order of these is important
+						setControlButtons();
+						setCloseable(closeable);
+						setMaximizable(maximizable);
+						setMinimizable(minimizable);
+						
+						setControlButtonAppearance();
+						
+						setHeader(header);
+						setTitle(title);
+						
+						if (startMaximized) {
+							maximizePressed(false);
+						}
+						
+						setResizable(resizable);
+						setResizeBorder();
+
+						Browser.addRoute(Browser, "windowSize", Browser.getScript(), "updateWindowSize");
+						
+						doLayout();
+						
+						INITIALIZED = true;
+						
+						setSize(plane.getSize);
+					}
+					
+					function applyZOrder() {					
+						plane.applyZOrder = true;
+						controlButtonMinimize.applyZOrder = true;
+						controlButtonMaximize.applyZOrder = true;
+						controlButtonClose.applyZOrder = true;
+					
+						if (settings.DEBUG) print("\tframe applyZOrder(" + settings.Z_ORDER_COUNT + ")");
+					
+						var l = orderedGroup.children.length;
+
+						for (var i = 0; i < l; i++) {
+							orderedGroup.order[i] = settings.Z_ORDER_COUNT + i * settings.Z_ORDER_STEP;
+						}
+						
+						var m = orderedGroup2.children.length;
+
+						for (var i = 0; i < m; i++) {
+							orderedGroup2.order[i] = settings.Z_ORDER_COUNT + (l + i) * settings.Z_ORDER_STEP;
+						}
+						
+						var n = orderedGroup3.children.length;
+
+						for (var i = 0; i < n; i++) {
+							orderedGroup3.order[i] = settings.Z_ORDER_COUNT + (l + m + i) * settings.Z_ORDER_STEP;
+						}
+						
+						var o = orderedGroup4.children.length;
+
+						for (var i = 0; i < o; i++) {
+							orderedGroup4.order[i] = settings.Z_ORDER_COUNT + (l + m + n + i) * settings.Z_ORDER_STEP;
+						}
+						
+						settings.Z_ORDER_COUNT++;
+
+						for (var i = 0; i < n; i++) {
+							//print(orderedGroup3.children[i].getType() + (orderedGroup3.children[i].hasEventIn("applyZOrder") ? " has " : " doesn't have ") + "applyZOrder");
+						
+							if (orderedGroup3.children[i].getType() == "Transform") {
+								if (orderedGroup3.children[i].children[0].hasEventIn("applyZOrder")) {
+									orderedGroup3.children[i].children[0].applyZOrder = true;
+								}
+							} else {
+								if (orderedGroup3.children[i].hasEventIn("applyZOrder")) {
+									orderedGroup3.children[i].applyZOrder = true;
+								}
+							}
+						}
+					}
+					
+					function doLayout() {
+						var layoutSize = new SFVec2f(plane.getSize.x, plane.getSize.y);
+						
+						if (hasHeader) {
+							layoutSize.y -= headerHeight;
+						}
+					
+						layoutManager.doLayout = layoutSize;
+						orderedGroup3.children = layoutManager.getChildren;
+						
+						minimumWidth = layoutManager.getMinimumWidth;
+						minimumHeight = layoutManager.getMinimumHeight;
+						minimumSize = layoutManager.getMinimumSize;
+						
+						//print("minimumWidth received: " + minimumWidth);
+						
+						if (hasHeader) {
+							minimumHeight += headerHeight;
+						}
+						
+						if (hasHeader) {
+							minimumSize.y += headerHeight;
+						}
+						
+						if (minimumWidth < settings.DEFAULT_FRAME_MINIMUM_SIZE.x) {
+							minimumWidth = settings.DEFAULT_FRAME_MINIMUM_SIZE.x;
+						}
+						
+						if (minimumHeight < settings.DEFAULT_FRAME_MINIMUM_SIZE.y) {
+							minimumHeight = settings.DEFAULT_FRAME_MINIMUM_SIZE.y;
+						}
+						
+						if (minimumSize.x < settings.DEFAULT_FRAME_MINIMUM_SIZE.x) {
+							minimumSize.x = settings.DEFAULT_FRAME_MINIMUM_SIZE.x;
+						}
+						
+						if (minimumSize.y < settings.DEFAULT_FRAME_MINIMUM_SIZE.y) {
+							minimumSize.y = settings.DEFAULT_FRAME_MINIMUM_SIZE.y;
+						}
+
+						/*
+						print("minimumWidth: " + minimumWidth);
+						print("minimumHeight: " + minimumHeight);
+						print("minimumSize: " + minimumSize);
+						print("------");
+						*/
+					}
+					
+					function _setResizable(newResizable) {
+						if (INITIALIZED) {
+							setResizable(newResizable);
+						}
+					}
+					
+					function setResizable(newResizable) {
+						isResizable = newResizable;
+					
+						var screenWidth = Browser.getWindowSizeX();
+						var screenHeight = Browser.getWindowSizeY();
+					
+						var smallerDimension = screenWidth < screenHeight ? screenWidth : screenHeight;
+					
+						if (isResizable) {
+							arrowsSide = settings.INITIAL_CURSOR_DIMENSION * settings.CURSOR_SCALE_MULTIPLIER / smallerDimension;
+							
+							arrowsCoords.point[0] = new SFVec3f(0, -arrowsSide, 0);
+							arrowsCoords.point[1] = new SFVec3f(arrowsSide, -arrowsSide, 0);
+							arrowsCoords.point[2] = new SFVec3f(arrowsSide, 0, 0);
+							arrowsCoords.point[3] = new SFVec3f(0, 0, 0);
+							
+							resizeAreaCoords.point[0] = new SFVec3f(0, -plane.getSize.y, 0);
+							resizeAreaCoords.point[1] = new SFVec3f(plane.getSize.x, -plane.getSize.y, 0);
+							resizeAreaCoords.point[2] = new SFVec3f(plane.getSize.x, 0, 0);
+							resizeAreaCoords.point[3] = new SFVec3f(0, 0, 0);
+							resizeAreaCoords.point[4] = new SFVec3f(settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH, -plane.getSize.y + settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH, 0);
+							resizeAreaCoords.point[5] = new SFVec3f(plane.getSize.x - settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH, -plane.getSize.y + settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH, 0);
+							resizeAreaCoords.point[6] = new SFVec3f(plane.getSize.x - settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH, -settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH, 0);
+							resizeAreaCoords.point[7] = new SFVec3f(settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH, -settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH, 0);
+							
+							resizeBorderHolder.translation.z = settings.TOUCH_SENSOR_ELEVATION;
+							resizeProxyHolder.translation.z = settings.TOUCH_SENSOR_ELEVATION;
+						} else {
+							arrowsCoords.point[0] = new SFVec3f(0, 0, 0);
+							arrowsCoords.point[1] = new SFVec3f(0, 0, 0);
+							arrowsCoords.point[2] = new SFVec3f(0, 0, 0);
+							arrowsCoords.point[3] = new SFVec3f(0, 0, 0);
+							
+							resizeAreaCoords.point[0] = new SFVec3f(0, 0, 0);
+							resizeAreaCoords.point[1] = new SFVec3f(0, 0, 0);
+							resizeAreaCoords.point[2] = new SFVec3f(0, 0, 0);
+							resizeAreaCoords.point[3] = new SFVec3f(0, 0, 0);
+							resizeAreaCoords.point[4] = new SFVec3f(0, 0, 0);
+							resizeAreaCoords.point[5] = new SFVec3f(0, 0, 0);
+							resizeAreaCoords.point[6] = new SFVec3f(0, 0, 0);
+							resizeAreaCoords.point[7] = new SFVec3f(0, 0, 0);
+						}
+						
+						if (INITIALIZED) {
+							setResizeBorder();
+						}
+						
+						resizeBorderExtension = 0;
+					}
+					
+					function hitPointChanged(point) {
+						var width = plane.getSize.x;
+						var height = plane.getSize.y;
+						
+						displayArrowsHolder.translation.x = point.x - arrowsSide / 2;
+						displayArrowsHolder.translation.y = point.y + arrowsSide / 2;
+						
+						var direction = -1;
+						
+						if (resizeDirection == -1) {
+							// top-right corner
+							if (point.x >= width - settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH && point.y >= -settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH) {
+								arrows.url[0] = settings.IMAGES_DIR + "arrows_l_r.png";
+								direction = 7;
+								
+							// bottom-left corner
+							} else if (point.x <= settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH && point.y <= -height + settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH) {
+								arrows.url[0] = settings.IMAGES_DIR + "arrows_l_r.png";
+								direction = 4;
+								
+							// top-left corner
+							} else if (point.x <= settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH && point.y >= -settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH) {
+								arrows.url[0] = settings.IMAGES_DIR + "arrows_r_l.png";
+								direction = 5;
+								
+							// bottom-right corner
+							} else if (point.x >= width - settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH && point.y <= -height + settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH) {
+								arrows.url[0] = settings.IMAGES_DIR + "arrows_r_l.png";
+								direction = 6;
+								
+							// right border
+							} else if (point.x >= width - settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH) {
+								arrows.url[0] = settings.IMAGES_DIR + "arrows_hor.png";
+								direction = 1;
+								
+							// left border
+							} else if (point.x <= settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH) {
+							 	arrows.url[0] = settings.IMAGES_DIR + "arrows_hor.png";
+							 	direction = 0;
+							
+							// top border
+							} else if (point.y >= -settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH) {
+							 	arrows.url[0] = settings.IMAGES_DIR + "arrows_ver.png";
+							 	direction = 2;						
+							 	
+							// bottom border
+							} else if (point.y <= height - settings.DEFAULT_FRAME_RESIZE_AREA_WIDTH) {
+								arrows.url[0] = settings.IMAGES_DIR + "arrows_ver.png";
+								direction = 3;
+							}
+							
+							if (touchSensor.isActive) {
+								//plane.setSize = new SFVec2f();
+								//print(point);
+								doResize(direction, point);
+							}	
+						} else {
+							if (touchSensor.isActive) {
+								doResize(resizeDirection, point);
+							}
+						}
+					}
+					
+					function isOver(over) {
+						if (isResizable) {
+							Browser.hideCursor(over);
+							displayArrows.whichChoice = over ? 0 : -1;
+						}
+					}
+					
+					function isActive(active) {
+						displayResizeBorder.whichChoice = active ? 0 : -1;
+						
+						if (isResizable) {
+							plane.setMovable = !active;
+						}
+						
+						if (!active) {
+							var oldSize = plane.getSize;
+							
+							var newSize = new SFVec2f(
+								resizeBorderCoords.point[1].x - resizeBorderCoords.point[0].x,
+								resizeBorderCoords.point[2].y - resizeBorderCoords.point[1].y
+							);
+							
+							var newPosition = new SFVec2f(plane.getPosition.x, plane.getPosition.y);
+							//var newPosition = plane.getPosition;
+						
+							//print("current width: " + plane.getSize.x);
+							
+							//print("oldPosition.x: " + plane.getPosition.x);
+							//print("copy of oldPosition.x: " + newPosition.x);
+							
+							if (resizeDirection != -1) {
+								if (resizeDirection == 0) {
+									//print("reduction.width: " + (newSize.x - oldSize.x));
+									newPosition.x -= (newSize.x - oldSize.x);
+								} else if (resizeDirection == 2) {
+									newPosition.y -= (newSize.y - oldSize.y);
+								} else if (resizeDirection == 4) {
+									newPosition.x -= (newSize.x - oldSize.x);
+								} else if (resizeDirection == 5) {
+									newPosition.x -= (newSize.x - oldSize.x);
+									newPosition.y -= (newSize.y - oldSize.y);
+								} else if (resizeDirection == 7) {
+									newPosition.y -= (newSize.y - oldSize.y);
+								}
+							}
+						
+							//print("oldPosition.x: " + plane.getPosition.x + "; newPosition.x: " + newPosition.x);
+							
+								
+							
+							
+							//print("oldPosition.x: " + plane.getPosition.x + "; newPosition.x: " + newPosition.x);
+
+							//print("new position.x will be: " + newPosition.x);
+							setSize(newSize);
+							//print("new position.x will be: " + newPosition.x);
+							plane.setPosition = newPosition;
+
+							
+							//print("newPosition.x: " + plane.getPosition.x);
+							//print("---------------------");
+						}
+						
+						resizeDirection = -1;
+						
+						var dimension = active ? 100 : 0;
+						
+						resizeProxy.size.x = dimension;
+						resizeProxy.size.y = dimension;
+						
+						/*
+						if (active) {
+							resizeAreaCoords.point[0] = new SFVec3f(-100, -100, 0);
+							resizeAreaCoords.point[1] = new SFVec3f(100, -100, 0);
+							resizeAreaCoords.point[2] = new SFVec3f(100, 100, 0);
+							resizeAreaCoords.point[3] = new SFVec3f(-100, 100, 0);
+							resizeAreaCoords.point[4] = new SFVec3f(0, 0, 0);
+							resizeAreaCoords.point[5] = new SFVec3f(0, 0, 0);
+							resizeAreaCoords.point[6] = new SFVec3f(0, 0, 0);
+							resizeAreaCoords.point[7] = new SFVec3f(0, 0, 0);
+						} else {
+							setResizable(isResizable);
+						}
+						*/
+					}
+					
+					function doResize(direction, point) {
+						resizeDirection = direction;
+						
+						var hugeValue = 100;
+					
+						var currentWidth = -1;
+						var currentHeight = -1;
+					
+						// moving left border
+						if (direction == 0) {						
+							currentWidth = plane.getSize.x - point.x;
+
+							if (currentWidth < minimumWidth) {
+								point.x = plane.getSize.x - minimumWidth;
+							}
+							
+							resizeBorderCoords.point[0] = new SFVec3f(point.x, -plane.getSize.y, 0);
+							resizeBorderCoords.point[3] = new SFVec3f(point.x, 0, 0);
+							resizeBorderCoords.point[4] = new SFVec3f(point.x + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, -plane.getSize.y + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+							resizeBorderCoords.point[7] = new SFVec3f(point.x + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, -settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+							
+						// moving right border
+						} else if (direction == 1) {
+							currentWidth = point.x;
+
+							if (currentWidth < minimumWidth) {
+								point.x = minimumWidth;
+							}
+							
+							resizeBorderCoords.point[1] = new SFVec3f(point.x, -plane.getSize.y, 0);
+							resizeBorderCoords.point[2] = new SFVec3f(point.x, 0, 0);
+							resizeBorderCoords.point[5] = new SFVec3f(point.x - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, -plane.getSize.y + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+							resizeBorderCoords.point[6] = new SFVec3f(point.x - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, -settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+						
+						// moving top border
+						} else if (direction == 2) {
+							currentHeight = plane.getSize.y + point.y;
+
+							if (currentHeight < minimumHeight) {
+								point.y = minimumHeight - plane.getSize.y;
+							}
+							
+							resizeBorderCoords.point[2] = new SFVec3f(plane.getSize.x, point.y, 0);
+							resizeBorderCoords.point[3] = new SFVec3f(0, point.y, 0);
+							resizeBorderCoords.point[6] = new SFVec3f(plane.getSize.x - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, point.y - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+							resizeBorderCoords.point[7] = new SFVec3f(settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, point.y - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+						
+						// moving bottom border
+						} else if (direction == 3) {
+							currentHeight = -point.y;
+
+							if (currentHeight < minimumHeight) {
+								point.y = -minimumHeight;
+							}
+							
+							resizeBorderCoords.point[0] = new SFVec3f(0, point.y, 0);
+							resizeBorderCoords.point[1] = new SFVec3f(plane.getSize.x, point.y, 0);
+							resizeBorderCoords.point[4] = new SFVec3f(settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, point.y + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+							resizeBorderCoords.point[5] = new SFVec3f(plane.getSize.x - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, point.y + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+													
+						// moving bottom-left corner
+						} else if (direction == 4) {
+							currentWidth = plane.getSize.x - point.x;
+
+							if (currentWidth < minimumSize.x) {
+								point.x = plane.getSize.x - minimumSize.x;
+							}
+							
+							currentHeight = -point.y;
+
+							if (currentHeight < minimumSize.y) {
+								point.y = -minimumSize.y;
+							}
+							
+							resizeBorderCoords.point[0] = new SFVec3f(point.x, point.y, 0);
+							resizeBorderCoords.point[1] = new SFVec3f(plane.getSize.x, point.y, 0);
+							resizeBorderCoords.point[3] = new SFVec3f(point.x, 0, 0);
+							resizeBorderCoords.point[4] = new SFVec3f(point.x + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, point.y + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+							resizeBorderCoords.point[5] = new SFVec3f(plane.getSize.x - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, point.y + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+							resizeBorderCoords.point[7] = new SFVec3f(point.x + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, -settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+						
+						// moving top-left corner
+						} else if (direction == 5) {
+							currentWidth = plane.getSize.x - point.x;
+
+							if (currentWidth < minimumSize.x) {
+								point.x = plane.getSize.x - minimumSize.x;
+							}
+							
+							currentHeight = plane.getSize.y + point.y;
+
+							if (currentHeight < minimumSize.y) {
+								point.y = minimumSize.y - plane.getSize.y;
+							}
+							
+							resizeBorderCoords.point[0] = new SFVec3f(point.x, -plane.getSize.y, 0);
+							resizeBorderCoords.point[2] = new SFVec3f(plane.getSize.x, point.y, 0);
+							resizeBorderCoords.point[3] = new SFVec3f(point.x, point.y, 0);
+							resizeBorderCoords.point[4] = new SFVec3f(point.x + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, -plane.getSize.y + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+							resizeBorderCoords.point[6] = new SFVec3f(plane.getSize.x - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, point.y - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+							resizeBorderCoords.point[7] = new SFVec3f(point.x + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, point.y - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+
+						// moving bottom-right corner
+						} else if (direction == 6) {
+							currentWidth = point.x;
+
+							if (currentWidth < minimumSize.x) {
+								point.x = minimumSize.x;
+							}
+							
+							currentHeight = -point.y;
+
+							if (currentHeight < minimumSize.y) {
+								point.y = -minimumSize.y;
+							}
+							
+							resizeBorderCoords.point[0] = new SFVec3f(0, point.y, 0);
+							resizeBorderCoords.point[1] = new SFVec3f(point.x, point.y, 0);
+							resizeBorderCoords.point[2] = new SFVec3f(point.x, 0, 0);
+							resizeBorderCoords.point[4] = new SFVec3f(settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, point.y + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+							resizeBorderCoords.point[5] = new SFVec3f(point.x - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, point.y + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+							resizeBorderCoords.point[6] = new SFVec3f(point.x - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, -settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+							
+						// moving top-right corner
+						} else if (direction == 7) {
+							currentWidth = point.x;
+
+							if (currentWidth < minimumSize.x) {
+								point.x = minimumSize.x;
+							}
+							
+							currentHeight = plane.getSize.y + point.y;
+
+							if (currentHeight < minimumSize.y) {
+								point.y = minimumSize.y - plane.getSize.y;
+							}
+							
+							resizeBorderCoords.point[1] = new SFVec3f(point.x, -plane.getSize.y, 0);
+							resizeBorderCoords.point[2] = new SFVec3f(point.x, point.y, 0);
+							resizeBorderCoords.point[3] = new SFVec3f(0, point.y, 0);
+							resizeBorderCoords.point[5] = new SFVec3f(point.x - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, -plane.getSize.y + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+							resizeBorderCoords.point[6] = new SFVec3f(point.x - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, point.y - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+							resizeBorderCoords.point[7] = new SFVec3f(settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, point.y - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+						}
+					}
+					
+					function setResizeBorder() {
+						resizeBorderCoords.point[0] = new SFVec3f(0, -plane.getSize.y, 0);
+						resizeBorderCoords.point[1] = new SFVec3f(plane.getSize.x, -plane.getSize.y, 0);
+						resizeBorderCoords.point[2] = new SFVec3f(plane.getSize.x, 0, 0);
+						resizeBorderCoords.point[3] = new SFVec3f(0, 0, 0);
+						resizeBorderCoords.point[4] = new SFVec3f(settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, -plane.getSize.y + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+						resizeBorderCoords.point[5] = new SFVec3f(plane.getSize.x - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, -plane.getSize.y + settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+						resizeBorderCoords.point[6] = new SFVec3f(plane.getSize.x - settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, -settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+						resizeBorderCoords.point[7] = new SFVec3f(settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, -settings.DEFAULT_FRAME_RESIZE_BORDER_WIDTH, 0);
+					}
+					
+					function _setVisible(newVisible) {
+						if (INITIALIZED) {
+							setVisible(newVisible);
+						}
+					}
+					
+					function setVisible(newVisible) {
+						display.whichChoice = (newVisible ? 0 : -1);
+						
+						plane.setVisible = newVisible;
+						
+						isClosed = !newVisible;
+						
+						// just a test
+						if (INITIALIZED) {
+							settings.ACTIVE_ID = newVisible ? COMPONENT_ID : -1;
+						}
+					}
+					
+					function _setTransparency(newTransparency) {
+						if (INITIALIZED) {
+							setTransparency(newTransparency);
+						}
+					}
+					
+					function setTransparency(newTransparency) {
+						titleMaterial.transparency = newTransparency;
+						titleTextMaterial.transparency = newTransparency;
+						controlButtonMinimize.setTransparency = newTransparency;
+						controlButtonMaximize.setTransparency = newTransparency;
+						controlButtonClose.setTransparency = newTransparency;
+						
+						var affectChildren = newTransparency > 0;
+						
+						newTransparency = Math.abs(newTransparency);
+
+						plane.setTransparency = newTransparency;
+						
+						if (affectChildren) {
+							var l = orderedGroup3.children.length;
+	
+							for (var i = 0; i < l; i++) {
+								if (orderedGroup3.children[i].getType() == "Transform") {
+									if (orderedGroup3.children[i].children.length > 0) {
+										if (orderedGroup3.children[i].children[0].hasEventIn("setTransparency")) {
+											orderedGroup3.children[i].children[0].setTransparency = newTransparency;
+										}
+									}
+								} else {
+									if (orderedGroup3.children[i].hasEventIn("setTransparency")) {
+										orderedGroup3.children[i].setTransparency = newTransparency;
+									}
+								}
+							}
+						}
+					}
+					
+					function _setSize(newSize) {
+						if (INITIALIZED) {
+							setSize(newSize);
+						}
+					}
+					
+					function setSize(newSize) {
+						var windowWidth = Browser.getWindowSizeX();
+						var windowHeight = Browser.getWindowSizeY();
+	
+						var widthToHeightAspect = windowWidth / windowHeight;
+				
+						var widthIsSmaller = (widthToHeightAspect < 1.0);
+					
+						if (newSize.x + settings.DEFAULT_FRAME_MAXIMIZE_LOCK_GAP < minimumWidth) {
+							//print("new width (" + newSize.x + ") < minWidth (" + minimumWidth + ")");
+							newSize.x = minimumWidth;
+						} else {
+							if (widthIsSmaller) {
+								if (newSize.x > settings.FULL_VIEW_RATIO * 2) {
+									newSize.x = settings.FULL_VIEW_RATIO * 2;
+								}
+							} else {
+								if (newSize.x > settings.FULL_VIEW_RATIO * 2 * widthToHeightAspect) {
+									newSize.x = settings.FULL_VIEW_RATIO * 2 * widthToHeightAspect;
+								}
+							}
+						}
+						
+						if (newSize.y + settings.DEFAULT_FRAME_MAXIMIZE_LOCK_GAP < minimumHeight) {
+							//print("new height (" + newSize.y + ") < minHeight (" + minimumHeight + ")");
+							newSize.y = minimumHeight;
+						} else {
+							if (widthIsSmaller) {
+								if (newSize.y > settings.FULL_VIEW_RATIO * 2 / widthToHeightAspect) {
+									newSize.y = settings.FULL_VIEW_RATIO * 2 / widthToHeightAspect;
+								}
+							} else {
+								if (newSize.y > settings.FULL_VIEW_RATIO * 2) {
+									newSize.y = settings.FULL_VIEW_RATIO * 2;
+								}
+							}
+						}
+					
+						plane.setSize = newSize;
+						
+						if (INITIALIZED) {
+							setHeader(hasHeader);
+							
+							setResizable(isResizable);
+							
+							setControlButtons();
+							
+							setMinimizable(isMinimizable);
+							setMaximizable(isMaximizable);
+							setCloseable(isCloseable);
+							
+							doLayout();
+						}
+					}
+					
+					function updateWindowSize(newWindowSize) {
+						if (maximized) {
+							maximize();
+						}
+						
+						setResizable(isResizable);
+						setResizeBorder();
+					}
+					
+					function setHeaderStatus(active) {
+						titleColor.color[0] = 
+							active ? 
+							settings.DEFAULT_FRAME_HEADER_ENABLED_LEFT_COLOR : 
+							settings.DEFAULT_FRAME_HEADER_DISABLED_LEFT_COLOR;
+						
+						titleColor.color[1] = 
+							active ? 
+							settings.DEFAULT_FRAME_HEADER_ENABLED_RIGHT_COLOR : 
+							settings.DEFAULT_FRAME_HEADER_DISABLED_RIGHT_COLOR;
+							
+						titleTextMaterial.diffuseColor = 
+							active ?
+							settings.DEFAULT_FRAME_HEADER_ENABLED_TEXT_COLOR : 
+							settings.DEFAULT_FRAME_HEADER_DISABLED_TEXT_COLOR;
+					}
+					
+					function _setHeader(newHeader) {
+						if (INITIALIZED) {
+							setHeader(newHeader);
+						}
+					}
+					
+					function setHeader(newHeader) {
+						hasHeader = newHeader;
+
+						titleScale.scale = new SFVec3f(
+							settings.DEFAULT_FONT_SCALE, 
+							settings.DEFAULT_FONT_SCALE,
+							settings.DEFAULT_FONT_SCALE);
+							
+						titleTextStyle.size = settings.DEFAULT_FONT_SIZE;
+						titleTextStyle.family = settings.DEFAULT_FONT_FAMILY;
+						
+						setHeaderStatus(settings.ACTIVE_ID == COMPONENT_ID);
+						
+						titleHolder.translation.x = 3 * settings.DEFAULT_DECORATION_GAP;
+						titleHolder.translation.y = -(headerHeight + settings.DEFAULT_FONT_SIZE * settings.DEFAULT_FONT_SCALE * 2 / 3) / 2 ;
+										
+						childrenHolder.translation.x = settings.DEFAULT_DECORATION_GAP;
+						childrenHolder.translation.y = -settings.DEFAULT_DECORATION_GAP;			
+
+						titleCoords.point[0] = new SFVec3f(settings.DEFAULT_DECORATION_GAP, -settings.DEFAULT_DECORATION_GAP, 0);
+						titleCoords.point[1] = new SFVec3f(settings.DEFAULT_DECORATION_GAP, -headerHeight + settings.DEFAULT_DECORATION_GAP, 0);
+						titleCoords.point[2] = new SFVec3f(plane.getSize.x - settings.DEFAULT_DECORATION_GAP, -headerHeight + settings.DEFAULT_DECORATION_GAP, 0);
+						titleCoords.point[3] = new SFVec3f(plane.getSize.x - settings.DEFAULT_DECORATION_GAP, -settings.DEFAULT_DECORATION_GAP, 0);
+
+						if (INITIALIZED) {
+							setTitle(getTitle);
+						}
+						
+						if (hasHeader) {						
+							childrenHolder.translation.y += -headerHeight + settings.DEFAULT_DECORATION_GAP;
+
+							headerDisplay.whichChoice = 0;
+						} else {
+							childrenHolder.translation.y = 0;
+
+							headerDisplay.whichChoice = -1;
+						}
+					}
+					
+					function _setTitle(newTitle) {
+						if (INITIALIZED) {
+							setTitle(newTitle);
+						}
+					}
+					
+					function setTitle(newTitle) {
+						getTitle = newTitle;
+						
+						titleText.string = new MFString(getTitle);
+					
+						var textBBox;
+						var textWidth = 0;
+						var controlButtonsWidth = controlButtonsHolder.getBBox()[1].x - controlButtonsHolder.getBBox()[0].x;
+						
+						if (newTitle != "") {
+							textBBox = titleHolder.getBBox();
+							textWidth = Math.abs(textBBox[0].x - textBBox[1].x);
+							
+							var i = newTitle.length - 1;
+
+							while(plane.getSize.x < textWidth + controlButtonsWidth + 6 * settings.DEFAULT_DECORATION_GAP && i >= 0) {
+								newTitle = new SFString(newTitle.substring(0, i) + "...");
+							
+								titleText.string = new MFString(newTitle);
+								
+								textBBox = titleHolder.getBBox();
+								textWidth = Math.abs(textBBox[0].x - textBBox[1].x);
+
+								i--;
+							}
+						}
+					}
+					
+					function setControlButtonAppearance() {
+						controlButtonMinimize.setSize = new SFVec2f(controlButtonWidth, controlButtonWidth);
+						controlButtonMaximize.setSize = new SFVec2f(controlButtonWidth, controlButtonWidth);
+						controlButtonClose.setSize = new SFVec2f(controlButtonWidth, controlButtonWidth);
+					}
+					
+					function setControlButtons() {
+						controlButtonsHolder.translation.x = plane.getSize.x - 2 * settings.DEFAULT_DECORATION_GAP;
+						controlButtonsHolder.translation.y = -2 * settings.DEFAULT_DECORATION_GAP;
+					}
+					
+					function _setMinimizable(newMinimizable) {
+						if (INITIALIZED) {
+							setMinimizable(newMinimizable);
+						}
+					}
+					
+					function setMinimizable(newMinimizable) {
+						isMinimizable = newMinimizable;
+						
+						var shift = 0;
+						
+						if (isCloseable) {
+							shift += controlButtonWidth + settings.DEFAULT_DECORATION_GAP;
+						}
+						
+						if (isMaximizable) {
+							shift += controlButtonWidth + settings.DEFAULT_DECORATION_GAP;
+						}
+						
+						displayMinimizeHolder.translation.x = -(shift + controlButtonWidth);
+						
+						if (isMinimizable) {							
+							displayMinimize.whichChoice = 0;
+						} else {
+							displayMinimize.whichChoice = -1;
+						}
+					}
+					
+					function _setMaximizable(newMaximizable) {
+						if (INITIALIZED) {
+							setMaximizable(newMaximizable);
+						}
+					}
+					
+					function setMaximizable(newMaximizable) {
+						isMaximizable = newMaximizable;
+	
+						var shift = 0;
+						
+						if (isCloseable) {
+							shift += controlButtonWidth + settings.DEFAULT_DECORATION_GAP;
+						}
+						
+						displayMaximizeHolder.translation.x = -(shift + controlButtonWidth);
+							
+						if (isMaximizable) {
+							displayMaximize.whichChoice = 0;
+						} else {
+							displayMaximize.whichChoice = -1;
+						}
+					}
+					
+					function _setCloseable(newCloseable) {
+						if (INITIALIZED) {
+							setMaximizable(newMaximizable);
+						}
+					}
+					
+					function setCloseable(newCloseable) {
+						isCloseable = newCloseable;
+					
+						displayCloseHolder.translation.x = -controlButtonWidth;
+						
+						if (isCloseable) {
+							displayClose.whichChoice = 0;
+						} else {
+							displayClose.whichChoice = -1;
+						}
+					}
+					
+					function minimizeClicked(clicked) {
+						setMinimized(true);
+					}
+					
+					function _setMinimized(newMinimized) {
+						if (INITIALIZED) {
+							setMinimized(newMinimized);
+						}
+					}
+					
+					function setMinimized(newMinimized) {
+						isMinimized = newMinimized;
+						
+						display.whichChoice = (isMinimized ? -1 : 0);
+						
+						plane.setVisible = !isMinimized;
+						
+						settings.ACTIVE_ID = newMinimized ? -1 : COMPONENT_ID;
+					}
+					
+					function maximizeClicked(clicked) {
+						if (!maximized) {
+							normalSize = plane.getSize;
+							normalPosition = plane.getPosition;
+
+							maximize();
+
+							maximized = true;
+							controlButtonMaximize.setType = "NORMALIZE";
+							
+							touchSensor.enabled = false;
+						} else {
+							setSize(normalSize);
+							plane.setPosition = normalPosition;
+
+							maximized = false;
+							controlButtonMaximize.setType = "MAXIMIZE";
+							
+							touchSensor.enabled = true;
+						}
+					}
+					
+					function maximize() {
+						var windowWidth = Browser.getWindowSizeX();
+						var windowHeight = Browser.getWindowSizeY();
+	
+						var widthToHeightAspect = windowWidth / windowHeight;
+				
+						var widthIsSmaller = (widthToHeightAspect < 1.0);
+
+						plane.setPosition = new SFVec2f(settings.DEFAULT_FRAME_MAXIMIZE_LOCK_GAP / 2, settings.DEFAULT_FRAME_MAXIMIZE_LOCK_GAP / 2);
+
+						if (widthIsSmaller) {
+							var x = settings.FULL_VIEW_RATIO * 2 - settings.DEFAULT_FRAME_MAXIMIZE_LOCK_GAP;
+							var y = settings.FULL_VIEW_RATIO * 2 / widthToHeightAspect - settings.DEFAULT_FRAME_MAXIMIZE_LOCK_GAP;
+						} else {
+							var y = settings.FULL_VIEW_RATIO * 2 - settings.DEFAULT_FRAME_MAXIMIZE_LOCK_GAP;
+							var x = settings.FULL_VIEW_RATIO * 2 * widthToHeightAspect - settings.DEFAULT_FRAME_MAXIMIZE_LOCK_GAP;
+						}
+						
+						setSize(new SFVec2f(x, y));
+					}
+					
+					function closeClicked(clicked) {
+						setVisible(false);
+					}
+					
+					function setActive(active) {
+						if (hasHeader) {
+							setHeaderStatus(active);
+						}
+					}
+					
+					function setElevation(elevation) {
+						elevator.translation.z = elevation;
+						applyZOrder();
+					}
+				]]>
+				</Script>
+
+				<ROUTE fromNode="controlButtonMinimize" fromField="isClicked" toNode="S" toField="minimizeClicked" />
+				<ROUTE fromNode="controlButtonMaximize" fromField="isClicked" toNode="S" toField="maximizeClicked" />
+				<ROUTE fromNode="controlButtonClose" fromField="isClicked" toNode="S" toField="closeClicked" />
+				<ROUTE fromNode="touchSensor" fromField="hitPoint_changed" toNode="S" toField="hitPointChanged" />
+				<ROUTE fromNode="touchSensor" fromField="isOver" toNode="S" toField="isOver" />
+				<ROUTE fromNode="touchSensor" fromField="isActive" toNode="S" toField="isActive" />
+			</ProtoBody>
+		</ProtoDeclare>
+	</Scene>
+</X3D>

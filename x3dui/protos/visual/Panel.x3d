@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+	
+		<ExternProtoDeclare name="Rectangle" url='"Rectangle.x3d#Rectangle"'>
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="movable" type="SFBool" accessType="initializeOnly" />
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			
+			<field name="isMovable" type="SFBool" accessType="outputOnly" />
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			
+			<field name="setMovable" type="SFBool" accessType="inputOnly" />
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+			
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="border" type="SFString" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getBorder" type="SFString" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setBorder" type="SFString" accessType="inputOnly" />
+		</ExternProtoDeclare>
+
+		<ExternProtoDeclare name="LayoutManager" url='"../layout/LayoutManager.x3d#LayoutManager"'>
+			<field name="layout" type="SFNode" accessType="initializeOnly"></field>
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			
+			<field name="doLayout" type="SFVec2f" accessType="inputOnly" />
+			
+			<field name="getMinimumWidth" type="SFFloat" accessType="outputOnly" />
+			<field name="getMinimumHeight" type="SFFloat" accessType="outputOnly" />
+			<field name="getMinimumSize" accessType="outputOnly" type="SFVec2f" />
+				
+			<field name="getChildren" type="MFNode" accessType="outputOnly"></field>
+		</ExternProtoDeclare>
+	
+		<!-- This is a basic grouping container that can nest multiple X3DUI nodes 
+				in a rectangular area with an optional border. -->
+		<ProtoDeclare name="Panel">
+			<ProtoInterface>
+				<!-- <proto>Settings</proto> object should be passed in this parameter. -->
+				<field name="settings" type="SFNode" accessType="inputOnly"></field>
+				<!-- Initializes the component and prepares it for visualization. -->
+				<field name="setup" type="SFBool" accessType="inputOnly" />
+				<!-- Causes the component to reposition itself and all its children in the z-depth stack. -->
+				<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+				
+				<!-- Accepts X3DUI nodes to be displayed within this component -->
+				<field name="children" type="MFNode" accessType="initializeOnly"></field>
+				<!-- Specifies the size of the component, which ultimately affects how bounds
+						for in-screen translations will be calculated. -->
+				<field name="size" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				<!-- Specifies whether the component should be visible. -->
+				<field name="visible" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies what color the component should be. -->
+				<field name="color" type="SFColor" accessType="initializeOnly" value="0.832 0.8164 0.7852" />
+				<!-- Specifies the transparency level of the component. 
+						If the value provided is positive, all children will also be assigned
+						the same transparency level; otherwise, only the container object
+						will be of the specified transparency. -->
+				<field name="transparency" type="SFFloat" accessType="initializeOnly" value="0" />
+				<!-- Sets the text of the panel. If this object is used in a <proto>TabPanel</proto>, 
+					the text will be displayed in the respective tab headers. -->
+				<field name="text" type="SFString" accessType="initializeOnly" value="" />
+				<!-- Accepts on the layout objects from the <group>layout</group> group. 
+						The specified layout will be in charge of positioning the children
+						inside this object. -->
+				<field name="layout" type="SFNode" accessType="initializeOnly" />
+				<!-- Specifies the type of the border that the component should have. 
+						Possible options are 
+						<ul>
+							<li><tt>NONE</tt> &ndash; no border will be displayed</li>
+							<li><tt>LINE</tt> &ndash; a solid single line will drawn</li>
+							<li><tt>RAISED</tt> &ndash; embossed-style border will be used</li>
+							<li><tt>LOWERED</tt> &ndash; bulged-in-style border will be used</li>
+						</ul>-->
+				<field name="border" type="SFString" accessType="initializeOnly" value="NONE" />
+								
+				<!-- Returns the size of the component. -->
+				<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+				<!-- Indicates whether the component is visible. -->
+				<field name="isVisible" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the color of the component. -->
+				<field name="getColor" type="SFColor" accessType="outputOnly" />
+				<!-- Returns the component's transparency level. -->
+				<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+				<!-- Returns the text of this component. -->
+				<field name="getText" type="SFString" accessType="outputOnly" />
+				<!-- Returns the border type of this component. For more details,
+						refer to <field>border</field> parameter. -->
+				<field name="getBorder" type="SFString" accessType="outputOnly" />
+				
+				<!-- Sets the size of the component. -->
+				<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+				<!-- Sets the visibility status of the component. -->
+				<field name="setVisible" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the color of the component. -->
+				<field name="setColor" type="SFColor" accessType="inputOnly" />
+				<!-- Sets the component's transparency level. For more details, 
+						refer to <field>transparency</field> parameter. -->
+				<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+				<!-- Sets the text of this component. -->
+				<field name="setText" type="SFString" accessType="inputOnly" />
+				<!-- Sets the border type of this component. For more details,
+						refer to <field>border</field> parameter. -->
+				<field name="setBorder" type="SFString" accessType="inputOnly" />
+				<!-- Forces the window to reposition its children according to
+						the specified <field>layout</field> object. This method
+						is called by <proto>LayoutManager</proto> and should not
+						be called from anywhere else. -->
+				<field name="doLayout" type="SFBool" accessType="inputOnly" />
+			</ProtoInterface>
+			<ProtoBody>
+				<Transform>
+					<ProtoInstance DEF="rectangle" name="Rectangle">
+						<fieldValue name="children">
+							<OrderedGroup DEF="orderedGroup">
+								<IS>
+									<connect nodeField="children" protoField="children"/>
+								</IS>
+							</OrderedGroup>
+						</fieldValue>
+						<IS>
+							<connect nodeField="visible" protoField="visible"/>
+							<connect nodeField="color" protoField="color"/>
+							
+							<connect nodeField="getSize" protoField="getSize"/>
+							<connect nodeField="isVisible" protoField="isVisible"/>
+							<connect nodeField="getColor" protoField="getColor"/>
+							<connect nodeField="getTransparency" protoField="getTransparency"/>
+	
+							<connect nodeField="setVisible" protoField="setVisible"/>
+							<connect nodeField="setColor" protoField="setColor"/>
+						</IS>
+					</ProtoInstance>
+					
+					<ProtoInstance DEF="layoutManager" name="LayoutManager">
+						<IS>
+							<connect nodeField="layout" protoField="layout"/>
+							<connect nodeField="children" protoField="children"/>
+						</IS>
+					</ProtoInstance>
+				</Transform>
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="rectangle" type="SFNode" accessType="initializeOnly">
+						<Rectangle USE="rectangle" />
+					</field>
+					<field name="orderedGroup" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup" />
+					</field>
+					<field name="layoutManager" type="SFNode" accessType="initializeOnly">
+						<LayoutManager USE="layoutManager" />
+					</field>
+			
+					<field name="settings" accessType="inputOnly" type="SFNode" />
+					<field name="setup" accessType="inputOnly" type="SFBool" />
+					<field name="applyZOrder" accessType="inputOnly" type="SFBool" />
+					
+					<field name="COMPONENT_ID" accessType="inputOutput" type="SFInt32" />
+					
+					<!-- attributes of the class -->
+					<field name="size" type="SFVec2f" accessType="initializeOnly" />
+					<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+					<field name="border" type="SFString" accessType="initializeOnly" />
+					<field name="text" type="SFString" accessType="initializeOnly" />
+					
+					<field name="getBorder" type="SFString" accessType="outputOnly" />
+					<field name="getText" type="SFString" accessType="outputOnly" />
+					
+					<field name="doLayout" type="SFBool" accessType="inputOnly" />
+					<field name="_setSize" type="SFVec2f" accessType="inputOnly" />
+					<field name="_setTransparency" type="SFFloat" accessType="inputOnly" />
+					<field name="_setBorder" type="SFString" accessType="inputOnly" />
+					<field name="_setText" type="SFString" accessType="inputOnly" />
+					
+					<field name="INITIALIZED" accessType="inputOutput" type="SFBool" />
+					
+					<field name="minimumWidth" accessType="inputOutput" type="SFFloat" />
+					<field name="minimumHeight" accessType="inputOutput" type="SFFloat" />
+					
+					<IS>
+						<connect nodeField="settings" protoField="settings"/>
+						<connect nodeField="setup" protoField="setup"/>
+						<connect nodeField="applyZOrder" protoField="applyZOrder"/>
+						
+						<connect nodeField="size" protoField="size"/>
+						<connect nodeField="transparency" protoField="transparency"/>
+						<connect nodeField="border" protoField="border"/>
+						<connect nodeField="text" protoField="text"/>
+
+						<connect nodeField="getBorder" protoField="getBorder"/>
+						<connect nodeField="getText" protoField="getText"/>
+
+						<connect nodeField="doLayout" protoField="doLayout"/>
+						<connect nodeField="_setSize" protoField="setSize"/>
+						<connect nodeField="_setTransparency" protoField="setTransparency"/>
+						<connect nodeField="_setBorder" protoField="setBorder"/>
+						<connect nodeField="_setText" protoField="setText"/>
+					</IS>
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+					}
+
+					function setup() {
+						INITIALIZED = false;
+										
+						rectangle.settings = settings;
+						rectangle.setup = true;
+					
+						COMPONENT_ID = settings.COMPONENT_ID++;
+					
+						if (settings.DEBUG) print("panel setup(" + COMPONENT_ID + ")");
+					
+						var l = orderedGroup.children.length;
+						
+						for (var i = 0; i < l; i++) {
+							if (orderedGroup.children[i].hasEventIn("settings")) {
+								orderedGroup.children[i].settings = settings;
+							}
+							
+							if (orderedGroup.children[i].hasEventIn("setup")) {
+								orderedGroup.children[i].setup = true;
+							}
+						}
+					
+						setSize(size);
+						setTransparency(transparency);
+						setBorder(border);
+						setText(text);
+						
+						doLayout();
+						
+						setSize(rectangle.getSize);
+						
+						INITIALIZED = true;
+					}
+					
+					function doLayout() {
+						layoutManager.doLayout = rectangle.getSize;
+						orderedGroup.children = layoutManager.getChildren;
+						
+						minimumWidth = layoutManager.getMinimumWidth;
+						minimumHeight = layoutManager.getMinimumHeight;
+						
+						if (minimumWidth < settings.DEFAULT_PLANE_MINIMUM_SIZE.x) {
+							minimumWidth = settings.DEFAULT_PLANE_MINIMUM_SIZE.x;
+						}
+						
+						if (minimumHeight < settings.DEFAULT_PLANE_MINIMUM_SIZE.y) {
+							minimumHeight = settings.DEFAULT_PLANE_MINIMUM_SIZE.y;
+						}
+					}
+					
+					function applyZOrder() {
+						rectangle.applyZOrder = true;
+					
+						if (settings.DEBUG) print("\tpanel applyZOrder(" + settings.Z_ORDER_COUNT + ")");
+					
+						var l = orderedGroup.children.length;
+
+						for (var i = 0; i < l; i++) {
+							orderedGroup.order[i] = settings.Z_ORDER_COUNT + i * settings.Z_ORDER_STEP;
+						}
+						
+						settings.Z_ORDER_COUNT++;
+						
+						for (var i = 0; i < l; i++) {
+							if (orderedGroup.children[i].getType() == "Transform") {
+								if (orderedGroup.children[i].children[0].hasEventIn("applyZOrder")) {
+									orderedGroup.children[i].children[0].applyZOrder = true;
+								}
+							} else {
+								if (orderedGroup.children[i].hasEventIn("applyZOrder")) {
+									orderedGroup.children[i].applyZOrder = true;
+								}
+							}
+						}
+					}
+					
+					function _setSize(newSize) {
+						if (INITIALIZED) {
+							setSize(newSize);
+						}
+					}
+					
+					function setSize(newSize) {
+						if (newSize.x < minimumWidth) {
+							newSize.x = minimumWidth;
+						}
+						
+						if (newSize.y < minimumHeight) {
+							newSize.y = minimumHeight;
+						}
+						
+						rectangle.setSize = newSize;
+					
+						if (INITIALIZED) {
+							doLayout();
+						}
+					}
+					
+					function _setTransparency(newTransparency) {
+						if (INITIALIZED) {
+							setTransparency(newTransparency);
+						}
+					}
+					
+					function setTransparency(newTransparency) {
+						var affectChildren = newTransparency > 0;
+						
+						newTransparency = Math.abs(newTransparency);
+						
+						rectangle.setTransparency = newTransparency;
+						
+						if (affectChildren) {
+							var l = orderedGroup.children.length;
+	
+							for (var i = 0; i < l; i++) {
+								if (orderedGroup.children[i].hasEventIn("setTransparency")) {
+									orderedGroup.children[i].setTransparency = newTransparency;
+								}
+							}
+						}
+					}
+										
+					function _setBorder(newBorder) {
+						if (INITIALIZED) {
+							setBorder(newBorder);
+						}
+					}
+
+					function setBorder(newBorder) {
+						if (newBorder == "LOWERED") {
+							rectangle.setBorder = "BOTTOM_RIGHT";
+						} else if (newBorder == "RAISED") {
+							rectangle.setBorder = "TOP_LEFT";
+						} else if (newBorder == "LINE") {
+							rectangle.setBorder = "EQUAL";
+						} else {
+							newBorder = "NONE";
+							rectangle.setBorder = "NONE";
+						}
+
+						getBorder = newBorder;
+					}
+					
+					function _setText(newText) {
+						if (INITIALIZED) {
+							setText(newText);
+						}
+					}
+					
+					function setText(newText) {
+						getText = newText;
+						
+						if (rectangle.getBorder == "EQUAL" && getText != "") {
+							// TODO: that's where the text needs to be displayed
+						} else {
+							// otherwise hide it
+						}
+					}
+				]]>
+				</Script>
+
+			</ProtoBody>
+		</ProtoDeclare>
+		
+	</Scene>
+</X3D>

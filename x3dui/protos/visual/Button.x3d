@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+	
+		<ExternProtoDeclare name="Rectangle" url='"Rectangle.x3d#Rectangle"'>
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="movable" type="SFBool" accessType="initializeOnly" />
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			
+			<field name="isMovable" type="SFBool" accessType="outputOnly" />
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			
+			<field name="setMovable" type="SFBool" accessType="inputOnly" />
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+			
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="border" type="SFString" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getBorder" type="SFString" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setBorder" type="SFString" accessType="inputOnly" />
+		</ExternProtoDeclare>
+	
+		<!-- This prototype represents a generic button object. 
+				See <proto>TextButton</proto>, <proto>ToggleButton</proto>, and
+				<proto>TextToggleButton</proto> for more specific examples. -->
+		<ProtoDeclare name="Button">
+			<ProtoInterface>
+				<!-- <proto>Settings</proto> object should be passed in this parameter. -->
+				<field name="settings" type="SFNode" accessType="inputOnly"></field>
+				<!-- Initializes the component and prepares it for visualization. -->
+				<field name="setup" type="SFBool" accessType="inputOnly" />
+				<!-- Causes the component to reposition itself and all its children in the z-depth stack. -->
+				<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+				
+				<!-- Accepts X3DUI nodes to be displayed within this component -->
+				<field name="children" type="MFNode" accessType="initializeOnly"></field>
+				<!-- Specifies the size of the component. -->
+				<field name="size" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				<!-- Specifies whether the component should be visible. -->
+				<field name="visible" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies what color the component should be. -->
+				<field name="color" type="SFColor" accessType="initializeOnly" value="0.832 0.8164 0.7852" />
+				<!-- Specifies the transparency level of the component. 
+						If the value provided is positive, all children will also be assigned
+						the same transparency level; otherwise, only the container object
+						will be of the specified transparency. -->
+				<field name="transparency" type="SFFloat" accessType="initializeOnly" value="0" />
+				<!-- Determines if the button will be interactive. -->
+				<field name="enabled" type="SFBool" accessType="initializeOnly" value="true" />
+				
+				<!-- Returns the size of the component. -->
+				<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+				<!-- Indicates whether the component is visible. -->
+				<field name="isVisible" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the color of the component. -->
+				<field name="getColor" type="SFColor" accessType="outputOnly" />
+				<!-- Returns the component's transparency level. -->
+				<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+				<!-- Indicates whether the button is enabled. -->
+				<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+				<!-- Fires <tt>true</tt> when the button is pressed down, 
+						and false when the button is released. -->
+				<field name="isPressed" type="SFBool" accessType="outputOnly" />
+				<!-- Fires <tt>true</tt> when the button is first pressed down, 
+						and then released. Compare with <field>isPressed</field>. -->
+				<field name="isClicked" type="SFBool" accessType="outputOnly" />
+				
+				<!-- Sets the size of the component. -->
+				<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+				<!-- Sets the visibility status of the component. -->
+				<field name="setVisible" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the color of the component. -->
+				<field name="setColor" type="SFColor" accessType="inputOnly" />
+				<!-- Sets the component's transparency level. -->
+				<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+				<!-- Sets the status of the button. -->
+				<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+			</ProtoInterface>
+			<ProtoBody>
+				<Transform DEF="buttonHolder">
+					<TouchSensor DEF="touchSensor" />
+					
+					<ProtoInstance DEF="rectangle" name="Rectangle">
+						<fieldValue name="children">
+							<Switch DEF="display" whichChoice="0">
+								<Transform DEF="childrenHolder">
+									<OrderedGroup DEF="orderedGroup">
+										<IS>
+											<connect nodeField="children" protoField="children"/>
+										</IS>
+									</OrderedGroup>
+								</Transform>
+							</Switch>
+						</fieldValue>
+						<fieldValue name="border" value="TOP_LEFT" />
+						<IS>				
+							<connect nodeField="visible" protoField="visible"/>
+							<connect nodeField="color" protoField="color"/>
+							
+							<connect nodeField="getSize" protoField="getSize"/>
+							<connect nodeField="isVisible" protoField="isVisible"/>
+							<connect nodeField="getColor" protoField="getColor"/>
+							<connect nodeField="getTransparency" protoField="getTransparency" />
+	
+							<connect nodeField="setVisible" protoField="setVisible"/>
+							<connect nodeField="setColor" protoField="setColor"/>
+						</IS>
+					</ProtoInstance>
+				</Transform>
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="buttonHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="buttonHolder" />
+					</field>
+					<field name="touchSensor" type="SFNode" accessType="initializeOnly">
+						<TouchSensor USE="touchSensor" />
+					</field>
+					<field name="rectangle" type="SFNode" accessType="initializeOnly">
+						<Rectangle USE="rectangle" />
+					</field>
+					<field name="childrenHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="childrenHolder" />
+					</field>
+					<field name="display" type="SFNode" accessType="initializeOnly">
+						<Switch USE="display" />
+					</field>
+					<field name="orderedGroup" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup" />
+					</field>
+					
+					<field name="settings" accessType="inputOnly" type="SFNode" />
+					<field name="setup" accessType="inputOnly" type="SFBool" />
+					<field name="applyZOrder" accessType="inputOnly" type="SFBool" />
+					
+					<field name="COMPONENT_ID" accessType="inputOutput" type="SFInt32" />
+					
+					<!-- attributes of the class -->
+					<field name="size" type="SFVec2f" accessType="initializeOnly" />
+					<field name="enabled" type="SFBool" accessType="initializeOnly" />
+					<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+					
+					<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+
+					<field name="_setSize" type="SFVec2f" accessType="inputOnly" />
+					<field name="_setEnabled" type="SFBool" accessType="inputOnly" />
+					<field name="_setTransparency" type="SFFloat" accessType="inputOnly" />
+					
+					<field name="onClick" type="SFBool" accessType="inputOnly" />
+					<field name="isPressed" type="SFBool" accessType="outputOnly" />
+					<field name="isClicked" type="SFBool" accessType="outputOnly" />
+					
+					<field name="INITIALIZED" accessType="inputOutput" type="SFBool" />
+					
+					<IS>
+						<connect nodeField="settings" protoField="settings"/>
+						<connect nodeField="setup" protoField="setup"/>
+						<connect nodeField="applyZOrder" protoField="applyZOrder"/>
+
+						<connect nodeField="size" protoField="size"/>
+						<connect nodeField="enabled" protoField="enabled"/>
+						<connect nodeField="transparency" protoField="transparency"/>
+						
+						<connect nodeField="isEnabled" protoField="isEnabled"/>
+						<connect nodeField="isPressed" protoField="isPressed"/>
+						<connect nodeField="isClicked" protoField="isClicked"/>
+
+						<connect nodeField="_setSize" protoField="setSize"/>
+						<connect nodeField="_setEnabled" protoField="setEnabled"/>
+						<connect nodeField="_setTransparency" protoField="setTransparency"/>
+					</IS>
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+					}
+
+					function setup() {
+						INITIALIZED = false;
+										
+						rectangle.settings = settings;
+						rectangle.setup = true;
+					
+						COMPONENT_ID = settings.COMPONENT_ID++;
+					
+						if (settings.DEBUG) print("button setup(" + COMPONENT_ID + ")");
+
+						setSize(size);
+						setEnabled(enabled);
+						setTransparency(transparency);
+					
+						buttonHolder.translation.z = settings.TOUCH_SENSOR_ELEVATION;
+						
+						INITIALIZED = true;
+					}
+					
+					function applyZOrder() {
+						rectangle.applyZOrder = true;
+					
+						if (settings.DEBUG) print("\tbutton applyZOrder(" + settings.Z_ORDER_COUNT + ")");
+					
+						var l = orderedGroup.children.length;
+
+						for (var i = 0; i < l; i++) {
+							orderedGroup.order[i] = settings.Z_ORDER_COUNT + i * settings.Z_ORDER_STEP;
+						}
+						
+						settings.Z_ORDER_COUNT++;
+					}
+					
+					function _setSize(newSize) {
+						if (INITIALIZED) {
+							setSize(newSize);
+						}
+					}
+					
+					function setSize(newSize) {
+						if (childrenHolder.getBBox() != null && childrenHolder.getBBox() != 0) {
+							var bbox = childrenHolder.getBBox();
+								
+							var width = bbox[1].x - bbox[0].x;
+							var height = bbox[1].y - bbox[0].y;
+							
+							if (newSize.x < width + 2 * settings.DEFAULT_DECORATION_GAP) {
+								newSize.x = width + 2 * settings.DEFAULT_DECORATION_GAP;
+							}
+							
+							if (newSize.y < height + 2 * settings.DEFAULT_DECORATION_GAP) {
+								newSize.y = height + 2 * settings.DEFAULT_DECORATION_GAP;
+							}
+							
+							rectangle.setSize = newSize;
+						} else {
+							if (newSize.x < settings.DEFAULT_BUTTON_MINIMUM_SIZE.x) {
+								newSize.x = settings.DEFAULT_BUTTON_MINIMUM_SIZE.x;
+							}
+							
+							if (newSize.y < settings.DEFAULT_BUTTON_MINIMUM_SIZE.y) {
+								newSize.y = settings.DEFAULT_BUTTON_MINIMUM_SIZE.y;
+							}
+							
+							rectangle.setSize = newSize;
+						}
+					}
+					
+					function _setEnabled(newEnabled) {
+						if (INITIALIZED) {
+							setEnabled(newEnabled);
+						}
+					}
+					
+					function setEnabled(newEnabled) {
+						isEnabled = newEnabled;
+
+						touchSensor.enabled = isEnabled;
+					}
+
+					function _setTransparency(newTransparency) {
+						if (INITIALIZED) {
+							setTransparency(newTransparency);
+						}
+					}
+
+					function setTransparency(newTransparency) {		
+						var affectChildren = newTransparency > 0;
+						
+						newTransparency = Math.abs(newTransparency);
+						
+						rectangle.setTransparency = newTransparency;
+						
+						if (affectChildren) {
+							var l = orderedGroup.children.length;
+	
+							for (var i = 0; i < l; i++) {
+								if (orderedGroup.children[i].hasEventIn("setTransparency")) {
+									orderedGroup.children[i].setTransparency = newTransparency;
+								}
+							}
+						}
+					}
+
+					function onClick(clicked) {
+						isPressed = clicked;
+					
+						if (!isPressed && touchSensor.isOver) {
+							isClicked = true;
+						}
+
+						if (isPressed) {
+							childrenHolder.translation.x = settings.DEFAULT_BUTTON_PRESS_SHIFT;
+							childrenHolder.translation.y = -settings.DEFAULT_BUTTON_PRESS_SHIFT;
+						} else {
+							childrenHolder.translation.x = 0;
+							childrenHolder.translation.y = 0;
+						}
+
+						if (isPressed) {
+							rectangle.setBorder = new SFString("BOTTOM_RIGHT");
+						} else {
+							rectangle.setBorder = new SFString("TOP_LEFT");
+						}
+					}
+				]]>
+				</Script>
+				
+				<ROUTE fromNode="touchSensor" fromField="isActive" toNode="S" toField="onClick" />
+			</ProtoBody>
+		</ProtoDeclare>
+		
+	</Scene>
+</X3D>

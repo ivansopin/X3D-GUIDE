@@ -1,0 +1,46 @@
+package org.ivansopin.x3dui;
+
+public class Type {
+	public static final String SFBOOL = "SFBool";
+	public static final String MFBOOL = "MFBool";
+	public static final String SFCOLOR = "SFColor";
+	public static final String MFCOLOR = "MFColor";
+	public static final String SFCOLORRGBA = "4";
+	public static final String MFCOLORRGBA = "5";
+	public static final String SFDOUBLE = "6";
+	public static final String MFDOUBLE = "7";
+	public static final String SFFLOAT = "8";
+	public static final String MFFLOAT = "9";
+	public static final String SFIMAGE = "10";
+	public static final String MFIMAGE = "11";
+	public static final String SFINT32 = "12";
+	public static final String MFINT32 = "13";
+	public static final String SFMATRIX3D = "14";
+	public static final String MFMATRIX3D = "15";
+	public static final String SFMATRIX3F = "16";
+	public static final String MFMATRIX3F = "17";
+	public static final String SFMATRIX4D = "18";
+	public static final String MFMATRIX4D = "19";
+	public static final String SFMATRIX4F = "20";
+	public static final String MFMATRIX4F = "21";
+	public static final String SFNODE = "22";
+	public static final String MFNODE = "23";
+	public static final String SFROTATION = "24";
+	public static final String MFROTATION = "25";
+	public static final String SFSTRING = "26";
+	public static final String MFSTRING = "27";
+	public static final String SFTIME = "28";
+	public static final String MFTIME = "29";
+	public static final String SFVEC2D = "30";
+	public static final String MFVEC2D = "31";
+	public static final String SFVEC2F = "32";
+	public static final String MFVEC2F = "33";
+	public static final String SFVEC3D = "34";
+	public static final String MFVEC3D = "35";
+	public static final String SFVEC3F = "36";
+	public static final String MFVEC3F = "37";
+	public static final String SFVEC4D = "38";
+	public static final String MFVEC4D = "39";
+	public static final String SFVEC4F = "40";
+	public static final String MFVEC4F = "41";
+}

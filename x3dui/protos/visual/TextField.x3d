@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+	
+		<ExternProtoDeclare name="Rectangle" url='"Rectangle.x3d#Rectangle"'>
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="movable" type="SFBool" accessType="initializeOnly" />
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			
+			<field name="isMovable" type="SFBool" accessType="outputOnly" />
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			
+			<field name="setMovable" type="SFBool" accessType="inputOnly" />
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+			
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="border" type="SFString" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getBorder" type="SFString" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setBorder" type="SFString" accessType="inputOnly" />
+		</ExternProtoDeclare>
+
+		<!-- This prototype represents a generic text-input field. -->
+		<ProtoDeclare name="TextField">
+			<ProtoInterface>
+				<!-- <proto>Settings</proto> object should be passed in this parameter. -->
+				<field name="settings" type="SFNode" accessType="inputOnly"></field>
+				<!-- Initializes the component and prepares it for visualization. -->
+				<field name="setup" type="SFBool" accessType="inputOnly" />
+				<!-- Causes the component to reposition itself and all its children in the z-depth stack. -->
+				<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+
+				<!-- Specifies the size of the component. -->
+				<field name="size" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				<!-- Specifies whether the component should be visible. -->
+				<field name="visible" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies what color the component should be. -->
+				<field name="color" type="SFColor" accessType="initializeOnly" value="1 1 1" />
+				<!-- Specifies the transparency level of the component. -->
+				<field name="transparency" type="SFFloat" accessType="initializeOnly" value="0" />
+				<!-- Determines if the component will be interactive. -->
+				<field name="enabled" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies the initial text of the component. -->
+				<field name="text" type="SFString" accessType="initializeOnly" value="" />
+				<!-- Specifies the maximum number of characters in the string. -->
+				<field name="maxLength" type="SFInt32" accessType="initializeOnly" value="-1" />
+								
+				<!-- Returns the size of the component. -->
+				<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+				<!-- Indicates whether the component is visible. -->
+				<field name="isVisible" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the color of the component. -->
+				<field name="getColor" type="SFColor" accessType="outputOnly" />
+				<!-- Returns the component's transparency level. -->
+				<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+				<!-- Indicates whether the component is enabled. -->
+				<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the text of the component. -->
+				<field name="getText" type="SFString" accessType="outputOnly" />
+				<!-- Returns the maximum number of characters in the string. -->
+				<field name="getMaxLength" type="SFInt32" accessType="outputOnly" />
+				
+				<!-- Sets the size of the component. -->
+				<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+				<!-- Sets the visibility status of the component. -->
+				<field name="setVisible" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the color of the component. -->
+				<field name="setColor" type="SFColor" accessType="inputOnly" />
+				<!-- Sets the component's transparency level. -->
+				<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+				<!-- Sets the status of the component. -->
+				<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+				<!-- Sets the text of the component. -->
+				<field name="setText" type="SFString" accessType="inputOnly" />
+				<!-- Sets the maximum number of characters in the string. -->
+				<field name="setMaxLength" type="SFInt32" accessType="inputOnly" />
+			</ProtoInterface>
+			<ProtoBody>
+
+				<Group>
+					<TimeTrigger DEF="timeSensorTrigger" />
+	
+					<KeySensor DEF="keySensor" enabled="true" />
+					
+					<TimeSensor DEF="timer" enabled="false" loop="true" cycleInterval="1.2" />
+					
+					<OrderedGroup DEF="orderedGroup">
+						<Transform DEF="textAreaHolder">
+							<TouchSensor DEF="touchSensor" />
+							
+							<ProtoInstance DEF="rectangle" name="Rectangle">
+								<fieldValue name="children">
+
+									<OrderedGroup DEF="orderedGroup2">
+										
+										<Transform translation="0.001 0 0">
+
+											<Transform DEF="textHolder">
+												<Transform DEF="textScale">
+													<Shape>
+														<Appearance>
+															<Material DEF="textMaterial" diffuseColor="0 0 0" />
+														</Appearance>
+														<Text DEF="textString" solid="true">
+															<FontStyle DEF="textStyle" justify='"BEGIN"' size="10" style="USE_TEXTURE" />
+														</Text> 
+													</Shape>
+												</Transform>
+											</Transform>
+
+										</Transform>
+										
+										<Transform DEF="displayBlinkingCursorHolder" translation="0.001 0 0">
+											<Switch DEF="displayBlinkingCursor" whichChoice="-1">
+												<Shape>
+													<ImageTexture DEF="blinkingCursor" repeatS="false" repeatT="false" />
+													<IndexedFaceSet coordIndex="0 1 2 3 -1" texCoordIndex="0 1 2 3 -1">
+														<Coordinate DEF="blinkingCursorCoords" point="0 0 0, 0 0 0, 0 0 0, 0 0 0" />
+													</IndexedFaceSet>
+												</Shape>
+											</Switch>
+										</Transform>
+									
+									</OrderedGroup>
+									
+								</fieldValue>
+								<fieldValue name="border" value="BOTTOM_RIGHT" />
+								<IS>				
+									<connect nodeField="size" protoField="size"/>
+									<connect nodeField="visible" protoField="visible"/>
+									<connect nodeField="color" protoField="color"/>
+									<connect nodeField="transparency" protoField="transparency"/>
+									
+									<connect nodeField="getSize" protoField="getSize"/>
+									<connect nodeField="isVisible" protoField="isVisible"/>
+									<connect nodeField="getColor" protoField="getColor"/>
+									<connect nodeField="getTransparency" protoField="getTransparency"/>
+			
+									<connect nodeField="setColor" protoField="setColor"/>
+								</IS>
+							</ProtoInstance>
+						</Transform>
+						
+						<Transform DEF="displayCursorHolder">
+							<Switch DEF="displayCursor" whichChoice="-1">
+								<Shape>
+									<ImageTexture DEF="cursor" repeatS="false" repeatT="false" />
+									<IndexedFaceSet coordIndex="0 1 2 3 -1" texCoordIndex="0 1 2 3 -1">
+										<Coordinate DEF="cursorCoords" point="0 0 0, 0 0 0, 0 0 0, 0 0 0" />
+									</IndexedFaceSet>
+								</Shape>
+							</Switch>
+						</Transform>
+					</OrderedGroup>
+				</Group>
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="touchSensor" type="SFNode" accessType="initializeOnly">
+						<TouchSensor USE="touchSensor" />
+					</field>
+					<field name="rectangle" type="SFNode" accessType="initializeOnly">
+						<Rectangle USE="rectangle" />
+					</field>
+					<field name="timer" type="SFNode" accessType="initializeOnly">
+						<TimeSensor USE="timer" />
+					</field>
+					<field name="timeSensorTrigger" type="SFNode" accessType="initializeOnly">
+						<TimeTrigger USE="timeSensorTrigger" />
+					</field>
+					<field name="textAreaHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="textAreaHolder" />
+					</field>
+					<field name="textHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="textHolder" />
+					</field>
+					<field name="textScale" type="SFNode" accessType="initializeOnly">
+						<Text USE="textScale" />
+					</field>
+					<field name="textString" type="SFNode" accessType="initializeOnly">
+						<Text USE="textString" />
+					</field>
+					<field name="textMaterial" type="SFNode" accessType="initializeOnly">
+						<Material USE="textMaterial" />
+					</field>
+					<field name="textStyle" type="SFNode" accessType="initializeOnly">
+						<Text USE="textStyle" />
+					</field>
+					<field name="keySensor" type="SFNode" accessType="initializeOnly">
+						<KeySensor USE="keySensor" />
+					</field>
+					<field name="orderedGroup" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup" />
+					</field>
+					<field name="orderedGroup2" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup2" />
+					</field>
+					
+					<field name="displayCursorHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="displayCursorHolder" />
+					</field>
+					<field name="displayCursor" type="SFNode" accessType="initializeOnly">
+						<Switch USE="displayCursor" />
+					</field>
+					<field name="cursor" type="SFNode" accessType="initializeOnly">
+						<ImageTexture USE="cursor" />
+					</field>
+					<field name="cursorCoords" type="SFNode" accessType="initializeOnly">
+						<Coordinate USE="cursorCoords" />
+					</field>
+					<field name="displayBlinkingCursorHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="displayBlinkingCursorHolder" />
+					</field>
+					<field name="displayBlinkingCursor" type="SFNode" accessType="initializeOnly">
+						<Switch USE="displayBlinkingCursor" />
+					</field>
+					<field name="blinkingCursor" type="SFNode" accessType="initializeOnly">
+						<ImageTexture USE="blinkingCursor" />
+					</field>
+					<field name="blinkingCursorCoords" type="SFNode" accessType="initializeOnly">
+						<Coordinate USE="blinkingCursorCoords" />
+					</field>
+					
+					<field name="settings" accessType="inputOnly" type="SFNode" />
+					<field name="setup" accessType="inputOnly" type="SFBool" />
+					<field name="applyZOrder" accessType="inputOnly" type="SFBool" />
+					<field name="updateWindowSize" accessType="inputOnly" type="SFVec2f" />
+					
+					<!-- attributes of the class -->
+					<field name="visible" type="SFBool" accessType="initializeOnly" />
+					<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+					<field name="size" type="SFVec2f" accessType="initializeOnly" />
+					<field name="enabled" type="SFBool" accessType="initializeOnly" />
+					<field name="text" type="SFString" accessType="initializeOnly" />
+					<field name="maxLength" type="SFInt32" accessType="initializeOnly" />
+					
+					<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+					<field name="getText" type="SFString" accessType="outputOnly" />
+					<field name="getMaxLength" type="SFInt32" accessType="outputOnly" />
+					
+					<field name="_setVisible" type="SFBool" accessType="inputOnly" />
+					<field name="_setTransparency" type="SFFloat" accessType="inputOnly" />
+					<field name="_setSize" type="SFVec2f" accessType="inputOnly" />
+					<field name="_setEnabled" type="SFBool" accessType="inputOnly" />
+					<field name="_setText" type="SFString" accessType="inputOnly" />
+					<field name="_setMaxLength" type="SFInt32" accessType="inputOnly" />
+					
+					<field name="onClick" type="SFBool" accessType="inputOnly" />
+					<field name="isOver" type="SFBool" accessType="inputOnly" />
+					<field name="hitPointChanged" type="SFVec3f" accessType="inputOnly" />
+					<field name="blinkCursor" type="SFFloat" accessType="inputOnly" />
+					<field name="keyPress" type="SFString" accessType="inputOnly" />
+					<field name="actionKeyPress" type="SFInt32" accessType="inputOnly" />
+					
+					<!-- constants -->
+					<field name="COMPONENT_ID" accessType="inputOutput" type="SFInt32" />
+					
+					<field name="characterOffset" accessType="inputOutput" type="SFInt32" value="0" />
+					<field name="charactersShown" accessType="inputOutput" type="SFInt32" value="0" />
+					<field name="cursorSide" accessType="inputOutput" type="SFFloat" />
+					<field name="cursorPosition" accessType="inputOutput" type="SFFloat" />
+					<field name="hitPoint" accessType="inputOutput" type="SFVec3f" />
+					<field name="initialNavigationMode" accessType="inputOutput" type="SFString" />
+					
+					<field name="INITIALIZED" accessType="inputOutput" type="SFBool" />
+					
+					<IS>
+						<connect nodeField="settings" protoField="settings"/>
+						<connect nodeField="setup" protoField="setup"/>
+						<connect nodeField="applyZOrder" protoField="applyZOrder"/>
+						
+						<connect nodeField="visible" protoField="visible"/>
+						<connect nodeField="transparency" protoField="transparency"/>
+						<connect nodeField="size" protoField="size"/>
+						<connect nodeField="enabled" protoField="enabled"/>
+						<connect nodeField="text" protoField="text"/>
+						<connect nodeField="maxLength" protoField="maxLength"/>
+						
+						<connect nodeField="isEnabled" protoField="isEnabled"/>
+						<connect nodeField="getText" protoField="getText"/>
+						<connect nodeField="getMaxLength" protoField="getMaxLength"/>
+						
+						<connect nodeField="_setVisible" protoField="setVisible"/>
+						<connect nodeField="_setTransparency" protoField="setTransparency"/>
+						<connect nodeField="_setSize" protoField="setSize"/>
+						<connect nodeField="_setEnabled" protoField="setEnabled"/>
+						<connect nodeField="_setText" protoField="setText"/>
+						<connect nodeField="_setMaxLength" protoField="setMaxLength"/>
+					</IS>
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+					}
+
+					function setup() {
+						INITIALIZED = false;
+					
+						rectangle.settings = settings;
+						rectangle.setup = true;
+						
+						COMPONENT_ID = settings.COMPONENT_ID++;
+					
+						if (settings.DEBUG) print("text field setup(" + COMPONENT_ID + ")");
+						
+						textAreaHolder.translation.z = 0.5 * settings.TOUCH_SENSOR_ELEVATION;
+						displayCursorHolder.translation.z = 0.5 * settings.TOUCH_SENSOR_ELEVATION;
+						
+						setVisible(visible);
+						setTransparency(transparency);
+						setSize(size);
+						setEnabled(enabled);
+						setMaxLength(maxLength);
+						setText(text);
+						clipText();
+						setBlinkingCursor();
+						
+						
+						blinkingCursor.url[0] = settings.IMAGES_DIR + "blinkingCursor.png";
+						cursor.url[0] = settings.IMAGES_DIR + "editText.png";
+						
+						updateWindowSize();
+						
+						Browser.addRoute(Browser, "windowSize", Browser.getScript(), "updateWindowSize");
+						
+						INITIALIZED = true;
+						
+						setSize(rectangle.getSize);
+					}
+					
+					function applyZOrder() {
+						rectangle.applyZOrder = true;
+						
+						if (settings.DEBUG) print("\ttext field applyZOrder(" + settings.Z_ORDER_COUNT + ")");
+						
+						var l = orderedGroup.children.length;
+
+						for (var i = 0; i < l; i++) {
+							orderedGroup.order[i] = settings.Z_ORDER_COUNT + i * settings.Z_ORDER_STEP;
+						}
+						
+						var m = orderedGroup2.children.length;
+
+						for (var i = 0; i < m; i++) {
+							orderedGroup2.order[i] = settings.Z_ORDER_COUNT + (l + i) * settings.Z_ORDER_STEP;
+						}
+						
+						settings.Z_ORDER_COUNT++;
+					}
+					
+					function updateWindowSize(newWindowSize) {
+						var screenWidth = Browser.getWindowSizeX();
+						var screenHeight = Browser.getWindowSizeY();
+					
+						var smallerDimension = screenWidth < screenHeight ? screenWidth : screenHeight;
+						
+						cursorSide = settings.INITIAL_CURSOR_DIMENSION * settings.CURSOR_SCALE_MULTIPLIER / smallerDimension;
+						
+						cursorCoords.point[0] = new SFVec3f(0, -cursorSide, 0);
+						cursorCoords.point[1] = new SFVec3f(cursorSide, -cursorSide, 0);
+						cursorCoords.point[2] = new SFVec3f(cursorSide, 0, 0);
+						cursorCoords.point[3] = new SFVec3f(0, 0, 0);
+					}
+					
+					function setBlinkingCursor() {
+						var blinkingCursorHeight = rectangle.getSize.y - 2 * settings.DEFAULT_DECORATION_GAP;
+					
+						blinkingCursorCoords.point[0] = new SFVec3f(-settings.DEFAULT_TEXT_FIELD_BLINKING_CURSOR_WIDTH / 2, -blinkingCursorHeight, 0);
+						blinkingCursorCoords.point[1] = new SFVec3f(settings.DEFAULT_TEXT_FIELD_BLINKING_CURSOR_WIDTH / 2, -blinkingCursorHeight, 0);
+						blinkingCursorCoords.point[2] = new SFVec3f(settings.DEFAULT_TEXT_FIELD_BLINKING_CURSOR_WIDTH / 2, 0, 0);
+						blinkingCursorCoords.point[3] = new SFVec3f(-settings.DEFAULT_TEXT_FIELD_BLINKING_CURSOR_WIDTH / 2, 0, 0);
+						
+						displayBlinkingCursorHolder.translation.y = -settings.DEFAULT_DECORATION_GAP;
+					}
+					
+					function _setVisible(newVisible) {
+						if (INITIALIZED) {
+							setText(newText);
+						}
+					}
+					
+					function setVisible(newVisible) {
+						//displayBlinkingCursor.whichChoice = (newVisible ? 0 : -1);
+						
+						rectangle.setVisible = newVisible;
+					}
+					
+					function _setTransparency(newTransparency) {
+						if (INITIALIZED) {
+							setTransparency(newTransparency);
+						}
+					}
+					
+					function setTransparency(newTransparency) {
+						rectangle.setTransparency = newTransparency;
+					}
+					
+					function _setSize(newSize) {
+						if (INITIALIZED) {
+							setSize(newSize);
+						}
+					}
+					
+					function setSize(newSize) {
+						if (textHolder.getBBox() != null && textHolder.getBBox() != 0) {
+							var bbox = textHolder.getBBox();
+								
+							var width = bbox[1].x - bbox[0].x;
+							var height = bbox[1].y - bbox[0].y;
+							
+							if (newSize.x < width + 2 * settings.DEFAULT_DECORATION_GAP) {
+								newSize.x = width + 2 * settings.DEFAULT_DECORATION_GAP;
+							}
+							
+							if (newSize.y < height + 2 * settings.DEFAULT_DECORATION_GAP) {
+								newSize.y = height + 2 * settings.DEFAULT_DECORATION_GAP;
+							}
+							
+							rectangle.setSize = newSize;
+						} else {
+							if (newSize.x < settings.DEFAULT_TEXT_FIELD_MINIMUM_SIZE.x) {
+								newSize.x = settings.DEFAULT_TEXT_FIELD_MINIMUM_SIZE.x;
+							}
+							
+							if (newSize.y < settings.DEFAULT_TEXT_FIELD_MINIMUM_SIZE.y) {
+								newSize.y = settings.DEFAULT_TEXT_FIELD_MINIMUM_SIZE.y;
+							}
+							
+							rectangle.setSize = newSize;
+						}
+						
+						textHolder.translation.y = -(rectangle.getSize.y + settings.DEFAULT_FONT_SIZE * settings.DEFAULT_FONT_SCALE * 2 / 3) / 2;
+						
+						if (INITIALIZED) {
+							clipText();
+							setBlinkingCursor();
+						}
+					}
+					
+					function _setEnabled(newEnabled) {
+						if (INITIALIZED) {
+							setEnabled(newEnabled);
+						}
+					}
+					
+					function setEnabled(newEnabled) {
+						isEnabled = newEnabled;
+
+						touchSensor.enabled = isEnabled;
+						
+						if (!isEnabled) {
+							if (settings.FOCUS_ID == COMPONENT_ID) {
+								settings.FOCUS_ID = -1;
+							}
+						}
+						
+						if (isEnabled) {
+							rectangle.setColor = settings.DEFAULT_ENABLED_INPUT_BG_COLOR;
+							textMaterial.diffuseColor = settings.DEFAULT_ENABLED_TEXT_COLOR;
+						} else {
+							rectangle.setColor = settings.DEFAULT_DISABLED_INPUT_BG_COLOR;
+							textMaterial.diffuseColor = settings.DEFAULT_DISABLED_TEXT_COLOR;
+						}
+					}
+
+					function _setText(newText) {
+						if (INITIALIZED) {
+							setText(newText);
+						}
+					}
+
+					function setText(newText) {
+						if (getMaxLength > -1 && getMaxLength < newText.length) {
+							getText = newText.substring(0, getMaxLength);
+						} else {
+							getText = newText;
+						}
+						
+						textScale.scale = new SFVec3f(
+							settings.DEFAULT_FONT_SCALE, 
+							settings.DEFAULT_FONT_SCALE,
+							settings.DEFAULT_FONT_SCALE);
+							
+						textStyle.size = settings.DEFAULT_FONT_SIZE;
+						textStyle.family = settings.DEFAULT_FONT_FAMILY;
+						
+						textString.string = new MFString(getText.substring(characterOffset));
+						
+						clipText();
+					}
+					
+					function clipText() {
+						var l = getText.length;
+					
+						if (l == 0) {
+							return 0;
+						}
+
+						var i = l;
+						var width;
+						var bbox;
+						
+						while (i >= 0) {
+							textString.string = new MFString(getText.substring(characterOffset, i));
+
+							bbox = textHolder.getBBox();
+							width = (bbox[1].x - bbox[0].x);
+							
+							if (width <= rectangle.getSize.x - settings.DEFAULT_DECORATION_GAP) {
+								charactersShown = i - characterOffset - 1;
+								break;
+							}
+
+							i--;
+						}
+					}
+					
+					function _setMaxLength(newMaxLength) {
+						if (INITIALIZED) {
+							setMaxLength(newMaxLength);
+						}
+					}
+					
+					function setMaxLength(newMaxLength) {
+						getMaxLength = newMaxLength;
+						
+						if (INITIALIZED) {
+							setText(getText);
+						}
+					}
+
+					function onClick(clicked) {
+						if (clicked) {
+							settings.FOCUS_ID = COMPONENT_ID;
+							timer.enabled = true;
+							
+							var index = characterOffset + determineClickIndex(hitPoint);
+
+							setCursorPosition(index);
+						}
+					}
+					
+					function determineClickIndex(point) {
+						var l = getText.length;
+					
+						if (l == 0) {
+							return 0;
+						}
+						
+						point.x -= settings.DEFAULT_FONT_SCALE;
+
+						var i = 1;
+						var previousWidth = 0;
+						var width;
+						var bbox;
+						
+						var shownText = new SFString(textString.string[0]);
+						l = shownText.length;
+
+						while (i <= l) {
+							textString.string[0] = shownText.substring(0, i);
+
+							bbox = textString.getBBox();
+							width = (bbox[1].x - bbox[0].x) * settings.DEFAULT_FONT_SCALE;
+							
+							if (point.x <= width) {
+								if (point.x < previousWidth + (width - previousWidth) / 2) {
+									textString.string = new MFString(shownText);
+									return i - 1;
+								} else {
+									textString.string = new MFString(shownText);
+									return i;
+								}
+							}
+						
+							previousWidth = width;
+							i++;
+						}
+						
+						return l;
+					}
+					
+					function isOver(over) {
+						Browser.hideCursor(over);
+						displayCursor.whichChoice = over ? 0 : -1;
+					}
+					
+					function hitPointChanged(point) {
+						var width = rectangle.getSize.x;
+						var height = rectangle.getSize.y;
+						
+						displayCursorHolder.translation.x = point.x - cursorSide / 2;
+						displayCursorHolder.translation.y = point.y + cursorSide / 2;
+						
+						hitPoint = point;
+					}
+					
+					function blinkCursor(fraction) {
+						if (settings.FOCUS_ID != COMPONENT_ID) {
+							// to allow rotating the scene when using arrows on the keyboard
+							if (initialNavigationMode.length == 0) {
+								initialNavigationMode = "EXAMINE";
+							}
+							
+							print(initialNavigationMode);
+							
+							Browser.setNavigationMode(initialNavigationMode);
+							
+							initialNavigationMode = "";
+							
+							timer.enabled = false;
+							displayBlinkingCursor.whichChoice = -1;
+							return;
+						} else {
+							if (initialNavigationMode == "") {
+								initialNavigationMode = Browser.getNavigationMode();
+						
+								print(initialNavigationMode);
+						
+								// to prevent rotating the scene when using arrows on the keyboard
+								Browser.setNavigationMode("NONE_RESTRICTED");
+							}
+						}
+					
+						if (fraction < timer.cycleInterval / 2) {
+							displayBlinkingCursor.whichChoice = 0;
+						} else {
+							displayBlinkingCursor.whichChoice = -1;
+						}
+					}
+					
+					function getNumOfCharsUntilLastShownIndex(lastShownIndex) {
+						var i = lastShownIndex - 1;
+						var width;
+						var bbox;
+						
+						var shownText = new SFString(textString.string[0]);
+						
+						var charCount = 0;
+
+						while (i >= 0) {
+							textString.string = new MFString(getText.substring(i, lastShownIndex));
+						
+							bbox = textHolder.getBBox();
+							width = (bbox[1].x - bbox[0].x);
+							
+							if (width >= rectangle.getSize.x - settings.DEFAULT_DECORATION_GAP) {
+								charCount = lastShownIndex - i - 1;
+								break;
+							}
+
+							i--;
+						}
+						
+						textString.string = new MFString(shownText);
+
+						return charCount;
+					}
+					
+					function setCursorPosition(index) {
+						var l = getText.length;
+					
+						if (index < 0) {
+							index = 0;
+						} else if (index > l) {
+							index = l;
+						}
+						
+						cursorPosition = index;
+
+						if ((characterOffset + 1 + charactersShown < getText.length) && 
+								cursorPosition > characterOffset + charactersShown + 1) {
+
+							characterOffset = cursorPosition - getNumOfCharsUntilLastShownIndex(cursorPosition);
+						} else if (cursorPosition < characterOffset) {
+
+							characterOffset = cursorPosition;
+						}
+						
+						clipText();
+
+						if (charactersShown == 0 && characterOffset != 0) {
+							characterOffset--;
+							clipText();
+						}
+
+						var shownText = new SFString(textString.string[0]);
+						
+						textString.string = new MFString(shownText.substring(0, index - characterOffset));
+						
+						l = textString.string[0].length;
+						
+						var bbox = l > 0 ? textString.getBBox() : new MFVec3f(new SFVec3f(0, 0, 0), new SFVec3f(1, 0, 0));
+						
+						displayBlinkingCursorHolder.translation.x = (bbox[1].x - bbox[0].x) * settings.DEFAULT_FONT_SCALE + settings.DEFAULT_DECORATION_GAP;
+						
+						textString.string = new MFString(shownText);
+					}
+					
+					function keyPress(str) {
+						var value = str.charCodeAt(0);
+						actionKeyPress(value - 1000);
+					}
+					
+					function actionKeyPress(value) {
+						if (settings.FOCUS_ID != COMPONENT_ID) {
+							return;
+						}
+
+						// regular button
+						if (value < 0) {
+							value += 1000;
+							
+							if (settings.DEBUG) print("regular button: " + value);
+
+							// regular characters
+							if (value >= 32 && value <= 126) {
+								if (getMaxLength > -1 && getMaxLength < getText.length + 1) {
+									return;
+								}
+							
+								var leftSubstring = getText.substring(0, cursorPosition);
+								var rightSubstring = getText.substring(cursorPosition);
+								
+								setText(leftSubstring + new SFString().fromCharCode(value) + rightSubstring);
+								
+								setCursorPosition(cursorPosition + 1);
+
+							// backspace
+							} else if (value == 8) {
+								if (getText.length > 0) {
+									var leftSubstring = getText.substring(0, cursorPosition - 1);
+									var rightSubstring = getText.substring(cursorPosition);
+									
+									setText(leftSubstring + rightSubstring);
+									
+									setCursorPosition(cursorPosition - 1);
+								}
+
+							// enter or escape
+							} else if (value == 13 || value == 27) {
+								settings.FOCUS_ID = -1;
+							}
+							
+						// action key	 
+						} else {
+							if (settings.DEBUG) print("action button: " + value);
+							
+							if (value == 19 || value == 17) {
+								setCursorPosition(cursorPosition - 1);
+								
+							// arrow right or down
+							} else if (value == 20 || value == 18) {
+								setCursorPosition(cursorPosition + 1);
+							
+							// home
+							} else if (value == 13) {
+								setCursorPosition(0);
+
+							// end
+							} else if (value == 14) {
+								setCursorPosition(getText.length);
+																
+							}
+						}
+					}
+				]]>
+				</Script>
+				
+				<ROUTE fromNode="touchSensor" fromField="isActive" toNode="S" toField="onClick" />
+				<ROUTE fromNode="touchSensor" fromField="isOver" toNode="S" toField="isOver" />
+				<ROUTE fromNode="touchSensor" fromField="hitPoint_changed" toNode="S" toField="hitPointChanged" />
+				<ROUTE fromNode="timeSensorTrigger" fromField="triggerTime" toNode="timer" toField="set_startTime"/>
+				<ROUTE fromNode="timer" fromField="fraction_changed" toNode="S" toField="blinkCursor" />
+				<ROUTE fromNode="keySensor" fromField="keyPress" toNode="S" toField="keyPress" />
+				<ROUTE fromNode="keySensor" fromField="actionKeyPress" toNode="S" toField="actionKeyPress" />
+			</ProtoBody>
+		</ProtoDeclare>
+
+	</Scene>
+</X3D>

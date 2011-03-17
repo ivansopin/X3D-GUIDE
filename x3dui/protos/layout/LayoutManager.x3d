@@ -1,0 +1,892 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+	
+		<ProtoDeclare name="LayoutManager">
+			<ProtoInterface>
+				<field name="layout" type="SFNode" accessType="initializeOnly"></field>
+				<field name="children" type="MFNode" accessType="initializeOnly"></field>
+				
+				<field name="doLayout" type="SFVec2f" accessType="inputOnly" />
+				
+				<field name="getMinimumWidth" type="SFFloat" accessType="outputOnly" />
+				<field name="getMinimumHeight" type="SFFloat" accessType="outputOnly" />
+				<field name="getMinimumSize" accessType="outputOnly" type="SFVec2f" />
+				
+				<field name="getChildren" type="MFNode" accessType="outputOnly">
+				</field>
+			</ProtoInterface>
+			<ProtoBody>				
+				<Group>
+					
+				</Group>
+				
+				<Script DEF="S" directOutput="true">
+					<field name="layout" accessType="initializeOnly" type="SFNode" />
+					<field name="children" accessType="initializeOnly" type="MFNode">
+					</field>
+					
+					<field name="doLayout" accessType="inputOnly" type="SFVec2f" />
+					
+					<field name="getMinimumWidth" accessType="outputOnly" type="SFFloat" />
+					<field name="getMinimumHeight" accessType="outputOnly" type="SFFloat" />
+					<field name="getMinimumSize" accessType="outputOnly" type="SFVec2f" />
+					
+					<field name="getChildren" accessType="outputOnly" type="MFNode">
+					</field>
+					
+					
+					<field name="VISUAL_PADDING" accessType="initializeOnly" type="SFFloat" value="0.002" />
+					
+					<!-- default flow layout fields -->
+					<field name="ALIGN" accessType="inputOutput" type="SFString" value="LEFT" /> <!-- LEFT|RIGHT|CENTER -->
+					<field name="HGAP" accessType="inputOutput" type="SFFloat" value="0.001" />
+					<field name="VGAP" accessType="inputOutput" type="SFFloat" value="0.001" />
+
+					<IS>
+						<connect nodeField="layout" protoField="layout"/>
+						<connect nodeField="children" protoField="children"/>
+						
+						<connect nodeField="getMinimumWidth" protoField="getMinimumWidth"/>
+						<connect nodeField="getMinimumHeight" protoField="getMinimumHeight"/>
+						<connect nodeField="getMinimumSize" protoField="getMinimumSize"/>
+						
+						<connect nodeField="getChildren" protoField="getChildren"/>
+						
+						<connect nodeField="doLayout" protoField="doLayout"/>
+					</IS>
+					
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+					}
+					
+					function setup() {
+					}
+					
+					function doLayout(size) {
+						var type;
+						
+						if (layout == null) {
+							type = "NoLayout";
+						} else {
+						 	type = layout.getType();
+						}
+						
+						if (type == "BorderLayout") {
+							doBorderLayout(size, layout.getHGap, layout.getVGap, 
+								layout.getCenterElementId,
+								layout.getNorthElementId,
+								layout.getSouthElementId,
+								layout.getWestElementId,
+								layout.getEastElementId);
+						} else if (type == "GridLayout") {
+							doGridLayout(
+								size, 
+								layout.getNumOfRows, layout.getNumOfColumns,
+								layout.doCompressHorizontally, layout.doCompressVertically,
+								layout.getHGap, layout.getVGap);
+						} else if (type == "BoxLayout") {
+							doBoxLayout(size, layout.getDirection, layout.getHAlign, layout.getVAlign, layout.getHGap, layout.getVGap);
+						} else if (type == "FlowLayout") {
+							doFlowLayout(size, layout.getAlign, layout.getHGap, layout.getVGap);
+						} else {
+							doFlowLayout(size, ALIGN, HGAP, VGAP);
+						}
+					}
+					
+					function getElementById(id) {
+						var l = children.length;
+						
+						var node;
+						
+						for (var i = 0; i < l; i++) {
+							node = children[i];
+							
+							if (node.getType() == "Transform") {
+								node = node.children[0];
+							}
+
+							if (node.getName() == id) {
+								return node;
+							}
+						}
+						
+						return null;
+					}
+					
+					function doBorderLayout(size, hgap, vgap, 
+						centerElementId, 
+						northElementId, 
+						southElementId,
+						westElementId,
+						eastElementId) {
+					
+						var l = children.length;
+						
+						var nodeWrapper;
+						var node;
+						var wrapped;
+						
+						var transform;
+						
+						var centerAreaElement;
+						var northAreaElement;
+						var southAreaElement;
+						var westAreaElement;
+						var eastAreaElement;
+						
+						var centerAreaSize = new SFVec2f(0, 0);
+						var northAreaSize = new SFVec2f(0, 0);
+						var southAreaSize = new SFVec2f(0, 0);
+						var westAreaSize = new SFVec2f(0, 0);
+						var eastAreaSize = new SFVec2f(0, 0);
+						
+						if (centerElementId != "") {
+							if (getElementById(centerElementId) != null) {
+								centerAreaSize = getElementById(centerElementId).getSize; 
+							} else {
+								return;
+							}
+						} else {
+							return;
+						}
+						
+						if (northElementId != "") {
+							if (getElementById(northElementId) != null) {
+								northAreaSize = getElementById(northElementId).getSize; 
+							}
+						}
+						
+						if (southElementId != "") {
+							if (getElementById(southElementId) != null) {
+								southAreaSize = getElementById(southElementId).getSize; 
+							}
+						}
+						
+						if (westElementId != "") {
+							if (getElementById(westElementId) != null) {
+								westAreaSize = getElementById(westElementId).getSize; 
+							}
+						}
+						
+						if (eastElementId != "") {
+							if (getElementById(eastElementId) != null) {
+								eastAreaSize = getElementById(eastElementId).getSize; 
+							}
+						}
+
+						// positions valid elements and remove redundant elements
+						for (var i = 0; i < l; i++) {
+							wrapped = false;
+						
+							// always 0 because we remove it before adding later
+							node = children[0];
+							
+							if (node.getType() == "Transform") {
+								wrapped = true;
+							
+								nodeWrapper = node;
+								node = nodeWrapper.children[0];
+							}
+
+							if (wrapped) {
+								children.remove(nodeWrapper);
+							} else {
+								children.remove(node);
+							}
+							
+							transform = new SFNode('Transform {}');  
+							transform.children.add(node);
+
+							if (node.getName() == centerElementId) {
+								transform.translation.x = (size.x - VISUAL_PADDING - centerAreaSize.x) / 2;
+								transform.translation.y = -(size.y - VISUAL_PADDING - centerAreaSize.y) / 2;
+								
+								children.add(transform);
+							} else if (node.getName() == northElementId) {
+								transform.translation.x = (size.x - VISUAL_PADDING - northAreaSize.x) / 2;
+								transform.translation.y = -vgap;
+							
+								children.add(transform);
+							} else if (node.getName() == southElementId) {
+								transform.translation.x = (size.x - VISUAL_PADDING - southAreaSize.x) / 2;
+								transform.translation.y = -(size.y - southAreaSize.y - vgap - VISUAL_PADDING);
+								
+								children.add(transform);
+							} else if (node.getName() == westElementId) {
+								transform.translation.x = hgap;
+								transform.translation.y = -(size.y - westAreaSize.y - VISUAL_PADDING) / 2;
+							
+								children.add(transform);
+							} else if (node.getName() == eastElementId) {
+								transform.translation.x = size.x - hgap - VISUAL_PADDING - eastAreaSize.x;
+								transform.translation.y = -(size.y - eastAreaSize.y - VISUAL_PADDING) / 2;
+							
+								children.add(transform);
+							}
+						}
+
+						getMinimumWidth = westAreaSize.x + centerAreaSize.x + eastAreaSize.x + 4 * hgap + VISUAL_PADDING;
+						getMinimumHeight = northAreaSize.y + centerAreaSize.y + southAreaSize.y + 4 * vgap + VISUAL_PADDING;
+						getMinimumSize = new SFVec2f(getMinimumWidth, getMinimumHeight);
+						
+						/*
+						print("centerAreaSize: " + centerAreaSize);
+						print("northAreaSize: " + northAreaSize);
+						print("southAreaSize: " + southAreaSize);
+						print("westAreaSize: " + westAreaSize);
+						print("eastAreaSize: " + eastAreaSize);
+						*/
+						
+						getChildren = children;
+					}
+					
+					function doGridLayout(size, numOfRows, numOfColumns, compressHorizontally, compressVertically, hgap, vgap) {
+						var l = children.length;
+						
+						var nodeWrapper;
+						var node;
+						var wrapped;
+						
+						var transform;
+						
+						var width;
+						var height;
+
+						var index = 0;
+						
+						if (numOfRows < 1 || numOfColumns < 1) {
+							return;
+						}
+						
+						var cellWidth = (size.x - (numOfColumns + 1) * hgap) / numOfColumns;
+						var cellHeight = (size.y - (numOfRows + 1) * vgap) / numOfRows;
+
+						var rowHeight = new MFFloat();
+						var columnWidth = new MFFloat();
+						
+						for (var i = 0; i < numOfRows; i++) {
+							rowHeight[i] = 0;
+						}
+
+						for (var j = 0; j < numOfColumns; j++) {
+							columnWidth[j] = 0;
+						}
+
+						var minCellWidth = 0;
+						var minCellHeight = 0;
+
+						var currentElementWidth;
+						var currentElementHeight;
+
+						// find out the tallest and widest elements
+						for (var i = 0; i < numOfRows; i++) {
+							for (var j = 0; j < numOfColumns; j++) {
+								index = numOfColumns * i + j;
+								
+								wrapped = (children[index].getType() == "Transform" ? true : false);
+						
+								if (wrapped) {
+									currentElementWidth = children[index].children[0].getSize.x;
+									currentElementHeight = children[index].children[0].getSize.y;
+								} else {
+									currentElementWidth = children[index].getSize.x;
+									currentElementHeight = children[index].getSize.y;
+								}
+								
+								if (currentElementWidth > minCellWidth) {
+									minCellWidth = currentElementWidth;
+								}
+								
+								if (currentElementHeight > minCellHeight) {
+									minCellHeight = currentElementHeight;
+								}
+								
+								if (currentElementWidth > columnWidth[j]) {
+									columnWidth[j] = currentElementWidth;
+								}
+								
+								if (currentElementHeight > rowHeight[i]) {
+									rowHeight[i] = currentElementHeight;
+								}
+								
+								if (index == l - 1) {
+									i = numOfRows;
+									j = numOfColumns;
+								
+									break;
+								}
+							}
+						}
+
+
+						if (minCellWidth > cellWidth) {
+							cellWidth = minCellWidth;
+						}
+						
+						if (minCellHeight > cellHeight) {
+							cellHeight = minCellHeight;
+						}
+						
+						var numOfCells = numOfRows * numOfColumns;
+						var numOfElements;
+						
+						if (l > numOfCells) {
+							numOfElements = numOfCells;
+							
+							for (var i = numOfCells; i < l; i++) {
+								wrapped = false;
+
+								node = children[numOfCells];
+								
+								if (node.getType() == "Transform") {
+									wrapped = true;
+								
+									nodeWrapper = node;
+									node = nodeWrapper.children[0];
+								}
+	
+								if (wrapped) {
+									children.remove(nodeWrapper);
+								} else {
+									children.remove(node);
+								}
+							}
+						} else {
+							numOfElements = l;
+						}
+
+						var currentRowX;
+						var currentColY = -vgap;
+
+						index = 0;
+
+						// positions valid elements and removes redundant elements
+						for (var i = 0; i < numOfRows; i++) {
+							currentRowX = hgap;
+						
+							for (var j = 0; j < numOfColumns; j++) {
+								wrapped = false;
+								
+								// always 0 because we remove it before adding later
+								node = children[0];
+								
+								if (node.getType() == "Transform") {
+									wrapped = true;
+								
+									nodeWrapper = node;
+									node = nodeWrapper.children[0];
+									
+									//print(node.getText);
+								}
+	
+								if (wrapped) {
+									children.remove(nodeWrapper);
+								} else {
+									children.remove(node);
+								}
+								
+								transform = new SFNode('Transform {}');  
+								transform.children.add(node);
+								
+								width = node.getSize.x;
+								height = node.getSize.y;
+							
+								if (compressHorizontally) {
+									transform.translation.x = currentRowX + (columnWidth[j] - width) / 2;
+									currentRowX += columnWidth[j] + hgap;
+								} else {
+									transform.translation.x = (hgap + j) * cellWidth + (cellWidth - width) / 2;
+								}
+								
+								if (compressVertically) {
+									transform.translation.y = currentColY - (rowHeight[i] - height) / 2;
+								} else {
+									transform.translation.y = -(vgap + i) * cellHeight - (cellHeight - height) / 2;
+								}
+							
+								children.add(transform);
+								
+
+								index++;
+								
+								if (index == numOfElements) {
+									j = numOfColumns;
+									i = numOfRows;
+								}
+							}
+							
+							if (i < numOfRows) {
+								currentColY += -(rowHeight[i] + vgap);
+							}
+						}
+
+						getMinimumWidth = hgap + VISUAL_PADDING;
+						getMinimumHeight = vgap + VISUAL_PADDING;
+
+						if (compressHorizontally) {
+							for (var j = 0; j < numOfColumns; j++) {
+								getMinimumWidth += columnWidth[j] + hgap;
+							}
+						} else {
+							getMinimumWidth = (minCellWidth + hgap) * numOfColumns + hgap + VISUAL_PADDING;
+						}
+						
+						if (compressVertically) {
+							for (var i = 0; i < numOfRows; i++) {
+								getMinimumHeight += rowHeight[i] + vgap;
+							}
+						} else {
+							getMinimumHeight = (minCellHeight + vgap) * numOfRows + vgap + VISUAL_PADDING;
+						}
+
+						getMinimumSize = new SFVec2f(getMinimumWidth, getMinimumHeight);
+
+						getChildren = children;
+					}
+					
+					function doBoxLayout(size, direction, halign, valign, hgap, vgap) {
+						var l = children.length;
+						
+						var nodeWrapper;
+						var node;
+						var wrapped;
+						
+						var transform;
+						
+						var fullWidth = 0;
+						var fullHeight = 0;
+						var minimumWidth = 0;
+						var minimumHeight = 0;
+						
+						var currentWidth = 0;
+						var currentHeight = 0;
+						
+						// find out the tallest and widest elements
+						for (var i = 0; i < l; i++) {
+							wrapped = (children[i].getType() == "Transform" ? true : false);
+						
+							if (wrapped) {
+								if (children[i].children[0].getSize.x > minimumWidth) {
+									minimumWidth = children[i].children[0].getSize.x;
+								}
+								
+								if (children[i].children[0].getSize.y > minimumHeight) {
+									minimumHeight = children[i].children[0].getSize.y;
+								}
+								
+								fullWidth += children[i].children[0].getSize.x;
+								fullHeight += children[i].children[0].getSize.y;
+							} else {
+								if (children[i].getSize.x > minimumWidth) {
+									minimumWidth = children[i].getSize.x;
+								}
+								
+								if (children[i].getSize.y > minimumHeight) {
+									minimumHeight = children[i].getSize.y;
+								}
+								
+								fullWidth += children[i].getSize.x;
+								fullHeight += children[i].getSize.y;
+							}
+						}
+						
+						if (direction == "VERTICAL") {
+							if (valign == "TOP") {
+								currentHeight = 0;
+							} else if (valign == "BOTTOM") {
+								currentHeight = size.y - fullHeight - (l + 1) * vgap - VISUAL_PADDING;
+							} else {
+								currentHeight = (size.y - fullHeight - (l + 1) * vgap - VISUAL_PADDING) / 2;
+							}
+						} else {
+							if (halign == "LEFT") {
+								currentWidth = 0;
+							} else if (halign == "RIGHT") {
+								currentWidth = size.x - fullWidth - (l + 1) * hgap - VISUAL_PADDING;
+							} else {
+								currentWidth = (size.x - fullWidth - (l + 1) * hgap - VISUAL_PADDING) / 2;
+							}
+						}
+						
+						// position elements
+						for (var i = 0; i < l; i++) {
+							wrapped = false;
+						
+							// always 0 because we remove it before adding later
+							node = children[0];
+							
+							if (node.getType() == "Transform") {
+								wrapped = true;
+							
+								nodeWrapper = node;
+								node = nodeWrapper.children[0];
+							}
+							
+							width = node.getSize.x;
+							height = node.getSize.y;
+
+							if (wrapped) {
+								children.remove(nodeWrapper);
+							} else {
+								children.remove(node);
+							}
+							
+							transform = new SFNode('Transform {}');  
+							transform.children.add(node);
+							
+							if (direction == "VERTICAL") {
+								if (halign == "LEFT") {
+									transform.translation.x = hgap;
+								} else if (halign == "RIGHT") {
+									transform.translation.x = size.x - VISUAL_PADDING - width - hgap;
+								} else {
+									transform.translation.x = (size.x - width - VISUAL_PADDING) / 2;
+								}
+								
+								transform.translation.y = -currentHeight - vgap;
+								
+								currentHeight += vgap + height;
+							} else {
+								if (valign == "TOP") {
+									transform.translation.y = -vgap;
+								} else if (valign == "BOTTOM") {
+									transform.translation.y = -(size.y - VISUAL_PADDING - height - vgap);
+								} else {
+									transform.translation.y = -(size.y - height - VISUAL_PADDING) / 2;
+								}
+								
+								transform.translation.x = currentWidth + hgap;
+								
+								currentWidth += hgap + width;
+							}
+					
+
+							children.add(transform);
+						}
+
+						
+						if (direction == "VERTICAL") {
+							getMinimumWidth = minimumWidth + 2 * hgap + VISUAL_PADDING;
+							getMinimumHeight = fullHeight + (l + 1) * vgap + VISUAL_PADDING;
+							getMinimumSize = new SFVec2f(getMinimumWidth, getMinimumHeight);
+						} else {
+							getMinimumWidth = fullWidth + (l + 1) * hgap + VISUAL_PADDING;
+							getMinimumHeight = minimumHeight + 2 * vgap + VISUAL_PADDING;
+							getMinimumSize = new SFVec2f(getMinimumWidth, getMinimumHeight);
+						}
+
+						if (size.x < getMinimumWidth) {
+							for (var i = 0; i < l; i++) {
+								node = children[i];
+								
+								if (halign == "RIGHT") {
+									node.translation.x += (getMinimumWidth - size.x);
+								} else if (halign == "CENTER") {
+									node.translation.x += (getMinimumWidth - size.x) / 2;
+								}
+							}
+						}
+						
+						if (size.y < getMinimumHeight) {
+							for (var i = 0; i < l; i++) {
+								node = children[i];
+								
+								if (valign == "BOTTOM") {
+									node.translation.y -= (getMinimumHeight - size.y);
+								} else if (valign == "MIDDLE") {
+									node.translation.y -= (getMinimumHeight - size.y) / 2;
+								}
+							}
+						}
+						
+						/*
+						if (direction == "VERTICAL") {
+							if (valign == "TOP") {
+								currentHeight = 0;
+							} else if (valign == "BOTTOM") {
+								currentHeight = size.y - fullHeight - (l + 1) * vgap - VISUAL_PADDING;
+							} else {
+								currentHeight = (size.y - fullHeight - (l + 1) * vgap - VISUAL_PADDING) / 2;
+							}
+						} else {
+							if (halign == "LEFT") {
+								currentWidth = 0;
+							} else if (halign == "RIGHT") {
+								currentWidth = size.x - fullWidth - (l + 1) * hgap - VISUAL_PADDING;
+							} else {
+								currentWidth = (size.x - fullWidth - (l + 1) * hgap - VISUAL_PADDING) / 2;
+							}
+						}*/
+						
+
+						getChildren = children;
+					}
+					
+					function doFlowLayout(size, align, hgap, vgap) {
+						var l = children.length;
+						var nodeWrapper;
+						var node;
+						var width;
+						var height;
+						var currentWidth = 0;
+						var currentHeight = 0;
+						var transform;
+						var row = 0;
+						var maxHeight = 0;
+						var wrapped;
+						var rowFirstIndex = -1;
+						var j;
+						var minRowWidth = 0;
+						var numOfRows = 0;
+						
+						// find out the height of a row
+						for (var i = 0; i < l; i++) {
+							wrapped = (children[i].getType() == "Transform" ? true : false);
+						
+							if (wrapped) {
+								if (children[i].children[0].getSize.y > maxHeight) {
+									maxHeight = children[i].children[0].getSize.y;
+								}
+								
+								if (children[i].children[0].getSize.x > minRowWidth) {
+									minRowWidth = children[i].children[0].getSize.x;
+								}
+							} else {
+								if (children[i].getSize.y > maxHeight) {
+									maxHeight = children[i].getSize.y;
+								}
+								
+								if (children[i].getSize.x > minRowWidth) {
+									minRowWidth = children[i].getSize.x;
+								}
+							}
+						}
+						
+						// position elements
+						for (var i = 0; i < l; i++) {
+							wrapped = false;
+						
+							// always 0 because we remove it before adding later
+							node = children[0];
+							
+							if (node.getType() == "Transform") {
+								wrapped = true;
+							
+								nodeWrapper = node;
+								node = nodeWrapper.children[0];
+							}
+							
+							
+							width = node.getSize.x;
+							height = node.getSize.y;
+
+							if (wrapped) {
+								children.remove(nodeWrapper);
+							} else {
+								children.remove(node);
+							}
+							
+							transform = new SFNode('Transform {}');  
+							transform.children.add(node);
+							
+							// the component does not fit in the current row
+							if (size.x < 2 * hgap + currentWidth + width + VISUAL_PADDING) {
+								if (currentWidth == 0) {
+									// keep it on the same row (first component in the row)
+									rowFirstIndex = i;
+									numOfRows++;
+									
+									if (align == "LEFT") {
+										transform.translation.x = hgap;
+									} else if (align == "RIGHT") {
+										transform.translation.x = size.x - VISUAL_PADDING - width - hgap;
+									} else if (align == "CENTER") {
+										transform.translation.x = (size.x - width) / 2 - VISUAL_PADDING;
+									}
+									
+									transform.translation.y = -(currentHeight + vgap + (maxHeight - height) / 2);
+									
+									currentWidth += hgap + width;
+								} else {
+									// move it to the next row (not the first component in the row)
+									rowFirstIndex = i;
+									numOfRows++;
+									
+									if (align == "LEFT") {
+										transform.translation.x = hgap;
+									} else if (align == "RIGHT") {
+										transform.translation.x = size.x - VISUAL_PADDING - width - hgap;
+									} else if (align == "CENTER") {
+										transform.translation.x = (size.x - width) / 2 - VISUAL_PADDING;
+									}
+									
+									transform.translation.y = -(currentHeight + 2 * vgap + maxHeight + (maxHeight - height) / 2);
+									
+									currentWidth = hgap + width;
+									currentHeight += vgap + maxHeight;
+									maxHeightInRow = height;
+								}
+								
+							// the component fits in the row
+							} else {
+								if (i == 0) {
+									rowFirstIndex = i;
+									numOfRows++;
+								}
+							
+								if (align == "LEFT") {
+									transform.translation.x = currentWidth + hgap;
+								} else if (align == "RIGHT") {
+									transform.translation.x = size.x - VISUAL_PADDING - width - hgap;
+
+									for (j = l - 2; j > l - (i - rowFirstIndex) - 2; j--) {
+										children[j].translation.x -= (width + hgap);
+									}
+								} else if (align == "CENTER") {
+									transform.translation.x = (size.x + currentWidth - width - hgap - VISUAL_PADDING) / 2;
+									
+									for (j = l - 2; j > l - (i - rowFirstIndex) - 2; j--) {
+										children[j].translation.x -= (width / 2 + hgap);
+									}
+								}
+								
+								transform.translation.y = -(currentHeight + vgap + (maxHeight - height) / 2);
+								
+								currentWidth += hgap + width;
+							}
+
+							children.add(transform);
+						}
+
+						
+						var numOfRowsAllowed = 0;
+						var minimumWidth = minRowWidth + 2 * hgap + VISUAL_PADDING;
+						var increment = 0.001;
+						
+						getMinimumSize = size;
+						getMinimumWidth = minimumWidth;
+												
+						while (size.y - maxHeight - 2 * vgap >= 0) {
+							numOfRowsAllowed++;
+							size.y -= maxHeight + vgap;
+						}
+						
+						var tempMinimumWidth = minimumWidth;
+						var curNumOfRowsAllowed;
+						var minSizeXSet = false;
+						
+						for (var w = size.x; w > minimumWidth; w -= increment) {
+							curNumOfRowsAllowed = estimateNumOfRows(l, w, hgap, vgap, VISUAL_PADDING, maxHeight);
+							
+							//print("for width " + w + " the num of rows would be " + curNumOfRowsAllowed + " while " + numOfRowsAllowed + " are allowed");
+							
+							if (!minSizeXSet && curNumOfRowsAllowed > numOfRows) {
+								getMinimumSize.x = w + 2 * increment;
+								minSizeXSet = true;
+							}
+							
+							if (curNumOfRowsAllowed > numOfRowsAllowed) {
+								tempMinimumWidth = w + 2 * increment;
+								break;
+							}
+						}
+
+						getMinimumWidth = tempMinimumWidth;
+						getMinimumHeight = (maxHeight + vgap) * numOfRows + vgap + increment;
+
+						getMinimumSize.y = getMinimumHeight;
+
+
+						if (size.x < getMinimumWidth) {
+							for (var i = 0; i < l; i++) {
+								node = children[i];
+								
+								if (align == "RIGHT") {
+									node.translation.x += (getMinimumWidth - size.x);
+								} else if (align == "CENTER") {
+									node.translation.x += (getMinimumWidth - size.x) / 2;
+								}
+							}
+						} 
+						
+						if (size.y < getMinimumHeight) {
+							// TODO: move vertically
+						}
+						
+						
+						//print("minimumWidth: " + getMinimumWidth + "; minimumHeight: " + getMinimumHeight);
+						//print("numOfRowsAllowed: " + numOfRows);
+						//print("minRowWidth: " + minRowWidth + "; minRowHeight: " + maxHeight);
+
+						//print("----");
+
+						getChildren = children;
+					}
+					
+					function estimateNumOfRows(length, formWidth, hgap, vgap, VISUAL_PADDING, maxHeight) {
+						var nodeWrapper;
+						var node;
+						
+						var width;
+						var height;
+						
+						var currentWidth = 0;
+						var currentHeight = 0;
+						
+						var numOfRows = 0;
+						
+						for (var i = 0; i < length; i++) {
+							node = children[i];
+							
+							if (node.getType() == "Transform") {
+								nodeWrapper = node;
+								node = nodeWrapper.children[0];
+							}
+							
+							width = node.getSize.x;
+							height = node.getSize.y;
+							
+							//print(node.getType() + ": " + width + " x " + height);
+
+							if (formWidth < 2 * hgap + currentWidth + width + VISUAL_PADDING) {
+								if (currentWidth == 0) {
+									//print("case 1");
+									numOfRows++;
+
+									currentWidth += hgap + width;
+								} else {
+									//print("case 2");
+									numOfRows++;
+
+									currentWidth = hgap + width;
+									currentHeight += vgap + maxHeight;
+								}
+							} else {
+								//print("case 3");
+								
+								if (i == 0) {
+									numOfRows++;
+								}
+
+								currentWidth += hgap + width;
+							}
+						}
+						
+						//print(numOfRows);
+						
+						return numOfRows;
+					}
+					
+				]]>
+				</Script>
+
+			</ProtoBody>
+		</ProtoDeclare>
+		
+	</Scene>
+</X3D>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+	
+		<ProtoDeclare name="BorderLayout">
+			<ProtoInterface>
+				<field name="hGap" accessType="initializeOnly" type="SFFloat" value="0.001" />
+				<field name="vGap" accessType="initializeOnly" type="SFFloat" value="0.001" />
+				<field name="centerElementId" accessType="initializeOnly" type="SFString" value="" />
+				<field name="northElementId" accessType="initializeOnly" type="SFString" value="" />
+				<field name="southElementId" accessType="initializeOnly" type="SFString" value="" />
+				<field name="westElementId" accessType="initializeOnly" type="SFString" value="" />
+				<field name="eastElementId" accessType="initializeOnly" type="SFString" value="" />
+				
+				<field name="getHGap" accessType="outputOnly" type="SFFloat" />
+				<field name="getVGap" accessType="outputOnly" type="SFFloat" />
+				<field name="getCenterElementId" accessType="outputOnly" type="SFString" />
+				<field name="getNorthElementId" accessType="outputOnly" type="SFString" />
+				<field name="getSouthElementId" accessType="outputOnly" type="SFString" />
+				<field name="getWestElementId" accessType="outputOnly" type="SFString" />
+				<field name="getEastElementId" accessType="outputOnly" type="SFString" />
+			</ProtoInterface>
+			<ProtoBody>				
+				<Group>
+					
+				</Group>
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="hGap" accessType="initializeOnly" type="SFFloat" />
+					<field name="vGap" accessType="initializeOnly" type="SFFloat" />
+					<field name="centerElementId" accessType="initializeOnly" type="SFString" />
+					<field name="northElementId" accessType="initializeOnly" type="SFString" />
+					<field name="southElementId" accessType="initializeOnly" type="SFString" />
+					<field name="westElementId" accessType="initializeOnly" type="SFString" />
+					<field name="eastElementId" accessType="initializeOnly" type="SFString" />
+				
+					<field name="getHGap" accessType="outputOnly" type="SFFloat" />
+					<field name="getVGap" accessType="outputOnly" type="SFFloat" />
+					<field name="getCenterElementId" accessType="outputOnly" type="SFString" />
+					<field name="getNorthElementId" accessType="outputOnly" type="SFString" />
+					<field name="getSouthElementId" accessType="outputOnly" type="SFString" />
+					<field name="getWestElementId" accessType="outputOnly" type="SFString" />
+					<field name="getEastElementId" accessType="outputOnly" type="SFString" />
+
+					<IS>
+						<connect nodeField="hGap" protoField="hGap"/>
+						<connect nodeField="vGap" protoField="vGap"/>
+						<connect nodeField="centerElementId" protoField="centerElementId"/>
+						<connect nodeField="northElementId" protoField="northElementId"/>
+						<connect nodeField="southElementId" protoField="southElementId"/>
+						<connect nodeField="westElementId" protoField="westElementId"/>
+						<connect nodeField="eastElementId" protoField="eastElementId"/>
+						
+						<connect nodeField="getHGap" protoField="getHGap"/>
+						<connect nodeField="getVGap" protoField="getVGap"/>
+						<connect nodeField="getCenterElementId" protoField="getCenterElementId"/>
+						<connect nodeField="getNorthElementId" protoField="getNorthElementId"/>
+						<connect nodeField="getSouthElementId" protoField="getSouthElementId"/>
+						<connect nodeField="getWestElementId" protoField="getWestElementId"/>
+						<connect nodeField="getEastElementId" protoField="getEastElementId"/>
+					</IS>
+					
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+						getHGap = hGap;
+						getVGap = vGap;
+						getCenterElementId = centerElementId;
+						getNorthElementId = northElementId;
+						getSouthElementId = southElementId;
+						getWestElementId = westElementId;
+						getEastElementId = eastElementId;
+					}
+				]]>
+				</Script>
+			</ProtoBody>
+		</ProtoDeclare>
+		
+	</Scene>
+</X3D>

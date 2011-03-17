@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+	
+		<ProtoDeclare name="BoxLayout">
+			<ProtoInterface>
+				<field name="direction" accessType="initializeOnly" type="SFString" value="HORIZONTAL" /> <!-- HORIZONTAL|VERTICAL -->
+				<field name="hAlign" accessType="initializeOnly" type="SFString" value="CENTER" /> <!-- LEFT|RIGHT|CENTER -->
+				<field name="vAlign" accessType="initializeOnly" type="SFString" value="MIDDLE" /> <!-- TOP|BOTTOM|MIDDLE -->
+				<field name="hGap" accessType="initializeOnly" type="SFFloat" value="0.001" />
+				<field name="vGap" accessType="initializeOnly" type="SFFloat" value="0.001" />
+				
+				<field name="getDirection" accessType="outputOnly" type="SFString" />
+				<field name="getHAlign" accessType="outputOnly" type="SFString" />
+				<field name="getVAlign" accessType="outputOnly" type="SFString" />
+				<field name="getHGap" accessType="outputOnly" type="SFFloat" />
+				<field name="getVGap" accessType="outputOnly" type="SFFloat" />
+			</ProtoInterface>
+			<ProtoBody>				
+				<Group>
+					
+				</Group>
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="direction" accessType="initializeOnly" type="SFString" />
+					<field name="hAlign" accessType="initializeOnly" type="SFString" />
+					<field name="vAlign" accessType="initializeOnly" type="SFString" />
+					<field name="hGap" accessType="initializeOnly" type="SFFloat" />
+					<field name="vGap" accessType="initializeOnly" type="SFFloat" />
+				
+					<field name="getDirection" accessType="outputOnly" type="SFString" />	
+					<field name="getHAlign" accessType="outputOnly" type="SFString" />
+					<field name="getVAlign" accessType="outputOnly" type="SFString" />
+					<field name="getHGap" accessType="outputOnly" type="SFFloat" />
+					<field name="getVGap" accessType="outputOnly" type="SFFloat" />
+
+					<IS>
+						<connect nodeField="direction" protoField="direction"/>
+						<connect nodeField="hAlign" protoField="hAlign"/>
+						<connect nodeField="vAlign" protoField="vAlign"/>
+						<connect nodeField="hGap" protoField="hGap"/>
+						<connect nodeField="vGap" protoField="vGap"/>
+						
+						<connect nodeField="getDirection" protoField="getDirection"/>
+						<connect nodeField="getHAlign" protoField="getHAlign"/>
+						<connect nodeField="getVAlign" protoField="getVAlign"/>
+						<connect nodeField="getHGap" protoField="getHGap"/>
+						<connect nodeField="getVGap" protoField="getVGap"/>
+					</IS>
+					
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+						getDirection = direction;
+						getHAlign = hAlign;
+						getVAlign = vAlign;
+						getHGap = hGap;
+						getVGap = vGap;
+					}
+				]]>
+				</Script>
+			</ProtoBody>
+		</ProtoDeclare>
+		
+	</Scene>
+</X3D>

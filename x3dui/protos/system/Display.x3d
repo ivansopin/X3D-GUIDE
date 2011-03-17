@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+
+<X3D profile="Full">
+	<head />
+	<Scene>
+
+		<!-- Settings class to hold settings that may be needed by all UI objects -->
+		<ExternProtoDeclare name="Settings" url='"Settings.x3d#Settings"'>
+			<field name="VIEW_PROXIMITY" type="SFFloat" accessType="inputOutput" />
+			<field name="FULL_VIEW_RATIO" type="SFFloat" accessType="inputOutput" />
+			<field name="Z_ORDER_COUNT" type="SFFloat" accessType="inputOutput" />
+			<field name="Z_ORDER_STEP" type="SFFloat" accessType="inputOutput" />
+			
+			<!-- these two greatly depend on how good the renderer is; the better, the smaller can the values be -->
+			<field name="FRAME_ELEVATION" type="SFFloat" accessType="inputOutput" />
+			<field name="TOUCH_SENSOR_ELEVATION" type="SFFloat" accessType="inputOutput" />
+			
+			<field name="SYSTEM_LEVEL_Z_ORDER" type="SFFloat" accessType="inputOutput" />
+			<field name="DEBUG" type="SFBool" accessType="inputOutput" value="false" />
+			<field name="COMPONENT_ID" type="SFInt32" accessType="inputOutput" />
+			<field name="FOCUS_ID" type="SFInt32" accessType="inputOutput" />
+			<field name="ACTIVE_ID" type="SFInt32" accessType="inputOutput" />
+			
+			<field name="MOUSE_POSITION" type="SFVec2f" accessType="inputOutput" />
+			
+			<field name="IMAGES_DIR" type="SFString" accessType="inputOutput" />
+			
+			
+			<!-- FONT SECTION -->
+			<field name="DEFAULT_FONT_FAMILY" type="MFString" accessType="inputOutput" />
+			<field name="DEFAULT_FONT_SCALE" type="SFFloat" accessType="inputOutput" />
+			<field name="DEFAULT_FONT_SIZE" type="SFFloat" accessType="inputOutput" />
+			<field name="DEFAULT_FONT_VER_ADJUST_FACTOR" type="SFFloat" accessType="inputOutput" />
+			
+			<!-- CHECK BOX AND RADIO BUTTON -->
+			<field name="DEFAULT_CHOICE_ELEMENT_DIMENSION" type="SFFloat" accessType="inputOutput" />
+			
+			<!-- SLIDER -->
+			<field name="DEFAULT_SLIDER_RUNNER_SIZE" type="SFVec2f" accessType="inputOutput" />
+			<field name="DEFAULT_SLIDER_MARK_LENGTH" type="SFFloat" accessType="inputOutput" />
+			<field name="DEFAULT_HOR_SLIDER_MINIMUM_SIZE" type="SFVec2f" accessType="inputOutput" />
+			<field name="DEFAULT_HOR_SLIDER_MINIMUM_CENTER_SIZE" type="SFVec2f" accessType="inputOutput" />
+			
+			<!-- RECTANGLE -->
+			<field name="DEFAULT_RECTANGLE_BORDER_BRIGHT_COLOR" type="SFColor" accessType="inputOutput" />
+			<field name="DEFAULT_RECTANGLE_BORDER_DARK_COLOR" type="SFColor" accessType="inputOutput" />
+
+			<!-- COMBO BOX -->
+			<field name="DEFAULT_COMBO_BOX_MINIMUM_SIZE" type="SFVec2f" accessType="inputOutput" />
+			
+			<!-- TEXT FIELD -->
+			<field name="DEFAULT_TEXT_FIELD_MINIMUM_SIZE" type="SFVec2f" accessType="inputOutput" />
+			<field name="DEFAULT_TEXT_FIELD_BLINKING_CURSOR_WIDTH" type="SFFloat" accessType="inputOutput" />
+			
+			<!-- BUTTON -->
+			<field name="DEFAULT_BUTTON_PRESS_SHIFT" type="SFFloat" accessType="inputOutput" />
+			<field name="DEFAULT_BUTTON_MINIMUM_SIZE" type="SFVec2f" accessType="inputOutput" />
+			
+			<!-- TAB PANEL -->
+			<field name="DEFAULT_TAB_PANEL_HEADER_HEIGHT" type="SFFloat" accessType="inputOutput" />
+			
+			<!-- PLANE -->
+			<field name="DEFAULT_PLANE_MINIMUM_SIZE" type="SFVec2f" accessType="inputOutput" />
+			
+			<!-- FRAME -->
+			<field name="DEFAULT_FRAME_HEADER_HEIGHT" type="SFFloat" accessType="inputOutput" />
+			<field name="DEFAULT_FRAME_HEADER_ENABLED_TEXT_COLOR" type="SFColor" accessType="inputOutput" />
+			<field name="DEFAULT_FRAME_HEADER_DISABLED_TEXT_COLOR" type="SFColor" accessType="inputOutput" />
+			<field name="DEFAULT_FRAME_HEADER_ENABLED_LEFT_COLOR" type="SFColor" accessType="inputOutput" />
+			<field name="DEFAULT_FRAME_HEADER_ENABLED_RIGHT_COLOR" type="SFColor" accessType="inputOutput" />
+			<field name="DEFAULT_FRAME_HEADER_DISABLED_LEFT_COLOR" type="SFColor" accessType="inputOutput" />
+			<field name="DEFAULT_FRAME_HEADER_DISABLED_RIGHT_COLOR" type="SFColor" accessType="inputOutput" />
+			<field name="DEFAULT_FRAME_RESIZE_AREA_WIDTH" type="SFFloat" accessType="inputOutput" />
+			<field name="DEFAULT_FRAME_RESIZE_BORDER_WIDTH" type="SFFloat" accessType="inputOutput" />
+			<field name="DEFAULT_FRAME_MINIMUM_SIZE" type="SFVec2f" accessType="inputOutput" />
+			<field name="DEFAULT_FRAME_MAXIMIZE_LOCK_GAP" type="SFFloat" accessType="inputOutput" />
+							
+			<!-- TASK BAR -->
+			<field name="DEFAULT_TASK_BAR_BUTTON_WIDTH" type="SFFloat" accessType="inputOutput" />
+			
+			<!-- COLORS -->
+			<field name="DEFAULT_ENABLED_BG_COLOR" type="SFColor" accessType="inputOutput" />
+			<field name="DEFAULT_DISABLED_BG_COLOR" type="SFColor" accessType="inputOutput" />
+			<field name="DEFAULT_ENABLED_TEXT_COLOR" type="SFColor" accessType="inputOutput" />
+			<field name="DEFAULT_DISABLED_TEXT_COLOR" type="SFColor" accessType="inputOutput" />
+			<field name="DEFAULT_ENABLED_INPUT_BG_COLOR" type="SFColor" accessType="inputOutput" />
+			<field name="DEFAULT_DISABLED_INPUT_BG_COLOR" type="SFColor" accessType="inputOutput" />
+			
+			<!-- DECORATION -->
+			<field name="DEFAULT_DECORATION_GAP" type="SFFloat" accessType="inputOutput" />
+			<field name="DEFAULT_ADJACENT_GAP" type="SFFloat" accessType="inputOutput" />
+			
+			<!-- CURSORS -->
+			<field name="INITIAL_CURSOR_DIMENSION" type="SFFloat" accessType="inputOutput" />
+			<field name="CURSOR_SCALE_MULTIPLIER" type="SFFloat" accessType="inputOutput" />
+		</ExternProtoDeclare>
+
+		<ExternProtoDeclare name="TaskBar" url='"../visual/TaskBar.x3d#TaskBar"'>
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			
+			<field name="setChildrenTitles" type="MFString" accessType="inputOnly"></field>
+			<field name="setChildrenIds" type="MFString" accessType="inputOnly"></field>
+			<field name="setElevation" type="SFFloat" accessType="inputOnly" />
+			<field name="doLayout" type="SFInt32" accessType="inputOnly" />
+		</ExternProtoDeclare>
+
+
+		<!-- Display class to be extended by all heads-up UI objects -->
+		<ProtoDeclare name="Display">
+			<ProtoInterface>
+				<field name="children" type="MFNode" accessType="initializeOnly"></field>
+				<field name="viewProximity" type="SFFloat" accessType="initializeOnly" />
+				<field name="debug" type="SFBool" accessType="initializeOnly" />
+				<field name="imagesDir" type="SFString" accessType="initializeOnly" />
+			</ProtoInterface>
+			<ProtoBody>
+				<ProtoInstance name="Layer3D" DEF="hud">
+					<fieldValue name="translation" value="0 0" />
+					<fieldValue name="viewpoint">
+						<Viewpoint DEF="viewpoint" position="0 0 0.5" centerOfRotation="0 0 0" />
+					</fieldValue>
+					<fieldValue name="size" value="1 1" />
+					<fieldValue name="children">
+						<DirectionalLight intensity="1" />
+
+						<OrderedGroup DEF="orderedGroup">
+							<IS>
+								<connect nodeField="children" protoField="children" />
+							</IS>
+						</OrderedGroup>
+						
+						<OrderedGroup DEF="orderedGroup2">
+							<ProtoInstance DEF="taskBar" name="TaskBar">
+							</ProtoInstance>
+						</OrderedGroup>
+					</fieldValue>
+				</ProtoInstance>
+
+				<ProtoInstance DEF="settings" name="Settings">
+					<fieldValue name="FRAME_ELEVATION" value="0.0001" />
+					<fieldValue name="TOUCH_SENSOR_ELEVATION" value="0.00001" />
+					<fieldValue name="SYSTEM_LEVEL_Z_ORDER" value="10000" />
+					<fieldValue name="Z_ORDER_STEP" value="0.0001" />
+					<IS>
+						<connect nodeField="VIEW_PROXIMITY" protoField="viewProximity" />
+						<connect nodeField="DEBUG" protoField="debug" />
+						<connect nodeField="IMAGES_DIR" protoField="imagesDir" />
+					</IS>
+				</ProtoInstance>
+				
+				<MouseSensor DEF="mouseSensor" eventsProcessed="false" />
+				
+				<Script DEF="S" directOutput="true">
+					<field name="VIEW_PROXIMITY_MULTIPLIER" accessType="initializeOnly" type="SFFloat" value="0.413" />
+					
+					<field name="children" accessType="initializeOnly" type="MFNode">
+					</field>
+					<field name="settings" type="SFNode" accessType="initializeOnly">
+						<Settings USE="settings" />
+					</field>
+					<field name="hud" type="SFNode" accessType="initializeOnly">
+						<ProtoInstance USE="hud" />
+					</field>
+					<field name="viewpoint" type="SFNode" accessType="initializeOnly">
+						<Viewpoint USE="viewpoint" />
+					</field>
+					<field name="taskBar" type="SFNode" accessType="initializeOnly">
+						<TaskBar USE="taskBar" />
+					</field>
+					<field name="orderedGroup" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup" />
+					</field>
+					<field name="orderedGroup2" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup2" />
+					</field>
+					
+					<!-- variables -->
+					<field name="localUpdate" accessType="inputOutput" type="SFBool" value="false" />
+					<field name="windowWidth" accessType="inputOutput" type="SFFloat" />
+					<field name="windowHeight" accessType="inputOutput" type="SFFloat" />
+					<field name="activeId" accessType="inputOutput" type="SFInt32" value="-1" />
+					<field name="frameStack" accessType="inputOutput" type="MFInt32" />
+
+					<!-- functions -->
+					<field name="updateWindowSize" accessType="inputOnly" type="SFVec2f" />
+					<field name="activeIdUpdateRequested" accessType="inputOnly" type="SFInt32" />
+					<field name="mousePositionChanged" accessType="inputOnly" type="SFVec2f" />
+					<field name="mouseLeftButtonClicked" accessType="inputOnly" type="SFBool" />
+					
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+						if (settings.DEBUG) print("display init()");
+					
+						var fullViewRatio = -settings.VIEW_PROXIMITY * VIEW_PROXIMITY_MULTIPLIER;
+						
+						settings.FULL_VIEW_RATIO = fullViewRatio;
+						
+						//print("settings.DEBUG is " + settings.DEBUG);
+						//print(settings.FULL_VIEW_RATIO);
+						//hud.settings = settings;
+						//hud.setup = true;
+						
+						
+						viewpoint.position.z = -settings.VIEW_PROXIMITY;
+						
+
+						
+						var l = orderedGroup.children.length;
+						
+						for (var i = 0; i < l; i++) {
+							if (orderedGroup.children[i].hasEventIn("settings")) {
+								orderedGroup.children[i].settings = settings;
+							}
+							
+							if (orderedGroup.children[i].hasEventIn("setup")) {
+								orderedGroup.children[i].setup = true;
+							}
+							
+							if (orderedGroup.children[i].hasEventOut("getId")) {							
+								orderedGroup.order[i] = orderedGroup.children[i].getId;
+								frameStack[i] = orderedGroup.children[i].getId;
+							}
+						}
+						
+						taskBar.settings = settings;
+						taskBar.setup = true;
+						
+						updateTaskBarChildrenList();
+						
+						elevateChildren();
+						taskBar.doLayout = activeId;
+						
+						Browser.hideCursor(false);
+						
+						Browser.addRoute(Browser, "windowSize", Browser.getScript(), "updateWindowSize");
+					}
+
+					function updateTaskBarChildrenList() {
+						var childrenTitles = new MFString();
+						var childrenIds = new MFString();
+					
+						var l = orderedGroup.children.length;
+						
+						var j = 0;
+						
+						for (var i = 0; i < l; i++) {
+							if (orderedGroup.children[i].isVisible || orderedGroup.children[i].isMinimized) {
+								childrenTitles[j] = new SFString(orderedGroup.children[i].getTitle);
+								childrenIds[j++] = new SFString(orderedGroup.children[i].getId);
+								
+								//print(orderedGroup.children[i].getId + " (" + orderedGroup.children[i].getTitle + "): ");
+								//print("\tvisible: " + orderedGroup.children[i].isVisible);
+								//print("\tminimized: " + orderedGroup.children[i].isMinimized);
+							}
+						}
+						
+						taskBar.setChildrenTitles = childrenTitles;
+						taskBar.setChildrenIds = childrenIds;
+					}
+
+					function updateWindowSize(newWindowSize) {
+						windowWidth = newWindowSize.x;
+						windowHeight = newWindowSize.y;
+					}
+
+					function getChildIndexById(id) {
+						var l = orderedGroup.children.length;
+						
+						for (var i = 0; i < l; i++) {
+							if (orderedGroup.children[i].hasEventOut("getId") && orderedGroup.children[i].getId == id) {
+								return i;
+							}
+						}
+						
+						return -1;
+					}
+
+					function getChildById(id) {
+						var l = orderedGroup.children.length;
+						
+						for (var i = 0; i < l; i++) {
+							if (orderedGroup.children[i].hasEventOut("getId") && orderedGroup.children[i].getId == id) {
+								return orderedGroup.children[i];
+							}
+						}
+						
+						return null;
+					}
+
+					function elevateChildren() {
+						var l = frameStack.length;
+						var child;
+						var index;
+						
+						settings.Z_ORDER_COUNT = 0;
+						
+						for (var i = 0; i < l; i++) {
+							child = getChildById(frameStack[i]);
+							index = getChildIndexById(frameStack[i]);
+							
+							orderedGroup.order[index] = settings.Z_ORDER_COUNT;
+							settings.Z_ORDER_COUNT++;
+							
+							if (child != null && child.hasEventIn("setElevation")) {
+								// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+								// think how to optimize this value for many layers
+								child.setElevation = i * settings.FRAME_ELEVATION;
+							}
+						}
+						
+						
+						orderedGroup2.order[0] = settings.Z_ORDER_COUNT + 1;
+ 
+						taskBar.setElevation = l * settings.FRAME_ELEVATION;
+					}
+					
+					function activeIdUpdateRequested(newActiveId) {
+						//print((localUpdate ? "local " : "not local ") + newActiveId);
+					
+						if (localUpdate) {
+							localUpdate = false;
+						} else {
+							if (newActiveId != activeId) {
+								if (newActiveId == -1) {
+									var frame = getChildById(activeId);
+								
+									if (!frame.isClosed) {
+										frame.setMinimized = true;
+									}
+								} else {
+									getChildById(newActiveId).setMinimized = false;
+								}
+							}
+						
+							updateActiveId(newActiveId);
+						}
+					}
+					
+					function updateActiveId(newActiveId) {
+						//print("active id updated: " + newActiveId + "; was " + activeId);
+					
+						if (newActiveId == activeId) {
+							return;
+						} else {
+							getChildById(activeId).setActive = false;
+							getChildById(newActiveId).setActive = true;
+						}
+					
+						var l = frameStack.length;
+						
+						var activeChildId;
+						var activeChildIndex;
+						
+						for (var i = 0; i < l; i++) {
+							if (frameStack[i] == newActiveId) {
+								activeChildId = frameStack[i];
+								
+								for (var j = i; j < l - 1; j++) {
+									frameStack[j] = frameStack[j + 1];
+								}
+								
+								frameStack[l - 1] = activeChildId;
+
+								break;
+							}
+						}
+						
+						activeId = newActiveId;
+						
+						elevateChildren();
+						
+						updateTaskBarChildrenList();
+						taskBar.doLayout = newActiveId;
+					}
+					
+					function isOverTaskBar(position) {
+						if (!taskBar.isVisible) {
+							return false;
+						}
+						
+						var windowWidth = Browser.getWindowSizeX();
+						var windowHeight = Browser.getWindowSizeY();
+						
+						var widthToHeightAspect = windowWidth / windowHeight;
+					
+						var widthIsSmaller = (widthToHeightAspect < 1.0);
+						
+						var x;
+						var y;
+						
+						if (widthIsSmaller) {
+							x = settings.FULL_VIEW_RATIO;
+							y = (settings.FULL_VIEW_RATIO) / widthToHeightAspect;
+						} else {
+							x = (settings.FULL_VIEW_RATIO) * widthToHeightAspect;
+							y = settings.FULL_VIEW_RATIO;
+						}
+						
+						position = new SFVec2f(position.x * x, position.y * y);
+						
+						var bbox = taskBar.getBBox();
+						
+						if (position.x >= bbox[0].x && position.x <= bbox[1].x &&
+							position.y >= bbox[0].y && position.y <= bbox[1].y) {
+							
+							return true;
+						}
+
+						return false;
+					}
+					
+					function mouseLeftButtonClicked(clicked) {
+						if (!clicked) {
+							return;
+						}
+						
+						if (isOverTaskBar(settings.MOUSE_POSITION)) {
+							return;
+						}
+						
+						settings.FOCUS_ID = -1;
+						
+						var frameIds = getIdsOfFramesMouseIsOver(settings.MOUSE_POSITION);
+						
+						var l = frameStack.length;
+						var m = frameIds.length;
+						
+						var j;
+						
+						for (var i = l - 1; i >= 0; i--) {
+							for (j = 0; j < m; j++) {
+								if (frameStack[i] == frameIds[j]) {
+									localUpdate = true;
+									settings.ACTIVE_ID = frameIds[j];
+									
+									j = m;
+									i = -1;
+								}
+							}
+						}
+						
+						updateActiveId(settings.ACTIVE_ID);
+					}
+
+					function getIdsOfFramesMouseIsOver(position) {
+						var l = orderedGroup.children.length;
+						
+						position = getAdjustedMousePosition(position);
+						
+						var frameX;
+						var frameY;
+						var frameWidth;
+						var frameHeight;
+						
+						var ids = new MFInt32();
+						
+						for (var i = 0; i < l; i++) {
+							frameX = orderedGroup.children[i].getPosition.x;
+							frameY = orderedGroup.children[i].getPosition.y;
+							frameWidth = orderedGroup.children[i].getSize.x;
+							frameHeight = orderedGroup.children[i].getSize.y;
+						
+							//print(frameX + ", " + frameY + "; " + frameWidth + ", " + frameHeight);
+							
+							if (	position.x >= frameX && position.x <= frameX + frameWidth && 
+									position.y >= frameY && position.y <= frameY + frameHeight &&
+									orderedGroup.children[i].isVisible		) {
+									
+								ids[ids.length] = orderedGroup.children[i].getId;
+							}
+						}
+
+						return ids;
+					}
+					
+					function getAdjustedMousePosition(position) {
+						var windowWidth = Browser.getWindowSizeX();
+						var windowHeight = Browser.getWindowSizeY();
+						
+						var widthToHeightAspect = windowWidth / windowHeight;
+					
+						var widthIsSmaller = (widthToHeightAspect < 1.0);
+						
+						var x;
+						var y;
+						
+						if (widthIsSmaller) {
+							x = settings.FULL_VIEW_RATIO * position.x + settings.FULL_VIEW_RATIO;
+							y = (-settings.FULL_VIEW_RATIO * position.y + settings.FULL_VIEW_RATIO) / widthToHeightAspect;
+						} else {
+							x = (settings.FULL_VIEW_RATIO * position.x + settings.FULL_VIEW_RATIO) * widthToHeightAspect;
+							y = -settings.FULL_VIEW_RATIO * position.y + settings.FULL_VIEW_RATIO;
+						}
+						
+						return new SFVec2f(x, y);
+					}
+					
+					function mousePositionChanged(position) {
+						settings.MOUSE_POSITION = position;
+					}
+				]]>
+				</Script>
+				
+				<ROUTE fromNode="settings" fromField="ACTIVE_ID" toNode="S" toField="activeIdUpdateRequested" />
+				<ROUTE fromNode="mouseSensor" fromField="position" toNode="S" toField="mousePositionChanged" />
+				<ROUTE fromNode="mouseSensor" fromField="lButton" toNode="S" toField="mouseLeftButtonClicked" />
+				
+			</ProtoBody>
+		</ProtoDeclare>
+
+	</Scene>
+</X3D>

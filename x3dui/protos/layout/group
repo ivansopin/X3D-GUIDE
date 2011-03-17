@@ -1,0 +1,3 @@
+Layout group holds the <proto>LayoutManager</proto> and a set of layout prototypes
+that could be used in prototypes with layout support, such as <proto>Panel</proto> 
+or <proto>Frame</proto>.

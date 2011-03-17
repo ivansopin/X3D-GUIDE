@@ -1,0 +1,811 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+	
+		<ExternProtoDeclare name="Rectangle" url='"Rectangle.x3d#Rectangle"'>
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="movable" type="SFBool" accessType="initializeOnly" />
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			
+			<field name="isMovable" type="SFBool" accessType="outputOnly" />
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			
+			<field name="setMovable" type="SFBool" accessType="inputOnly" />
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+			
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="border" type="SFString" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getBorder" type="SFString" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setBorder" type="SFString" accessType="inputOnly" />
+		</ExternProtoDeclare>
+	
+		<ExternProtoDeclare name="Button" url='"Button.x3d#Button"'>
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+							
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			
+			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+			
+			<field name="isPressed" type="SFBool" accessType="outputOnly" />
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+		</ExternProtoDeclare>
+	
+		<!-- This prototype is a drop-down menu control combined with a 
+				text field for editing. -->
+		<ProtoDeclare name="ComboBox">
+			<ProtoInterface>
+				<!-- <proto>Settings</proto> object should be passed in this parameter. -->
+				<field name="settings" type="SFNode" accessType="inputOnly"></field>
+				<!-- Initializes the component and prepares it for visualization. -->
+				<field name="setup" type="SFBool" accessType="inputOnly" />
+				<!-- Causes the component to reposition itself and all its children in the z-depth stack. -->
+				<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+				
+				<!-- Accepts X3DUI nodes to be displayed within this component -->
+				<field name="children" type="MFString" accessType="initializeOnly"></field>
+				<!-- Specifies the size of the component. -->
+				<field name="size" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				<!-- Specifies whether the component should be visible. -->
+				<field name="visible" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies the transparency level of the component. 
+						If the value provided is positive, all children will also be assigned
+						the same transparency level; otherwise, only the container object
+						will be of the specified transparency. -->
+				<field name="transparency" type="SFFloat" accessType="initializeOnly" value="0" />
+				<!-- Determines if the button will be interactive. -->
+				<field name="enabled" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies the index of the item that will be selected by default. 
+						If the supplied value is negative or out of range, no item will be selected. -->
+				<field name="selectedIndex" type="SFInt32" accessType="initializeOnly" value="-1" />
+
+				<!-- Returns the size of the component. -->								
+				<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+				<!-- Indicates whether the component is visible. -->
+				<field name="isVisible" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the component's transparency level. -->
+				<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+				<!-- Indicates whether the button is enabled. -->
+				<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+				<!-- Return the index of the currently selected item; -1 is returned
+						if no item is selected. -->
+				<field name="getSelectedIndex" type="SFInt32" accessType="outputOnly" />
+				<!-- Returns <tt>true</tt> if at least one item is selected. -->
+				<field name="isSelected" type="SFBool" accessType="outputOnly" />
+				<!-- Fires <tt>true</tt> when the selected item changes. -->
+				<field name="selectedChanged" type="SFBool" accessType="outputOnly" />
+				
+				<!-- Sets the size of the component. -->
+				<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+				<!-- Sets the visibility status of the component. -->
+				<field name="setVisible" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the component's transparency level. -->
+				<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+				<!-- Sets the status of the button. -->
+				<field name="setEnabled" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the index of the item that needs to be selected. If the
+						index specified is invalid, all items will be unselected. -->
+				<field name="setSelectedIndex" type="SFInt32" accessType="inputOnly" />
+			</ProtoInterface>
+			<ProtoBody>
+				<Group>
+					<TimeSensor DEF="timer" enabled="false" loop="true" cycleInterval="1.0" />
+					
+					<Switch DEF="display" whichChoice="0">
+						<OrderedGroup DEF="orderedGroup">
+							<Transform DEF="textAreaHolder">
+								<TouchSensor DEF="touchSensor" />
+								
+								<ProtoInstance DEF="textRectangle" name="Rectangle">
+									<fieldValue name="children">
+										<Transform DEF="textHolder">
+											<Transform DEF="textScale">
+												<Shape>
+													<Appearance>
+														<Material DEF="textMaterial" diffuseColor="0 0 0" />
+													</Appearance>
+													<Text DEF="textString" solid="true">
+														<FontStyle DEF="textStyle" justify='"BEGIN"' size="10" style="USE_TEXTURE" />
+													</Text> 
+												</Shape>
+											</Transform>
+										</Transform>
+									</fieldValue>
+									<fieldValue name="border" value="BOTTOM_RIGHT" />
+									<fieldValue name="color" value="1 1 1" />
+									<IS>				
+										<connect nodeField="visible" protoField="visible"/>
+										<connect nodeField="transparency" protoField="transparency"/>
+										
+										<connect nodeField="isVisible" protoField="isVisible"/>
+										<connect nodeField="getTransparency" protoField="getTransparency"/>
+									</IS>
+								</ProtoInstance>
+							</Transform>
+							
+							<Transform DEF="arrowButtonHolder">
+								<ProtoInstance DEF="arrowButton" name="Button">
+									<fieldValue name="children">
+										<Transform DEF="arrowHolder">
+											<Shape>
+												<Material DEF="arrowMaterial" diffuseColor="0 0 0" />
+												<ImageTexture DEF="arrowTexture" repeatS="false" repeatT="false" />
+												<IndexedFaceSet coordIndex="0 1 2 3 -1" texCoordIndex="0 1 2 3 -1">
+													<Coordinate DEF="arrowCoords" point="0 0 0, 0 0 0, 0 0 0, 0 0 0" />
+												</IndexedFaceSet>
+											</Shape>
+										</Transform>
+									</fieldValue>
+									<IS>
+										<connect nodeField="visible" protoField="visible"/>
+										<connect nodeField="transparency" protoField="transparency"/>
+									</IS>
+								</ProtoInstance>
+							</Transform>
+							
+							<Transform DEF="listAreaHolder">
+								<TouchSensor DEF="listTouchSensor" />
+
+								<Transform DEF="listRectangleHolder">
+									<ProtoInstance DEF="listRectangle" name="Rectangle">
+										<fieldValue name="children">
+											<OrderedGroup DEF="orderedGroup2">
+												<Transform DEF="highlightHolder">
+													<Shape>
+														<Appearance>
+															<Material DEF="highlightMaterial" diffuseColor="0.0423 0.1445 0.4180" />
+														</Appearance>
+														<IndexedFaceSet coordIndex="0 1 2 3 -1">
+															<Coordinate DEF="highlightCoords" point="0 0 0, 0 0 0, 0 0 0, 0 0 0"/>
+														</IndexedFaceSet>
+													</Shape>
+												</Transform>
+												
+												<Transform DEF="listHolder">
+													<Transform DEF="listScale">
+														<Shape>
+															<Appearance>
+																<Material DEF="listMaterial" diffuseColor="0 0 0" />
+															</Appearance>
+															<Text DEF="listString" solid="true">
+																<IS>				
+																	<connect nodeField="string" protoField="children"/>
+																</IS>
+																<FontStyle USE="textStyle" />
+															</Text> 
+														</Shape>
+													</Transform>
+												</Transform>
+												
+												<Transform DEF="highlightTextHolder">
+													<Transform DEF="highlightTextScale">
+														<Shape>
+															<Appearance>
+																<Material DEF="highlightTextMaterial" diffuseColor="1 1 1" />
+															</Appearance>
+															<Text DEF="highlightTextString" solid="true">
+																<FontStyle USE="textStyle" />
+															</Text> 
+														</Shape>
+													</Transform>
+												</Transform>
+											</OrderedGroup>
+										</fieldValue>
+										<fieldValue name="border" value="EQUAL" />
+										<fieldValue name="color" value="1 1 1" />
+										<fieldValue name="visible" value="false" />
+										<IS>				
+											<connect nodeField="transparency" protoField="transparency"/>
+										</IS>
+									</ProtoInstance>
+								</Transform>
+							</Transform>
+						</OrderedGroup>
+					</Switch>
+				</Group>
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="timer" type="SFNode" accessType="initializeOnly">
+						<TimeSensor USE="timer" />
+					</field>
+					<field name="touchSensor" type="SFNode" accessType="initializeOnly">
+						<TouchSensor USE="touchSensor" />
+					</field>
+					<field name="textRectangle" type="SFNode" accessType="initializeOnly">
+						<Rectangle USE="textRectangle" />
+					</field>
+					<field name="textAreaHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="textAreaHolder" />
+					</field>
+					<field name="textHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="textHolder" />
+					</field>
+					<field name="textScale" type="SFNode" accessType="initializeOnly">
+						<Transform USE="textScale" />
+					</field>
+					<field name="textString" type="SFNode" accessType="initializeOnly">
+						<Text USE="textString" />
+					</field>
+					<field name="textMaterial" type="SFNode" accessType="initializeOnly">
+						<Material USE="textMaterial" />
+					</field>
+					<field name="textStyle" type="SFNode" accessType="initializeOnly">
+						<Text USE="textStyle" />
+					</field>
+					<field name="arrowButtonHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="arrowButtonHolder" />
+					</field>
+					<field name="arrowButton" type="SFNode" accessType="initializeOnly">
+						<Button USE="arrowButton" />
+					</field>
+					<field name="arrowHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="arrowHolder" />
+					</field>
+					<field name="arrowMaterial" type="SFNode" accessType="initializeOnly">
+						<Material USE="arrowMaterial" />
+					</field>
+					<field name="arrowTexture" type="SFNode" accessType="initializeOnly">
+						<ImageTexture USE="arrowTexture" />
+					</field>
+					<field name="arrowCoords" type="SFNode" accessType="initializeOnly">
+						<Coordinate USE="arrowCoords" />
+					</field>
+					<field name="listAreaHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="listAreaHolder" />
+					</field>
+					<field name="listRectangleHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="listRectangleHolder" />
+					</field>
+					<field name="listRectangle" type="SFNode" accessType="initializeOnly">
+						<Rectangle USE="listRectangle" />
+					</field>
+					<field name="highlightHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="highlightHolder" />
+					</field>
+					<field name="highlightCoords" type="SFNode" accessType="initializeOnly">
+						<Coordinate USE="highlightCoords" />
+					</field>
+					<field name="highlightMaterial" type="SFNode" accessType="initializeOnly">
+						<Material USE="highlightMaterial" />
+					</field>
+					<field name="listHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="listHolder" />
+					</field>
+					<field name="listScale" type="SFNode" accessType="initializeOnly">
+						<Transform USE="listScale" />
+					</field>
+					<field name="listString" type="SFNode" accessType="initializeOnly">
+						<Text USE="listString" />
+					</field>
+					<field name="listMaterial" type="SFNode" accessType="initializeOnly">
+						<Material USE="listMaterial" />
+					</field>
+					<field name="highlightTextHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="highlightTextHolder" />
+					</field>
+					<field name="highlightTextScale" type="SFNode" accessType="initializeOnly">
+						<Transform USE="highlightTextScale" />
+					</field>
+					<field name="highlightTextMaterial" type="SFNode" accessType="initializeOnly">
+						<Material USE="highlightTextMaterial" />
+					</field>
+					<field name="highlightTextString" type="SFNode" accessType="initializeOnly">
+						<Text USE="highlightTextString" />
+					</field>
+					<field name="orderedGroup" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup" />
+					</field>
+					<field name="orderedGroup2" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup2" />
+					</field>
+					
+					<field name="display" type="SFNode" accessType="initializeOnly">
+						<Switch USE="display" />
+					</field>
+					
+					<field name="settings" accessType="inputOnly" type="SFNode" />
+					<field name="setup" accessType="inputOnly" type="SFBool" />
+					<field name="applyZOrder" accessType="inputOnly" type="SFBool" />
+					
+					<field name="COMPONENT_ID" accessType="inputOutput" type="SFInt32" />
+					
+					<!-- attributes of the class -->
+					<field name="visible" type="SFBool" accessType="initializeOnly" />
+					<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+					<field name="enabled" type="SFBool" accessType="initializeOnly" />
+					<field name="selectedIndex" type="SFInt32" accessType="initializeOnly" />
+					<field name="size" type="SFVec2f" accessType="initializeOnly" />
+					
+					<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+					<field name="getSelectedIndex" type="SFInt32" accessType="outputOnly" />
+					<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+					
+					<field name="_setVisible" type="SFBool" accessType="inputOnly" />
+					<field name="_setTransparency" type="SFFloat" accessType="inputOnly" />
+					<field name="_setEnabled" type="SFBool" accessType="inputOnly" />
+					<field name="_setSelectedIndex" type="SFInt32" accessType="inputOnly" />
+					<field name="_setSize" type="SFVec2f" accessType="inputOnly" />
+					<field name="checkFocus" type="SFFloat" accessType="inputOnly" />
+					
+					<field name="onClick" type="SFBool" accessType="inputOnly" />
+					<field name="onListClick" type="SFBool" accessType="inputOnly" />
+					<field name="onListHitPointChanged" type="SFVec3f" accessType="inputOnly" />
+					<field name="showList" type="SFBool" accessType="inputOnly" />
+					<field name="isSelected" type="SFBool" accessType="outputOnly" />
+					<field name="selectedChanged" type="SFBool" accessType="outputOnly" />
+					
+					<field name="INITIALIZED" accessType="inputOutput" type="SFBool" />
+					
+					<field name="ARROW_TO_BUTTON_RATIO" accessType="inputOutput" type="SFFloat" value="0.625" />
+					
+					<field name="listCoord" accessType="inputOutput" type="SFVec3f" />
+					<field name="firstElementPadding" accessType="inputOutput" type="SFFloat" />
+					<field name="textVerAdjustment" accessType="inputOutput" type="SFFloat" />
+					<field name="arrowButtonWidth" accessType="inputOutput" type="SFFloat" />
+					
+					<IS>
+						<connect nodeField="settings" protoField="settings"/>
+						<connect nodeField="setup" protoField="setup"/>
+						<connect nodeField="applyZOrder" protoField="applyZOrder"/>
+						
+						<connect nodeField="visible" protoField="visible"/>
+						<connect nodeField="transparency" protoField="transparency"/>
+
+						<connect nodeField="enabled" protoField="enabled"/>
+						<connect nodeField="selectedIndex" protoField="selectedIndex"/>
+						<connect nodeField="size" protoField="size"/>
+						
+						<connect nodeField="isEnabled" protoField="isEnabled"/>
+						<connect nodeField="getSelectedIndex" protoField="getSelectedIndex"/>
+						<connect nodeField="isSelected" protoField="isSelected"/>
+						<connect nodeField="getSize" protoField="getSize"/>
+						
+						<connect nodeField="_setVisible" protoField="setVisible"/>
+						<connect nodeField="_setTransparency" protoField="setTransparency"/>
+						<connect nodeField="_setEnabled" protoField="setEnabled"/>
+						<connect nodeField="_setSelectedIndex" protoField="setSelectedIndex"/>
+						<connect nodeField="_setSize" protoField="setSize"/>
+					</IS>
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+					}
+
+					function setup() {
+						INITIALIZED = false;
+										
+						textRectangle.settings = settings;
+						textRectangle.setup = true;
+						
+						arrowButton.settings = settings;
+						arrowButton.setup = true;
+					
+						listRectangle.settings = settings;
+						listRectangle.setup = true;
+					
+						COMPONENT_ID = settings.COMPONENT_ID++;
+					
+						if (settings.DEBUG) print("combo box setup(" + COMPONENT_ID + ")");
+					
+						setSize(size);
+						setVisible(visible);
+						setTransparency(transparency);
+						setEnabled(enabled);
+						setSelectedIndex(selectedIndex);
+						
+						setList();
+						setArrow();
+						
+						textAreaHolder.translation.z = 0.5 * settings.TOUCH_SENSOR_ELEVATION;
+						
+						//arrowButtonHolder.translation.z = settings.TOUCH_SENSOR_ELEVATION;
+						//arrowHolder.translation.z = settings.TOUCH_SENSOR_ELEVATION;
+						
+						// TODO: think about why it has to be 5
+						listAreaHolder.translation.z = 5 * settings.TOUCH_SENSOR_ELEVATION;
+						listRectangleHolder.translation.z = settings.TOUCH_SENSOR_ELEVATION;
+						
+						INITIALIZED = true;
+						
+						setSize(getSize);
+					}
+					
+					function applyZOrder() {
+						textRectangle.applyZOrder = true;
+						arrowButton.applyZOrder = true;
+						listRectangle.applyZOrder = true;
+					
+						if (settings.DEBUG) print("\tcombo box applyZOrder(" + settings.Z_ORDER_COUNT + ")");
+					
+						var l = orderedGroup.children.length;
+
+						for (var i = 0; i < l; i++) {
+							orderedGroup.order[i] = settings.Z_ORDER_COUNT + i * settings.Z_ORDER_STEP;
+						}
+						
+						var m = orderedGroup2.children.length;
+
+						for (var i = 0; i < m; i++) {
+							orderedGroup2.order[i] = settings.Z_ORDER_COUNT + (l + i) * settings.Z_ORDER_STEP;
+						}
+						
+						settings.Z_ORDER_COUNT++;
+					}
+					
+					function setList() {
+						listScale.scale = new SFVec3f(
+							settings.DEFAULT_FONT_SCALE, 
+							settings.DEFAULT_FONT_SCALE,
+							settings.DEFAULT_FONT_SCALE);
+							
+						highlightTextScale.scale = listScale.scale;
+					
+						textHolder.translation.x = settings.DEFAULT_DECORATION_GAP;
+						textHolder.translation.y = -getSize.y + 1.5 * settings.DEFAULT_DECORATION_GAP;
+						listRectangleHolder.translation.y = -getSize.y - settings.DEFAULT_DECORATION_GAP;
+						listHolder.translation.x = settings.DEFAULT_DECORATION_GAP;
+						listHolder.translation.y = -getSize.y - settings.DEFAULT_DECORATION_GAP;
+						highlightTextHolder.translation.x = settings.DEFAULT_DECORATION_GAP;
+						highlightTextHolder.translation.y = -getSize.y - settings.DEFAULT_DECORATION_GAP;
+					
+						if (listString.string.length > 0) {
+							var listBBox = listHolder.getBBox();
+						
+							var listWidth = listBBox[1].x - listBBox[0].x + 2 * settings.DEFAULT_DECORATION_GAP;
+							var listHeight = listBBox[1].y - listBBox[0].y;
+							
+							if (listWidth < getSize.x) {
+								listWidth = getSize.x;
+							}
+							
+							listRectangle.setSize = new SFVec2f(listWidth, listHeight + settings.DEFAULT_DECORATION_GAP);
+							
+							var listRectangleBBox = listRectangle.getBBox();
+
+							firstElementPadding = (listRectangle.getSize.y - listHeight) / 2;
+							textVerAdjustment = firstElementPadding - (listBBox[1].y - listRectangleBBox[1].y) - settings.DEFAULT_DECORATION_GAP;
+							
+							listHolder.translation.y += textVerAdjustment;
+							highlightTextHolder.translation.y += textVerAdjustment;
+						} else {
+							print("list is null");
+						}
+					}
+					
+					function setArrow() {
+						arrowTexture.url[0] = settings.IMAGES_DIR + "arrowDown.png";
+					
+						arrowButtonHolder.translation.x = getSize.x - arrowButtonWidth;
+						arrowButtonHolder.translation.y = -settings.DEFAULT_ADJACENT_GAP;
+						
+						arrowButton.setSize = new SFVec2f(arrowButtonWidth, arrowButtonWidth);
+						
+						arrowHolder.translation.x = (arrowButtonWidth - arrowButtonWidth * ARROW_TO_BUTTON_RATIO) / 2;
+						arrowHolder.translation.y = -(getSize.y - 2 * settings.DEFAULT_ADJACENT_GAP - arrowButtonWidth * ARROW_TO_BUTTON_RATIO) / 2;
+					
+						arrowCoords.point[0] = new SFVec3f(0, -arrowButtonWidth * ARROW_TO_BUTTON_RATIO, 0);
+						arrowCoords.point[1] = new SFVec3f(arrowButtonWidth * ARROW_TO_BUTTON_RATIO, -arrowButtonWidth * ARROW_TO_BUTTON_RATIO, 0);
+						arrowCoords.point[2] = new SFVec3f(arrowButtonWidth * ARROW_TO_BUTTON_RATIO, 0, 0);
+						arrowCoords.point[3] = new SFVec3f(0, 0, 0);
+					}
+					
+					function _setSize(newSize) {
+						if (INITIALIZED) {
+							setSize(newSize);
+						}
+					}
+					
+					function setSize(newSize) {
+						if (listString.string.length > 0) {
+							if (newSize.x < settings.DEFAULT_COMBO_BOX_MINIMUM_SIZE.x) {
+								newSize.x = settings.DEFAULT_COMBO_BOX_MINIMUM_SIZE.x;
+							}
+							
+							if (newSize.y < settings.DEFAULT_FONT_SIZE * settings.DEFAULT_FONT_SCALE + 2 * settings.DEFAULT_DECORATION_GAP) {
+								newSize.y = settings.DEFAULT_FONT_SIZE * settings.DEFAULT_FONT_SCALE + 2 * settings.DEFAULT_DECORATION_GAP;
+							}
+							
+							getSize = newSize;
+						} else {
+							if (newSize.x < settings.DEFAULT_COMBO_BOX_MINIMUM_SIZE.x) {
+								newSize.x = settings.DEFAULT_COMBO_BOX_MINIMUM_SIZE.x;
+							}
+							
+							if (newSize.y < settings.DEFAULT_COMBO_BOX_MINIMUM_SIZE.y) {
+								newSize.y = settings.DEFAULT_COMBO_BOX_MINIMUM_SIZE.y;
+							}
+							
+							getSize = newSize;
+						}
+						
+						arrowButtonWidth = getSize.y - 2 * settings.DEFAULT_ADJACENT_GAP;
+						
+						textRectangle.setSize = new SFVec2f(getSize.x, getSize.y);
+						
+						if (INITIALIZED) {
+							setList();
+							setSelectedText();
+							setArrow();
+						}
+					}
+					
+					function _setVisible(newVisible) {
+						if (INITIALIZED) {
+							setVisible(newVisible);
+						}
+					}
+					
+					function setVisible(newVisible) {
+						display.whichChoice = (newVisible ? 0 : -1);
+						
+						textRectangle.setVisible = newVisible;
+					}
+					
+					function _setTransparency(newTransparency) {
+						if (INITIALIZED) {
+							setTransparency(newTransparency);
+						}
+					}
+					
+					function setTransparency(newTransparency) {
+						newTransparency = Math.abs(newTransparency);
+					
+						textRectangle.setTransparency = newTransparency;
+						textMaterial.transparency = newTransparency;
+						arrowButton.setTransparency = newTransparency;
+						arrowMaterial.transparency = newTransparency;
+						highlightMaterial.transparency = newTransparency;
+						listMaterial.transparency = newTransparency;
+						highlightTextMaterial.transparency = newTransparency;
+					}
+					
+					function _setEnabled(newEnabled) {
+						if (INITIALIZED) {
+							setEnabled(newEnabled);
+						}
+					}
+					
+					function setEnabled(newEnabled) {
+						isEnabled = newEnabled;
+
+						if (!isEnabled) {
+							if (settings.FOCUS_ID == COMPONENT_ID) {
+								settings.FOCUS_ID = -1;
+							}
+						}
+
+						touchSensor.enabled = isEnabled;
+					}
+
+					function setSelectedText() {
+						textScale.scale = new SFVec3f(
+							settings.DEFAULT_FONT_SCALE, 
+							settings.DEFAULT_FONT_SCALE,
+							settings.DEFAULT_FONT_SCALE);
+							
+						textStyle.size = settings.DEFAULT_FONT_SIZE;
+						textStyle.family = settings.DEFAULT_FONT_FAMILY;
+					
+						if (getSelectedIndex < 0) {
+							textString.string = new MFString();
+						} else {
+							textString.string = new MFString(listString.string[getSelectedIndex]);
+
+							var newText = textString.string[0];
+
+							var textBBox;
+							var textWidth = 0;
+							var fieldWidth = getSize.x - arrowButtonWidth;
+							
+							if (newText != "") {
+								textBBox = textHolder.getBBox();
+								textWidth = textBBox[1].x - textBBox[0].x;
+								
+								var i = newText.length - 1;
+	
+								while(fieldWidth < textWidth + 2 * settings.DEFAULT_DECORATION_GAP && i >= 0) {
+									newText = new SFString(newText.substring(0, i) + "...");
+								
+									textString.string = new MFString(newText);
+									
+									textBBox = textHolder.getBBox();
+									textWidth = textBBox[1].x - textBBox[0].x;
+									
+									i--;
+								}
+							}
+						}
+						
+						textHolder.translation.y = -(getSize.y + settings.DEFAULT_FONT_SIZE * settings.DEFAULT_FONT_SCALE * 2 / 3) / 2;
+					}
+
+					function _setSelectedIndex(newSelectedIndex) {
+						if (INITIALIZED) {
+							setSelectedIndex(newSelectedIndex);
+						}
+					}
+
+					function setSelectedIndex(newSelectedIndex) {
+						var l = listString.string.length;
+						
+						if (newSelectedIndex >= l || newSelectedIndex < 0) {
+							getSelectedIndex = -1;
+						} else {
+							getSelectedIndex = newSelectedIndex;
+						}
+						
+						setSelectedText();
+					}
+
+					function getSelectedItemIndexByCoord(point) {					
+						var l = listString.string.length;
+
+						var y = -point.y - getSize.y - 2 * settings.DEFAULT_DECORATION_GAP;
+
+						var listHeight = listRectangle.getSize.y - settings.DEFAULT_DECORATION_GAP;
+						var listItemHeight = listHeight / l;
+
+						for (var i = 0; i < l; i++) {
+							//print("y: " + y + "; (" + (listItemHeight * i) + ", " + (listItemHeight * (i + 1)) + ")");
+						
+							if (y >= listItemHeight * i && y < listItemHeight * (i + 1)) {
+								return i;
+							}
+						}
+						
+						if (y <= 0) {
+							return 0;
+						} else if (y >= listHeight) {
+							return l - 1;
+						}
+						
+						return -1;
+					}
+
+					function onListClick(clicked) {
+						if (!clicked) {
+							var index = getSelectedItemIndexByCoord(listCoord);
+							setSelectedIndex(index);
+						
+							setFocus();
+						}
+					}
+					
+					function onListHitPointChanged(point) {
+						if (point == listCoord) {
+							return;
+						}
+					
+						listCoord = point;
+						
+						highlightItemAtIndex(getSelectedItemIndexByCoord(listCoord));
+					}
+					
+					function highlightItemAtIndex(index) {
+						var l = listString.string.length;
+
+						var listHeight = listRectangle.getSize.y - settings.DEFAULT_DECORATION_GAP;
+						var listItemHeight = listHeight / l;
+
+						if (index < 0) {
+							highlightCoords.point[0] = new SFVec3f(0, 0, 0);
+							highlightCoords.point[1] = new SFVec3f(0, 0, 0);
+							highlightCoords.point[2] = new SFVec3f(0, 0, 0);
+							highlightCoords.point[3] = new SFVec3f(0, 0, 0);
+						} else if (index == 0) {
+							highlightHolder.translation.y = 0;
+	
+							highlightCoords.point[0] = new SFVec3f(0, 0, 0);
+							highlightCoords.point[1] = new SFVec3f(0, -listItemHeight - firstElementPadding, 0);
+							highlightCoords.point[2] = new SFVec3f(listRectangle.getSize.x, -listItemHeight - firstElementPadding, 0);
+							highlightCoords.point[3] = new SFVec3f(listRectangle.getSize.x, 0, 0);
+						} else if (index == l - 1) {
+							highlightHolder.translation.y = -index * listItemHeight - settings.DEFAULT_DECORATION_GAP;
+	
+							highlightCoords.point[0] = new SFVec3f(0, 0, 0);
+							highlightCoords.point[1] = new SFVec3f(0, -listItemHeight, 0);
+							highlightCoords.point[2] = new SFVec3f(listRectangle.getSize.x, -listItemHeight, 0);
+							highlightCoords.point[3] = new SFVec3f(listRectangle.getSize.x, 0, 0);
+						} else {
+							highlightHolder.translation.y = -index * listItemHeight - settings.DEFAULT_DECORATION_GAP;
+	
+							highlightCoords.point[0] = new SFVec3f(0, 0, 0);
+							highlightCoords.point[1] = new SFVec3f(0, -listItemHeight, 0);
+							highlightCoords.point[2] = new SFVec3f(listRectangle.getSize.x, -listItemHeight, 0);
+							highlightCoords.point[3] = new SFVec3f(listRectangle.getSize.x, 0, 0);
+						}
+						
+						
+						var highlightText = new MFString();
+						
+						for (var i = 0; i < l; i++) {
+							if (i == index) {
+								highlightText[i] = listString.string[index];
+							} else {
+								highlightText[i] = "";
+							} 
+						}
+						
+						highlightTextString.string = highlightText;
+					}
+					
+					function setFocus() {
+						settings.FOCUS_ID = COMPONENT_ID;
+						timer.enabled = true;
+					}
+					
+					function checkFocus() {
+						if (settings.FOCUS_ID != COMPONENT_ID) {
+							listRectangle.setVisible = false;
+							timer.enabled = false;
+						}
+					}
+					
+					function showList(pressed) {
+						if (!pressed) {
+							return;
+						}
+						
+						setFocus();
+						
+						if (listRectangle.isVisible) {
+							listRectangle.setVisible = false;
+						} else {
+							highlightItemAtIndex(getSelectedIndex);
+							listRectangle.setVisible = true;
+						}
+					}
+				]]>
+				</Script>
+				
+				<ROUTE fromNode="timer" fromField="fraction_changed" toNode="S" toField="checkFocus" />
+				<ROUTE fromNode="touchSensor" fromField="isActive" toNode="S" toField="showList" />
+				<ROUTE fromNode="listTouchSensor" fromField="isActive" toNode="S" toField="onListClick" />
+				<ROUTE fromNode="listTouchSensor" fromField="hitPoint_changed" toNode="S" toField="onListHitPointChanged" />
+				<ROUTE fromNode="arrowButton" fromField="isPressed" toNode="S" toField="showList" />
+			</ProtoBody>
+		</ProtoDeclare>
+		
+	</Scene>
+</X3D>

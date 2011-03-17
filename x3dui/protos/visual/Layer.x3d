@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+	
+		<!-- This prototype enables the dragging of other elements across the screen.
+				The prototype should not normally be instantiated as an independent 
+				GUI component. However, anything that should be allowed to move in 
+				the GUI layer, should inherit from this component. For example, 
+				see <proto>Plane</proto> -->
+		<ProtoDeclare name="Layer">
+			<ProtoInterface>
+				<!-- <proto>Settings</proto> object should be passed in this parameter. -->
+				<field name="settings" type="SFNode" accessType="inputOnly"></field>
+				<!-- Initializes the component and prepares it for visualization. -->
+				<field name="setup" type="SFBool" accessType="inputOnly" />
+				<!-- Causes the component to reposition itself and all its children in the z-depth stack. -->
+				<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+				
+				<!-- Accepts X3DUI nodes to be displayed within this component -->
+				<field name="children" type="MFNode" accessType="initializeOnly"></field>
+				<!-- Specifies whether the objects in the <field>children</field> attribute
+						should be movable. -->
+				<field name="movable" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies the size of the component, which ultimately affects how bounds
+						for in-screen translations will be calculated. -->
+				<field name="size" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				<!-- Specifies the initial position of the <field>children</field> 
+						group on the screen. -->
+				<field name="position" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				
+				<!-- Indicates whether the <field>children</field> group is movable. -->
+				<field name="isMovable" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the claimed size of the <field>children</field> group. -->
+				<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+				<!-- Returns the current position of <field>children</field> group 
+						on the screen. -->
+				<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+				
+				<!-- Makes the objects in the <field>children</field> group movable or static. -->
+				<field name="setMovable" type="SFBool" accessType="inputOnly" />
+				<!-- Claims the total bounding size of the components in 
+						<field>children</field> group. -->
+				<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+				<!-- Sets the position of <field>children</field> group on the screen. -->
+				<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+			</ProtoInterface>
+			<ProtoBody>
+				<Group>
+					<PlaneSensor DEF="planeSensor" autoOffset="true" maxPosition="0 0" minPosition="0 0">
+						<IS>
+							<connect nodeField="enabled" protoField="movable"/>
+						</IS>
+					</PlaneSensor>
+					
+					<Transform DEF="container">
+						<OrderedGroup DEF="orderedGroup">
+							<IS>
+								<connect nodeField="children" protoField="children"/>
+							</IS>
+						</OrderedGroup>
+					</Transform>
+				</Group>
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="planeSensor" type="SFNode" accessType="initializeOnly">
+						<PlaneSensor USE="planeSensor" />
+					</field>
+					<field name="container" type="SFNode" accessType="initializeOnly">
+						<Transform USE="container" />
+					</field>
+					<field name="orderedGroup" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup" />
+					</field>
+					
+					<field name="settings" accessType="inputOnly" type="SFNode" />
+					<field name="setup" accessType="inputOnly" type="SFBool" />
+					<field name="updateWindowSize" accessType="inputOnly" type="SFVec2f" />
+					
+					<field name="COMPONENT_ID" accessType="inputOutput" type="SFInt32" />
+					
+					<!-- attributes of the class -->
+					<field name="movable" accessType="initializeOnly" type="SFBool" />
+					<field name="position" accessType="initializeOnly" type="SFVec2f" />
+					<field name="size" accessType="initializeOnly" type="SFVec2f" />
+					
+					<!-- methods of the class -->
+					<field name="isMovable" accessType="outputOnly" type="SFBool" />
+					<field name="getSize" accessType="outputOnly" type="SFVec2f" />
+					<field name="getPosition" accessType="outputOnly" type="SFVec2f" />
+					
+					<field name="_setMovable" accessType="inputOnly" type="SFBool" />
+					<field name="_setSize" accessType="inputOnly" type="SFVec2f" />
+					<field name="_setPosition" accessType="inputOnly" type="SFVec2f" />
+					<field name="applyZOrder" accessType="inputOnly" type="SFBool" />
+					
+					<IS>
+						<connect nodeField="settings" protoField="settings"/>
+						<connect nodeField="setup" protoField="setup"/>
+						<connect nodeField="applyZOrder" protoField="applyZOrder"/>
+											
+						<connect nodeField="movable" protoField="movable"/>
+						<connect nodeField="size" protoField="size"/>
+						<connect nodeField="position" protoField="position"/>
+						
+						<connect nodeField="isMovable" protoField="isMovable"/>
+						<connect nodeField="getSize" protoField="getSize"/>
+						<connect nodeField="getPosition" protoField="getPosition"/>
+						
+						<connect nodeField="_setMovable" protoField="setMovable"/>
+						<connect nodeField="_setSize" protoField="setSize"/>
+						<connect nodeField="_setPosition" protoField="setPosition"/>
+					</IS>
+					
+					<!-- variables -->
+					<field name="screenSize" accessType="inputOutput" type="SFVec2f" />
+					<field name="windowWidth" accessType="inputOutput" type="SFFloat" />
+					<field name="windowHeight" accessType="inputOutput" type="SFFloat" />
+					<field name="widthToHeightAspect" accessType="inputOutput" type="SFFloat" />
+					
+					<field name="INITIALIZED" accessType="inputOutput" type="SFBool" />
+
+					<!-- functions -->
+					<field name="savePosition" accessType="inputOnly" type="SFVec3f" />
+					
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+					}
+					
+					function setup() {
+						INITIALIZED = false;
+
+						COMPONENT_ID = settings.COMPONENT_ID++;
+
+						if (settings.DEBUG) print("layer setup(" + COMPONENT_ID + ")");
+
+						setMovable(movable);
+						setWindowSize(new SFVec2f(Browser.getWindowSizeX(), Browser.getWindowSizeY()));
+						setSize(size);
+						setPosition(position);
+						
+						Browser.addRoute(Browser, "windowSize", Browser.getScript(), "updateWindowSize");
+						
+						INITIALIZED = true;
+					}
+					
+					function applyZOrder() {
+						if (settings.DEBUG) print("\tlayer applyZOrder(" + settings.Z_ORDER_COUNT + ")");
+					
+						var l = orderedGroup.children.length;
+
+						for (var i = 0; i < l; i++) {
+							orderedGroup.order[i] = settings.Z_ORDER_COUNT + i * settings.Z_ORDER_STEP;
+						}
+						
+						settings.Z_ORDER_COUNT++;
+					}
+					
+					function _setSize(newSize) {
+						if (INITIALIZED) {
+							setSize(newSize);
+						}
+					}
+					
+					function setSize(newSize) {
+						getSize = newSize;
+						
+						if (INITIALIZED) {
+							setPosition(getPosition);
+						}
+					}
+					
+					function _setMovable(newMovable) {
+						if (INITIALIZED) {
+							setMovable(newMovable);
+						}
+					}
+					
+					function setMovable(newMovable) {
+						isMovable = newMovable;
+						
+						if (INITIALIZED) {
+							planeSensor.enabled = isMovable;
+						}
+					}
+					
+					function setWindowSize(newWindowSize) {
+						windowWidth = newWindowSize.x;
+						windowHeight = newWindowSize.y;
+					}
+					
+					function updateWindowSize(newWindowSize) {
+						setWindowSize(newWindowSize);
+						
+						if (INITIALIZED) {
+							setPosition(getPosition);
+						}
+					}
+					
+					function _setPosition(newPosition) {
+						if (INITIALIZED) {
+							setPosition(newPosition);
+						}
+					}
+					
+					function setPosition(newPosition) {
+						widthToHeightAspect = windowWidth / windowHeight;
+					
+						var widthIsSmaller = (widthToHeightAspect < 1.0);
+					
+						//print("required position: " + newPosition);
+					
+						if (newPosition.x < 0) {
+							//print("case 1");
+							newPosition.x = 0;
+						} else {
+							if (widthIsSmaller) {
+								if (newPosition.x > 2 * settings.FULL_VIEW_RATIO - getSize.x) {
+									//print("case 2");
+									newPosition.x = 2 * settings.FULL_VIEW_RATIO - getSize.x;
+								}
+							} else {
+								if (newPosition.x > 2 * settings.FULL_VIEW_RATIO * widthToHeightAspect - getSize.x) {
+									//print("case 3: " + newPosition.x + " > " + (2 * settings.FULL_VIEW_RATIO * widthToHeightAspect - getSize.x) + " (" + getSize.x + ")");
+									newPosition.x = 2 * settings.FULL_VIEW_RATIO * widthToHeightAspect - getSize.x;
+								}
+							}
+						}
+						
+						if (newPosition.y < 0) {
+							//print("case 4");
+							newPosition.y = 0;
+						} else {
+							if (!widthIsSmaller) {
+								if (newPosition.y > 2 * settings.FULL_VIEW_RATIO - getSize.y) {
+									//print("case 5");
+									newPosition.y = 2 * settings.FULL_VIEW_RATIO - getSize.y;
+								}
+							} else {
+								if (newPosition.y > 2 * settings.FULL_VIEW_RATIO / widthToHeightAspect - getSize.y) {
+									//print("case 6");
+									newPosition.y = 2 * settings.FULL_VIEW_RATIO / widthToHeightAspect - getSize.y;
+								}
+							}
+						}
+					
+						getPosition = newPosition;
+						
+						resetPlaneSensor(new SFVec2f(windowWidth, windowHeight));
+
+						if (widthIsSmaller) {
+							container.translation.x = getPosition.x - settings.FULL_VIEW_RATIO;
+							container.translation.y = -getPosition.y + settings.FULL_VIEW_RATIO / widthToHeightAspect;
+						} else {
+							container.translation.y = -getPosition.y + settings.FULL_VIEW_RATIO;
+							container.translation.x = getPosition.x - settings.FULL_VIEW_RATIO * widthToHeightAspect;
+						}
+						
+						planeSensor.offset = new SFVec3f(container.translation.x, container.translation.y, 0);
+						
+						//print("approved position: " + getPosition);
+					}
+					
+					function resetPlaneSensor(newWindowSize) {
+						windowWidth = newWindowSize.x;
+						windowHeight = newWindowSize.y;
+						
+						widthToHeightAspect = windowWidth / windowHeight;
+					
+						var widthIsSmaller = (widthToHeightAspect < 1.0);
+
+						if (widthIsSmaller) {							
+							planeSensor.minPosition.x = -settings.FULL_VIEW_RATIO;
+							planeSensor.maxPosition.x = settings.FULL_VIEW_RATIO - getSize.x;
+							planeSensor.minPosition.y = planeSensor.minPosition.x / widthToHeightAspect + getSize.y;
+							planeSensor.maxPosition.y = -planeSensor.minPosition.x / widthToHeightAspect;
+						} else {
+							planeSensor.minPosition.y = -settings.FULL_VIEW_RATIO + getSize.y;
+							planeSensor.maxPosition.y = settings.FULL_VIEW_RATIO;
+							planeSensor.minPosition.x = -planeSensor.maxPosition.y * widthToHeightAspect;
+							planeSensor.maxPosition.x = planeSensor.maxPosition.y * widthToHeightAspect - getSize.x;
+						}
+					}
+					
+					function savePosition(newPosition) {
+						widthToHeightAspect = windowWidth / windowHeight;
+					
+						var widthIsSmaller = (widthToHeightAspect < 1.0);
+						
+						if (widthIsSmaller) {
+							getPosition.x = container.translation.x + settings.FULL_VIEW_RATIO;
+							getPosition.y = -container.translation.y + settings.FULL_VIEW_RATIO / widthToHeightAspect;
+						} else {
+							getPosition.y = -container.translation.y + settings.FULL_VIEW_RATIO;
+							getPosition.x = container.translation.x + settings.FULL_VIEW_RATIO * widthToHeightAspect;
+						}
+					}
+				]]>
+				</Script>
+				
+			    <ROUTE fromField="translation_changed" fromNode="planeSensor" toField="set_translation" toNode="container"/>
+			    <ROUTE fromField="translation_changed" fromNode="planeSensor" toField="savePosition" toNode="S"/>
+			</ProtoBody>
+		</ProtoDeclare>
+		
+	</Scene>
+</X3D>

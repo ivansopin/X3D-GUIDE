@@ -1,0 +1,871 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>	
+	
+		<ExternProtoDeclare name="HorizontalRunner" url='"HorizontalRunner.x3d#HorizontalRunner"'>
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+		</ExternProtoDeclare>
+	
+		<!-- This prototype implements a horizontal slider control that lets you choose a 
+				discrete value from a range. -->
+		<ProtoDeclare name="HorizontalSlider">
+			<ProtoInterface>
+				<!-- <proto>Settings</proto> object should be passed in this parameter. -->
+				<field name="settings" type="SFNode" accessType="inputOnly"></field>
+				<!-- Initializes the component and prepares it for visualization. -->
+				<field name="setup" type="SFBool" accessType="inputOnly" />
+				<!-- Causes the component to reposition itself and all its children in the z-depth stack. -->
+				<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+				
+				<!-- Specifies the size of the component. -->
+				<field name="size" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				<!-- Specifies whether the component should be visible. -->
+				<field name="visible" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies what color the component should be. -->
+				<field name="color" type="SFColor" accessType="initializeOnly" value="0.832 0.8164 0.7852" />
+				<!-- Specifies the transparency level of the component. -->
+				<field name="transparency" type="SFFloat" accessType="initializeOnly" value="0" />
+				<!-- Determines if the component will be interactive. -->
+				<field name="enabled" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies the initial value. The value supplied should be withing the 
+						range from <field>minValue</field> to <field>maxValue</field>. -->
+				<field name="value" type="SFFloat" accessType="initializeOnly" value="0" />
+				<!-- Specifies the minimum value of the effective range. The value
+						should not equal the <field>maxValue</field>, but can be larger. -->
+				<field name="minValue" type="SFFloat" accessType="initializeOnly" value="0" />
+				<!-- Specifies the maximum value of the effective range. The value
+						should not equal the <field>minValue</field>, but can be smaller. -->
+				<field name="maxValue" type="SFFloat" accessType="initializeOnly" value="100" />
+				<!-- Specifies the number of mark intervals in the range. That is, if 
+						<field>displayMarks</field> is set to true, 
+						<tt>numOfMarkIntervals - 1</tt> marks will be shown. -->
+				<field name="numOfMarkIntervals" type="SFInt32" accessType="initializeOnly" value="10" />
+				<!-- Specifies whether the runner should snap to marks while active. -->
+				<field name="snapToMarks" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies the left caption of the component. Try keeping it short. -->
+				<field name="leftCaption" type="SFString" accessType="initializeOnly" value="" />
+				<!-- Specifies the right caption of the component. Try keeping it short. -->
+				<field name="rightCaption" type="SFString" accessType="initializeOnly" value="" />
+				<!-- Specifies whether the graduation marks should be displayed. -->
+				<field name="displayMarks" type="SFBool" accessType="initializeOnly" value="true" />
+
+				<!-- Returns the size of the component. -->
+				<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+				<!-- Indicates whether the component is visible. -->
+				<field name="isVisible" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the color of the component. -->
+				<field name="getColor" type="SFColor" accessType="outputOnly" />
+				<!-- Returns the component's transparency level. -->
+				<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+				<!-- Indicates whether the button is enabled. -->
+				<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the currently selected value. -->
+				<field name="getValue" type="SFFloat" accessType="outputOnly" />
+				<!-- Returns the minimum value of the range, as specified by the user. -->
+				<field name="getMinValue" type="SFFloat" accessType="outputOnly" />
+				<!-- Returns the maximum value of the range, as specified by the user. -->
+				<field name="getMaxValue" type="SFFloat" accessType="outputOnly" />
+				<!-- Returns the number of mark intervals -->
+				<field name="getNumOfMarkIntervals" type="SFInt32" accessType="outputOnly" />
+				<!-- Indicates whether the runner will snap to marks. -->
+				<field name="doSnapToMarks" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the left caption of the component. -->
+				<field name="getLeftCaption" type="SFString" accessType="outputOnly" />
+				<!-- Returns the right caption of the component. -->
+				<field name="getRightCaption" type="SFString" accessType="outputOnly" />
+				<!-- Indicates whether the graduation marks are displayed. -->
+				<field name="doDisplayMarks" type="SFBool" accessType="outputOnly" />
+
+				<!-- Sets the size of the component. -->
+				<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+				<!-- Sets the visibility status of the component. -->
+				<field name="setVisible" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the color of the component. -->
+				<field name="setColor" type="SFColor" accessType="inputOnly" />
+				<!-- Sets the component's transparency level. -->
+				<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+				<!-- Sets the status of the button. -->
+				<field name="setEnabled" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the current value of the component. The value provided
+						should be in the range from <field>minValue</field> to 
+						<field>maxValue</field>. -->
+				<field name="setValue" type="SFFloat" accessType="inputOnly" />
+				<!-- Sets the minimum value of the effective range. The value 
+						should not equal the <field>maxValue</field>, but can 
+						be larger. -->
+				<field name="setMinValue" type="SFFloat" accessType="inputOnly" />
+				<!-- Sets the maximum value of the effective range. The value 
+						should not equal the <field>minValue</field>, but can 
+						be smaller. -->
+				<field name="setMaxValue" type="SFFloat" accessType="inputOnly" />
+				<!-- Sets the number of mark intervals. -->
+				<field name="setNumOfMarkIntervals" type="SFInt32" accessType="inputOnly" />
+				<!-- Enables or disables snapping the runner to the marks. -->
+				<field name="setSnapToMarks" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the left caption of the component. -->
+				<field name="setLeftCaption" type="SFString" accessType="inputOnly" />
+				<!-- Sets the right caption of the component. -->
+				<field name="setRightCaption" type="SFString" accessType="inputOnly" />
+				<!-- Makes graduation marks visible or invisible. -->
+				<field name="setDisplayMarks" type="SFBool" accessType="inputOnly" />
+			</ProtoInterface>
+			<ProtoBody>
+				<Group>
+					<Switch DEF="display" whichChoice="0">
+						<Group>
+							<Transform DEF="leftCaptionHolder">
+								<Transform DEF="leftCaptionScale">
+									<Shape>
+										<Appearance>
+											<Material DEF="captionMaterial" diffuseColor="0 0 0" />
+										</Appearance>
+										<Text DEF="leftCaptionString" solid="true">
+											<FontStyle DEF="leftCaptionStyle" justify='"BEGIN"' size="11" style="USE_TEXTURE" />
+										</Text> 
+									</Shape>
+								</Transform>
+							</Transform>
+							
+							<Transform DEF="centerArea">
+								<Transform DEF="lineHolder">
+									<Shape>
+										<Appearance>
+											<Material DEF="lineMaterial" />
+										</Appearance>
+										<IndexedLineSet colorIndex="0 0 0" coordIndex="0 1 -1">
+											<Coordinate DEF="lineCoords" point="0 0 0, 0 0 0"/>
+											<Color DEF="lineColors" color="0 0 0"/>
+										</IndexedLineSet>
+									</Shape>
+								</Transform>
+								
+								<Transform DEF="runnerWrapper">
+									<PlaneSensor DEF="planeSensor" autoOffset="true" maxPosition="0 0" minPosition="0 0" />
+									
+									<Transform DEF="runnerHolder">
+										<ProtoInstance DEF="runner" name="HorizontalRunner">
+										</ProtoInstance>
+									</Transform>
+								</Transform>
+								
+								<Transform DEF="marksHolder">
+									<Switch DEF="marksDisplay">
+										<Shape>
+											<Appearance>
+												<Material USE="lineMaterial" />
+											</Appearance>
+											<IndexedLineSet DEF="marks" colorIndex="" coordIndex="">
+												<Coordinate DEF="marksCoords" point=""/>
+												<Color USE="lineColors" />
+											</IndexedLineSet>
+										</Shape>
+									</Switch>
+								</Transform>
+								
+								<Switch DEF="valuesDisplay">
+									
+								</Switch>
+							</Transform>
+	
+							<Transform DEF="rightCaptionHolder">
+								<Transform DEF="rightCaptionScale">
+									<Shape>
+										<Appearance>
+											<Material USE="captionMaterial" />
+										</Appearance>
+										<Text DEF="rightCaptionString" solid="true">
+											<FontStyle DEF="rightCaptionStyle" justify='"END"' size="11" style="USE_TEXTURE" />
+										</Text> 
+									</Shape>
+								</Transform>
+							</Transform>
+						</Group>
+					</Switch>
+				</Group>
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="display" type="SFNode" accessType="initializeOnly">
+						<Switch USE="display" />
+					</field>
+					<field name="centerArea" type="SFNode" accessType="initializeOnly">
+						<Transform USE="centerArea" />
+					</field>
+					<field name="planeSensor" type="SFNode" accessType="initializeOnly">
+						<PlaneSensor USE="planeSensor" />
+					</field>
+					<field name="runnerWrapper" type="SFNode" accessType="initializeOnly">
+						<Transform USE="runnerWrapper" />
+					</field>
+					<field name="runnerHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="runnerHolder" />
+					</field>
+					<field name="runner" type="SFNode" accessType="initializeOnly">
+						<HorizontalRunner USE="runner" />
+					</field>
+					<field name="leftCaptionHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="leftCaptionHolder" />
+					</field>
+					<field name="rightCaptionHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="rightCaptionHolder" />
+					</field>
+					<field name="leftCaptionScale" type="SFNode" accessType="initializeOnly">
+						<Transform USE="leftCaptionScale" />
+					</field>
+					<field name="rightCaptionScale" type="SFNode" accessType="initializeOnly">
+						<Transform USE="rightCaptionScale" />
+					</field>
+					<field name="captionMaterial" type="SFNode" accessType="initializeOnly">
+						<Material USE="captionMaterial" />
+					</field>
+					<field name="leftCaptionString" type="SFNode" accessType="initializeOnly">
+						<Text USE="leftCaptionString" />
+					</field>
+					<field name="rightCaptionString" type="SFNode" accessType="initializeOnly">
+						<Text USE="rightCaptionString" />
+					</field>
+					<field name="leftCaptionStyle" type="SFNode" accessType="initializeOnly">
+						<FontStyle USE="leftCaptionStyle" />
+					</field>
+					<field name="rightCaptionStyle" type="SFNode" accessType="initializeOnly">
+						<FontStyle USE="rightCaptionStyle" />
+					</field>
+					<field name="lineHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="lineHolder" />
+					</field>
+					<field name="lineMaterial" type="SFNode" accessType="initializeOnly">
+						<Material USE="lineMaterial" />
+					</field>
+					<field name="lineColors" type="SFNode" accessType="initializeOnly">
+						<Color USE="lineColors" />
+					</field>
+					<field name="lineCoords" type="SFNode" accessType="initializeOnly">
+						<Coordinate USE="lineCoords" />
+					</field>
+					<field name="marksHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="marksHolder" />
+					</field>
+					<field name="marksDisplay" type="SFNode" accessType="initializeOnly">
+						<Switch USE="marksDisplay" />
+					</field>
+					<field name="marks" type="SFNode" accessType="initializeOnly">
+						<IndexedLineSet USE="marks" />
+					</field>
+					<field name="marksCoords" type="SFNode" accessType="initializeOnly">
+						<Coordinate USE="marksCoords" />
+					</field>
+					<field name="valuesDisplay" type="SFNode" accessType="initializeOnly">
+						<Switch USE="valuesDisplay" />
+					</field>
+
+					<field name="settings" accessType="inputOnly" type="SFNode" />
+					<field name="setup" accessType="inputOnly" type="SFBool" />
+					
+					<field name="COMPONENT_ID" accessType="inputOutput" type="SFInt32" />
+					
+					<!-- attributes of the class -->
+					<field name="enabled" type="SFBool" accessType="initializeOnly" />
+					<field name="color" type="SFColor" accessType="initializeOnly" />
+					<field name="size" type="SFVec2f" accessType="initializeOnly" />
+					<field name="visible" type="SFBool" accessType="initializeOnly" />
+					<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+					<field name="value" type="SFFloat" accessType="initializeOnly" />
+					<field name="minValue" type="SFFloat" accessType="initializeOnly" />
+					<field name="maxValue" type="SFFloat" accessType="initializeOnly" />
+					<field name="numOfMarkIntervals" type="SFInt32" accessType="initializeOnly" />
+					<field name="snapToMarks" type="SFBool" accessType="initializeOnly" />
+					<field name="leftCaption" type="SFString" accessType="initializeOnly" />
+					<field name="rightCaption" type="SFString" accessType="initializeOnly" />
+					<field name="displayMarks" type="SFBool" accessType="initializeOnly" />
+					
+					<!-- methods of the class -->
+					<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+					<field name="getColor" type="SFColor" accessType="outputOnly" />
+					<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+					<field name="isVisible" type="SFBool" accessType="outputOnly" />
+					<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+					<field name="getValue" type="SFFloat" accessType="outputOnly" />
+					<field name="getMinValue" type="SFFloat" accessType="outputOnly" />
+					<field name="getMaxValue" type="SFFloat" accessType="outputOnly" />
+					<field name="getNumOfMarkIntervals" type="SFInt32" accessType="outputOnly" />
+					<field name="doSnapToMarks" type="SFBool" accessType="outputOnly" />
+					<field name="getLeftCaption" type="SFString" accessType="outputOnly" />
+					<field name="getRightCaption" type="SFString" accessType="outputOnly" />
+					<field name="doDisplayMarks" type="SFBool" accessType="outputOnly" />
+					
+					<field name="_setEnabled" type="SFBool" accessType="inputOnly" />
+					<field name="_setColor" type="SFColor" accessType="inputOnly" />
+					<field name="_setSize" type="SFVec2f" accessType="inputOnly" />
+					<field name="_setVisible" type="SFBool" accessType="inputOnly" />
+					<field name="_setTransparency" type="SFFloat" accessType="inputOnly" />
+					<field name="_setValue" type="SFFloat" accessType="inputOnly" />
+					<field name="_setMinValue" type="SFFloat" accessType="inputOnly" />
+					<field name="_setMaxValue" type="SFFloat" accessType="inputOnly" />
+					<field name="_setNumOfMarkIntervals" type="SFInt32" accessType="inputOnly" />
+					<field name="_setSnapToMarks" type="SFBool" accessType="inputOnly" />
+					<field name="_setLeftCaption" type="SFString" accessType="inputOnly" />
+					<field name="_setRightCaption" type="SFString" accessType="inputOnly" />
+					<field name="_setDisplayMarks" type="SFBool" accessType="inputOnly" />
+					
+					<field name="applyZOrder" accessType="inputOnly" type="SFBool" />
+					
+					<IS>
+						<connect nodeField="settings" protoField="settings"/>
+						<connect nodeField="setup" protoField="setup"/>
+						<connect nodeField="applyZOrder" protoField="applyZOrder"/>
+
+						<connect nodeField="enabled" protoField="enabled"/>
+						<connect nodeField="color" protoField="color"/>
+						<connect nodeField="size" protoField="size"/>
+						<connect nodeField="visible" protoField="visible"/>
+						<connect nodeField="transparency" protoField="transparency"/>
+						<connect nodeField="value" protoField="value"/>
+						<connect nodeField="minValue" protoField="minValue"/>
+						<connect nodeField="maxValue" protoField="maxValue"/>
+						<connect nodeField="numOfMarkIntervals" protoField="numOfMarkIntervals"/>
+						<connect nodeField="snapToMarks" protoField="snapToMarks"/>
+						<connect nodeField="leftCaption" protoField="leftCaption"/>
+						<connect nodeField="rightCaption" protoField="rightCaption"/>
+						<connect nodeField="displayMarks" protoField="displayMarks"/>
+						
+						<connect nodeField="isEnabled" protoField="isEnabled"/>
+						<connect nodeField="getColor" protoField="getColor"/>
+						<connect nodeField="getSize" protoField="getSize"/>
+						<connect nodeField="isVisible" protoField="isVisible"/>
+						<connect nodeField="getTransparency" protoField="getTransparency"/>
+						<connect nodeField="getValue" protoField="getValue"/>
+						<connect nodeField="getMinValue" protoField="getMinValue"/>
+						<connect nodeField="getMaxValue" protoField="getMaxValue"/>
+						<connect nodeField="getNumOfMarkIntervals" protoField="getNumOfMarkIntervals"/>
+						<connect nodeField="doSnapToMarks" protoField="doSnapToMarks"/>
+						<connect nodeField="getLeftCaption" protoField="getLeftCaption"/>
+						<connect nodeField="getRightCaption" protoField="getRightCaption"/>
+						<connect nodeField="doDisplayMarks" protoField="doDisplayMarks"/>
+
+						<connect nodeField="_setEnabled" protoField="setEnabled"/>
+						<connect nodeField="_setColor" protoField="setColor"/>
+						<connect nodeField="_setSize" protoField="setSize"/>
+						<connect nodeField="_setVisible" protoField="setVisible"/>
+						<connect nodeField="_setTransparency" protoField="setTransparency"/>
+						<connect nodeField="_setValue" protoField="setValue"/>
+						<connect nodeField="_setMinValue" protoField="setMinValue"/>
+						<connect nodeField="_setMaxValue" protoField="setMaxValue"/>
+						<connect nodeField="_setNumOfMarkIntervals" protoField="setNumOfMarkIntervals"/>
+						<connect nodeField="_setSnapToMarks" protoField="setSnapToMarks"/>
+						<connect nodeField="_setLeftCaption" protoField="setLeftCaption"/>
+						<connect nodeField="_setRightCaption" protoField="setRightCaption"/>
+						<connect nodeField="_setDisplayMarks" protoField="setDisplayMarks"/>
+					</IS>
+					
+					<field name="INITIALIZED" accessType="inputOutput" type="SFBool" />
+					
+					<field name="planeSensorAmplitude" accessType="inputOutput" type="SFFloat" />
+					
+					<field name="onValueSelected" accessType="inputOnly" type="SFVec3f" />
+					<field name="onActive" accessType="inputOnly" type="SFBool" />
+
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+					}
+					
+					function setup() {
+						INITIALIZED = false;
+
+						runner.settings = settings;
+						runner.setup = true;
+
+						COMPONENT_ID = settings.COMPONENT_ID++;
+
+						if (settings.DEBUG) print("horizontal slider setup(" + COMPONENT_ID + ")");
+						
+						setSize(size);
+
+						setEnabled(enabled);
+						setColor(color);
+						setVisible(visible);
+						setTransparency(transparency);
+						setMinValue(minValue);
+						setMaxValue(maxValue);
+						setValue(value);
+						setNumOfMarkIntervals(numOfMarkIntervals);
+						setSnapToMarks(snapToMarks);
+						setLeftCaption(leftCaption);
+						setRightCaption(rightCaption);
+						setDisplayMarks(displayMarks);
+
+						setAppearance();
+						resetPlaneSensor();
+						
+						setCurrentValue();
+
+						INITIALIZED = true;
+						
+						setSize(getSize);
+					}
+					
+					function applyZOrder() {
+						if (settings.DEBUG) print("\thorizontal slider applyZOrder(" + settings.Z_ORDER_COUNT + ")");
+					
+						/*
+						var l = orderedGroup.children.length;
+
+						for (var i = 0; i < l; i++) {
+							orderedGroup.order[i] = settings.Z_ORDER_COUNT + i * settings.Z_ORDER_STEP;
+						}
+						*/
+						
+						settings.Z_ORDER_COUNT++;
+					}
+					
+					function setAppearance() {
+						leftCaptionHolder.translation.x = 0;
+						rightCaptionHolder.translation.x = getSize.x;
+						
+						leftCaptionScale.scale = new SFVec3f(
+							settings.DEFAULT_FONT_SCALE, 
+							settings.DEFAULT_FONT_SCALE,
+							settings.DEFAULT_FONT_SCALE);
+						rightCaptionScale.scale = new SFVec3f(
+							settings.DEFAULT_FONT_SCALE, 
+							settings.DEFAULT_FONT_SCALE,
+							settings.DEFAULT_FONT_SCALE);
+
+						leftCaptionStyle.family = settings.DEFAULT_FONT_FAMILY;
+						rightCaptionStyle.family = settings.DEFAULT_FONT_FAMILY;
+						leftCaptionStyle.size = settings.DEFAULT_FONT_SIZE;
+						rightCaptionStyle.size = settings.DEFAULT_FONT_SIZE;
+						leftCaptionStyle.justify[0] = "BEGIN";
+						rightCaptionStyle.justify[0] = "END";
+						
+						runnerWrapper.translation.y = -settings.DEFAULT_DECORATION_GAP;
+						runnerWrapper.translation.z = 0.5 * settings.TOUCH_SENSOR_ELEVATION;
+					}
+					
+					function _setEnabled(newEnabled) {
+						if (INITIALIZED) {
+							setEnabled(newEnabled);
+						}
+					}
+					
+					function setEnabled(newEnabled) {
+						isEnabled = newEnabled;
+						
+						planeSensor.enabled = isEnabled;
+						
+						if (isEnabled) {
+							captionMaterial.diffuseColor = settings.DEFAULT_ENABLED_TEXT_COLOR;
+							runner.setColor = settings.DEFAULT_ENABLED_BG_COLOR;
+							lineMaterial.diffuseColor = settings.DEFAULT_ENABLED_TEXT_COLOR;
+							lineColors.color[0] = settings.DEFAULT_ENABLED_TEXT_COLOR;
+						} else {
+							captionMaterial.diffuseColor = settings.DEFAULT_DISABLED_TEXT_COLOR;
+							runner.setColor = settings.DEFAULT_DISABLED_BG_COLOR;
+							lineMaterial.diffuseColor = settings.DEFAULT_DISABLED_TEXT_COLOR;
+							lineColors.color[0] = settings.DEFAULT_DISABLED_TEXT_COLOR;
+						}
+						
+						// TODO: also change colors
+					}
+					
+					function _setColor(newColor) {
+						if (INITIALIZED) {
+							setColor(newColor);
+						}
+					}
+					
+					function setColor(newColor) {
+						getColor = newColor;
+					
+						// TODO: change colors; not sure which components should be affected
+					}
+					
+					function _setSize(newSize) {
+						if (INITIALIZED) {
+							setSize(newSize);
+						}
+					}
+					
+					function setSize(newSize) {
+						var leftCaptionBBox = new MFVec3f(new SFVec3f(0, 0, 0), new SFVec3f(0, 0, 0));
+						var rightCaptionBBox = new MFVec3f(new SFVec3f(0, 0, 0), new SFVec3f(0, 0, 0));
+						var centerAreaBBox = new MFVec3f(new SFVec3f(0, 0, 0), new SFVec3f(0, 0, 0));
+					
+						if (leftCaptionHolder.getBBox() != null && leftCaptionHolder.getBBox() != 0) {
+							leftCaptionBBox = leftCaptionHolder.getBBox();
+						}
+						
+						if (rightCaptionHolder.getBBox() != null && rightCaptionHolder.getBBox() != 0) {
+							rightCaptionBBox = rightCaptionHolder.getBBox();
+						}
+						
+						if (centerArea.getBBox() != null && centerArea.getBBox() != 0) {
+							centerAreaBBox = centerArea.getBBox();
+						}
+
+						var captionsWidth = leftCaptionBBox[1].x - leftCaptionBBox[0].x + rightCaptionBBox[1].x - rightCaptionBBox[0].x;
+						var captionsHeight = leftCaptionBBox[1].y - leftCaptionBBox[0].y;
+						var centerAreaWidth = centerAreaBBox[1].x - centerAreaBBox[0].x;
+						var centerAreaHeight = centerAreaBBox[1].y - centerAreaBBox[0].y;
+
+						if (newSize.x < captionsWidth + 2 * settings.DEFAULT_DECORATION_GAP + settings.DEFAULT_HOR_SLIDER_MINIMUM_CENTER_SIZE.x) {
+							newSize.x = captionsWidth + 2 * settings.DEFAULT_DECORATION_GAP + settings.DEFAULT_HOR_SLIDER_MINIMUM_CENTER_SIZE.x;
+						}
+						
+						var neededHeight = 
+							captionsHeight > centerAreaHeight
+							? captionsHeight 
+							: centerAreaHeight;
+						
+						if (newSize.y < neededHeight + 2 * settings.DEFAULT_DECORATION_GAP) {
+							newSize.y = neededHeight + 2 * settings.DEFAULT_DECORATION_GAP;
+						}
+
+						if (newSize.x < settings.DEFAULT_HOR_SLIDER_MINIMUM_SIZE.x) {
+							newSize.x = settings.DEFAULT_HOR_SLIDER_MINIMUM_SIZE.x;
+						}
+						
+						if (newSize.y < settings.DEFAULT_HOR_SLIDER_MINIMUM_SIZE.y) {
+							newSize.y = settings.DEFAULT_HOR_SLIDER_MINIMUM_SIZE.y;
+						}
+						
+						getSize = newSize;
+
+						if (INITIALIZED) {
+							resetPlaneSensor();
+						}
+					}
+					
+					function _setVisible(newVisible) {
+						if (INITIALIZED) {
+							setVisible(newVisible);
+						}
+					}
+					
+					function setVisible(newVisible) {
+						isVisible = newVisible;
+						
+						display.whichChoice = (isVisible ? 0 : -1);
+					}
+					
+					function _setTransparency(newTransparency) {
+						if (INITIALIZED) {
+							setTransparency(newTransparency);
+						}
+					}
+					
+					function setTransparency(newTransparency) {
+						getTransparency = newTransparency;
+						
+						// TODO: change transparency of all components
+					}
+					
+					function _setMinValue(newMinValue) {
+						if (INITIALIZED) {
+							setMinValue(newMinValue);
+						}
+					}
+					
+					function setMinValue(newMinValue) {
+						if (INITIALIZED) {
+							if (newMinValue != getMaxValue) {
+								getMinValue = newMinValue;
+							
+								setNumOfMarkIntervals(getNumOfMarkIntervals);
+								
+								resetPlaneSensor();
+							}
+						} else {
+							getMinValue = newMinValue;
+						}
+					}
+					
+					function _setMaxValue(newMaxValue) {
+						if (INITIALIZED) {
+							setMaxValue(newMaxValue);
+						}
+					}
+					
+					function setMaxValue(newMaxValue) {
+						if (INITIALIZED) {
+							if (newMaxValue != getMinValue) {
+								getMaxValue = newMaxValue;
+							}
+							
+							setNumOfMarkIntervals(getNumOfMarkIntervals);
+							
+							resetPlaneSensor();
+						} else {
+							if (newMaxValue != getMinValue) {
+								getMaxValue = newMaxValue;
+							} else {
+								getMaxValue = 11 * getMinValue;
+							}
+						}
+					}
+					
+					function _setValue(newValue) {
+						if (INITIALIZED) {
+							setValue(newValue);
+						}
+					}
+					
+					function setValue(newValue) {
+						if (getMinValue < getMaxValue) {
+							if (newValue < getMinValue) {
+								getValue = getMinValue;
+							} else if (newValue > getMaxValue) {
+								getValue = getMaxValue;
+							} else {
+								getValue = newValue;
+							}
+						} else {
+							if (newValue > getMinValue) {
+								getValue = getMinValue;
+							} else if (newValue < getMaxValue) {
+								getValue = getMaxValue;
+							} else {
+								getValue = newValue;
+							}
+						}
+						
+						if (INITIALIZED) {
+							setCurrentValue();
+						}
+					}
+					
+					function _setNumOfMarkIntervals(newNumOfMarkIntervals) {
+						if (INITIALIZED) {
+							setNumOfMarkIntervals(newNumOfMarkIntervals);
+						}
+					}
+					
+					function setNumOfMarkIntervals(newNumOfMarkIntervals) {
+						if (newNumOfMarkIntervals < 1) {
+							getNumOfMarkIntervals = 1;
+						} else if (newNumOfMarkIntervals > 100) {
+							getNumOfMarkIntervals = 100;
+						} else {
+							getNumOfMarkIntervals = newNumOfMarkIntervals;
+						}
+					
+						if (INITIALIZED) {
+							resetPlaneSensor();
+						}
+					}
+					
+					function _setSnapToMarks(newSnapToMarks) {
+						if (INITIALIZED) {
+							setSnapToMarks(newSnapToMarks);
+						}
+					}
+					
+					function setSnapToMarks(newSnapToMarks) {
+						doSnapToMarks = newSnapToMarks;
+					}
+					
+					function _setLeftCaption(newLeftCaption) {
+						if (INITIALIZED) {
+							setLeftCaption(newLeftCaption);
+						}
+					}
+					
+					function setLeftCaption(newLeftCaption) {
+						getLeftCaption = newLeftCaption;
+						
+						leftCaptionString.string[0] = getLeftCaption;
+						
+						if (INITIALIZED) {
+							resetPlaneSensor();
+						}
+					}
+					
+					function _setRightCaption(newRightCaption) {
+						if (INITIALIZED) {
+							setRightCaption(newRightCaption);
+						}
+					}
+					
+					function setRightCaption(newRightCaption) {
+						getRightCaption = newRightCaption;
+						
+						rightCaptionString.string[0] = getRightCaption;
+						
+						if (INITIALIZED) {
+							resetPlaneSensor();
+						}
+					}
+					
+					function _setDisplayMarks(newDisplayMarks) {
+						if (INITIALIZED) {
+							setDisplayMarks(newDisplayMarks);
+						}
+					}
+					
+					function setDisplayMarks(newDisplayMarks) {
+						doDisplayMarks = newDisplayMarks;
+						
+						marksDisplay.whichChoice = doDisplayMarks ? 0 : -1;
+						
+						if (INITIALIZED) {
+							resetPlaneSensor();
+						}
+					}
+					
+					function setMarks() {
+						var step = planeSensorAmplitude / getNumOfMarkIntervals;
+						
+						marks.colorIndex = new MFInt32();
+						marks.coordIndex= new MFInt32();
+						marksCoords.point = new MFVec3f();
+						
+						for (var i = 0; i <= getNumOfMarkIntervals; i++) {
+							marksCoords.point[2 * i] = new SFVec3f(step * i, 0, 0);
+							marksCoords.point[2 * i + 1] = new SFVec3f(step * i, -settings.DEFAULT_SLIDER_MARK_LENGTH, 0);
+							
+							marks.colorIndex[3 * i] = 0;
+							marks.colorIndex[3 * i + 1] = 0;
+							marks.colorIndex[3 * i + 2] = 0;
+							
+							marks.coordIndex[3 * i] = 2 * i;
+							marks.coordIndex[3 * i + 1] = 2 * i + 1;
+							marks.coordIndex[3 * i + 2] = -1;
+						}
+					}
+					
+					function resetPlaneSensor() {
+						var leftCaptionWidth;
+						var leftCaptionHeight;
+						var rightCaptionWidth;
+						var rightCaptionHeight;
+						
+						if (leftCaptionString.string[0].length > 0) {
+							var leftCaptionBBox = leftCaptionHolder.getBBox();
+
+							leftCaptionWidth = leftCaptionBBox[1].x - leftCaptionBBox[0].x;
+							leftCaptionHeight = leftCaptionBBox[1].y - leftCaptionBBox[0].y;
+						} else {
+							leftCaptionWidth = 0;
+							leftCaptionHeight = 0;
+						}
+					
+						if (rightCaptionString.string[0].length > 0) {
+							var rightCaptionBBox = rightCaptionHolder.getBBox();
+							
+							rightCaptionWidth = rightCaptionBBox[1].x - rightCaptionBBox[0].x;
+							rightCaptionHeight = rightCaptionBBox[1].y - rightCaptionBBox[0].y;
+						} else {
+							rightCaptionWidth = 0;
+							rightCaptionHeight = 0;
+						}
+						
+						//leftCaptionHolder.translation.y = -settings.DEFAULT_DECORATION_GAP - leftCaptionHeight * settings.DEFAULT_FONT_VER_ADJUST_FACTOR;
+						//rightCaptionHolder.translation.y = -settings.DEFAULT_DECORATION_GAP - rightCaptionHeight * settings.DEFAULT_FONT_VER_ADJUST_FACTOR;
+						leftCaptionHolder.translation.y = -(getSize.y + settings.DEFAULT_FONT_SIZE * settings.DEFAULT_FONT_SCALE * 2 / 3) / 2;
+						rightCaptionHolder.translation.y = leftCaptionHolder.translation.y; 
+						
+						var centerAreaBBox = centerArea.getBBox();
+						var centerAreaHeight = centerAreaBBox[1].y - centerAreaBBox[0].y;
+						centerArea.translation.y = - (getSize.y - centerAreaHeight) / 2;
+						
+						runner.setSize = settings.DEFAULT_SLIDER_RUNNER_SIZE;
+						
+						lineHolder.translation.y = -settings.DEFAULT_SLIDER_RUNNER_SIZE.y / 2;
+						runnerWrapper.translation.x = leftCaptionWidth + 2 * settings.DEFAULT_DECORATION_GAP;
+						
+						marksHolder.translation.x = leftCaptionWidth + settings.DEFAULT_SLIDER_RUNNER_SIZE.x / 2 + 2 * settings.DEFAULT_DECORATION_GAP;
+						marksHolder.translation.y = -settings.DEFAULT_SLIDER_RUNNER_SIZE.y - 2 * settings.DEFAULT_DECORATION_GAP;
+						
+						lineCoords.point[0] = new SFVec3f(leftCaptionWidth + settings.DEFAULT_SLIDER_RUNNER_SIZE.x / 2 + 2 * settings.DEFAULT_DECORATION_GAP, -settings.DEFAULT_DECORATION_GAP, 0);
+						lineCoords.point[1] = new SFVec3f(getSize.x - rightCaptionWidth - settings.DEFAULT_SLIDER_RUNNER_SIZE.x / 2 - 2 * settings.DEFAULT_DECORATION_GAP, -settings.DEFAULT_DECORATION_GAP, 0);
+						
+						var lineLength = lineCoords.point[1].x - lineCoords.point[0].x;
+						planeSensorAmplitude = lineLength;
+
+						planeSensor.minPosition.y = 0;
+						planeSensor.maxPosition.y = 0;
+						planeSensor.minPosition.x = 0;
+						planeSensor.maxPosition.x = planeSensorAmplitude;
+						
+						setMarks();
+						
+						if (INITIALIZED) {
+							setCurrentValue();
+						}
+					}
+					
+					function setCurrentValue() {
+						planeSensor.offset = runnerHolder.translation;
+						runnerHolder.translation.x = (getValue - getMinValue) * planeSensorAmplitude / (getMaxValue - getMinValue);
+					}
+					
+					function onValueSelected(newValue) {
+						getValue = getMinValue + newValue.x / planeSensorAmplitude * (getMaxValue - getMinValue);
+
+						if (doSnapToMarks) {
+							var step =  (getMaxValue - getMinValue) / getNumOfMarkIntervals;
+							var times = (getValue - getMinValue) / step;
+
+							if (times < 0) {
+								if (Math.ceil(times) - times < 0.5) {
+									times = Math.ceil(times);
+								} else {
+									times = Math.floor(times);
+								}
+							} else {
+								if (times - Math.floor(times) < 0.5) {
+									times = Math.floor(times);
+								} else {
+									times = Math.ceil(times);
+								}
+							}
+							
+							getValue = times * step + getMinValue;
+
+							runnerHolder.translation.x = (getValue - getMinValue) * planeSensorAmplitude / (getMaxValue - getMinValue);
+						} else {
+							runnerHolder.translation.x = newValue.x;
+						}
+					}
+					
+					function onActive(active) {
+						if (active) {
+							runner.setColor = settings.DEFAULT_DISABLED_BG_COLOR;
+						} else {
+							if (isEnabled) {
+								runner.setColor = settings.DEFAULT_ENABLED_BG_COLOR;
+							} else {
+								runner.setColor = settings.DEFAULT_DISABLED_BG_COLOR;
+							}
+						}
+					}
+				]]>
+				</Script>
+
+			    <ROUTE fromField="translation_changed" fromNode="planeSensor" toField="onValueSelected" toNode="S"/>
+			    <ROUTE fromField="isActive" fromNode="planeSensor" toField="onActive" toNode="S"/>
+			</ProtoBody>
+		</ProtoDeclare>
+
+	</Scene>
+</X3D>

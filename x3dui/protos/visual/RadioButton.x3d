@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+	
+		<ExternProtoDeclare name="Rectangle" url='"Rectangle.x3d#Rectangle"'>
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="movable" type="SFBool" accessType="initializeOnly" />
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			
+			<field name="isMovable" type="SFBool" accessType="outputOnly" />
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			
+			<field name="setMovable" type="SFBool" accessType="inputOnly" />
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+			
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="border" type="SFString" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getBorder" type="SFString" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setBorder" type="SFString" accessType="inputOnly" />
+		</ExternProtoDeclare>
+	
+		<!-- This prototype implements a radio button object. -->
+		<ProtoDeclare name="RadioButton">
+			<ProtoInterface>
+				<!-- <proto>Settings</proto> object should be passed in this parameter. -->
+				<field name="settings" type="SFNode" accessType="inputOnly"></field>
+				<!-- Initializes the component and prepares it for visualization. -->
+				<field name="setup" type="SFBool" accessType="inputOnly" />
+				<!-- Causes the component to reposition itself and all its children in the z-depth stack. -->
+				<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+				
+				<!-- Specifies the size of the component. -->
+				<field name="size" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				<!-- Specifies whether the component should be visible. -->
+				<field name="visible" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies the text message to be shown with the check box. -->
+				<field name="text" type="SFString" accessType="initializeOnly" value="" />
+				<!-- Determines if the component will be interactive. -->
+				<field name="enabled" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies if the check box should be initially checked. -->
+				<field name="checked" type="SFBool" accessType="initializeOnly" value="false" />
+								
+				<!-- Returns the size of the component. -->
+				<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+				<!-- Indicates whether the component is visible. -->
+				<field name="isVisible" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the current caption of the component. -->
+				<field name="getText" type="SFString" accessType="outputOnly" />
+				<!-- Indicates whether the component is enabled. -->
+				<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+				<!-- Indicates whether the component is currently checked. -->
+				<field name="isChecked" type="SFBool" accessType="outputOnly" />
+				<!-- Fires <tt>true</tt> when the user first presses down and then releases 
+						the mouse button in the radio button area. Unlike <proto>Button</proto>
+						and its descendants, no <tt>isPressed</tt> event is available. -->
+				<field name="isClicked" type="SFBool" accessType="outputOnly" />
+								
+				<!-- Sets the size of the component. -->
+				<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+				<!-- Sets the visibility status of the component. -->
+				<field name="setVisible" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the caption of the component. -->
+				<field name="setText" type="SFString" accessType="inputOnly"/>
+				<!-- Sets the status of the component. -->
+				<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+				<!-- Makes the component either checked or unchecked. -->
+				<field name="setChecked" type="SFBool" accessType="inputOnly"/>
+			</ProtoInterface>
+			<ProtoBody>
+				<Group>					
+					<ProtoInstance DEF="rectangle" name="Rectangle">
+						<fieldValue name="children">
+							<Transform DEF="radioButtonHolder">
+								<TouchSensor DEF="touchSensor" />
+
+								<Transform DEF="radioHolder">
+									<OrderedGroup DEF="orderedGroup">
+										<Shape>
+											<Appearance>
+												<Material DEF="backgroundColor" diffuseColor="1 1 1" />
+											</Appearance>
+											<Circle DEF="innerCircle" />
+										</Shape>
+										
+										<Shape>
+											<ImageTexture DEF="radioButtonTexture"  repeatS="false" repeatT="false" />
+											<Circle DEF="outerCircle" />
+										</Shape>
+
+										<Switch DEF="checkedDisplay" whichChoice="-1">
+											<Shape>
+												<Appearance>
+													<Material diffuseColor="0 0 0" />
+												</Appearance>
+												<Circle DEF="checkedCircle" />
+											</Shape>
+										</Switch>
+									</OrderedGroup>
+								</Transform>
+								
+								<Transform DEF="textHolder">
+									<Transform DEF="textScale">
+										<Shape>
+											<Appearance>
+												<Material DEF="textMaterial" diffuseColor="0 0 0" />
+											</Appearance>
+											<Text DEF="textString" solid="true">
+												<FontStyle DEF="textStyle" justify='"BEGIN"' size="11" style="USE_TEXTURE" />
+											</Text> 
+										</Shape>
+									</Transform>
+								</Transform>
+							</Transform>
+						</fieldValue>
+						<fieldValue name="border" value="BOTTOM_RIGHT" />
+						<fieldValue name="color" value="1 1 1" />
+						<fieldValue name="transparency" value="1" />
+						<IS>				
+							<connect nodeField="visible" protoField="visible"/>
+							
+							<connect nodeField="getSize" protoField="getSize"/>
+							<connect nodeField="isVisible" protoField="isVisible"/>
+							
+							<connect nodeField="setVisible" protoField="setVisible"/>
+						</IS>
+					</ProtoInstance>
+				</Group>
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="radioButtonHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="radioButtonHolder" />
+					</field>
+					<field name="radioHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="radioHolder" />
+					</field>
+					<field name="touchSensor" type="SFNode" accessType="initializeOnly">
+						<TouchSensor USE="touchSensor" />
+					</field>
+					<field name="rectangle" type="SFNode" accessType="initializeOnly">
+						<Rectangle USE="rectangle" />
+					</field>
+					<field name="innerCircle" type="SFNode" accessType="initializeOnly">
+						<Circle USE="innerCircle" />
+					</field>
+					<field name="radioButtonTexture" type="SFNode" accessType="initializeOnly">
+						<ImageTexture USE="radioButtonTexture" />
+					</field>
+					<field name="outerCircle" type="SFNode" accessType="initializeOnly">
+						<Circle USE="outerCircle" />
+					</field>
+					<field name="checkedCircle" type="SFNode" accessType="initializeOnly">
+						<Circle USE="checkedCircle" />
+					</field>
+					<field name="orderedGroup" type="SFNode" accessType="initializeOnly">
+						<OrderedGroup USE="orderedGroup" />
+					</field>
+					<field name="checkedDisplay" type="SFNode" accessType="initializeOnly">
+						<Switch USE="checkedDisplay" />
+					</field>
+					<field name="backgroundColor" type="SFNode" accessType="initializeOnly">
+						<Material USE="backgroundColor" />
+					</field>
+					<field name="textHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="textHolder" />
+					</field>
+					<field name="textScale" type="SFNode" accessType="initializeOnly">
+						<Transform USE="textScale" />
+					</field>
+					<field name="textString" type="SFNode" accessType="initializeOnly">
+						<Text USE="textString" />
+					</field>
+					<field name="textMaterial" type="SFNode" accessType="initializeOnly">
+						<Material USE="textMaterial" />
+					</field>
+					<field name="textStyle" type="SFNode" accessType="initializeOnly">
+						<Text USE="textStyle" />
+					</field>
+
+					
+					<field name="settings" accessType="inputOnly" type="SFNode" />
+					<field name="setup" accessType="inputOnly" type="SFBool" />
+					<field name="applyZOrder" accessType="inputOnly" type="SFBool" />
+					
+					<field name="COMPONENT_ID" accessType="inputOutput" type="SFInt32" />
+					
+					<!-- attributes of the class -->
+					<field name="size" type="SFVec2f" accessType="initializeOnly" />
+					<field name="text" type="SFString" accessType="initializeOnly" />
+					<field name="enabled" type="SFBool" accessType="initializeOnly" />
+					<field name="checked" type="SFBool" accessType="initializeOnly" />
+					
+					<field name="getText" type="SFString" accessType="outputOnly" />
+					<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+					<field name="isChecked" type="SFBool" accessType="outputOnly" />
+					
+					<field name="_setSize" type="SFVec2f" accessType="inputOnly" />
+					<field name="_setText" type="SFString" accessType="inputOnly" />
+					<field name="_setEnabled" type="SFBool" accessType="inputOnly" />
+					<field name="_setChecked" type="SFBool" accessType="inputOnly" />
+					
+					<field name="onClick" type="SFBool" accessType="inputOnly" />
+					<field name="isPressed" type="SFBool" accessType="outputOnly" />
+					<field name="isClicked" type="SFBool" accessType="outputOnly" />
+					
+					<field name="INITIALIZED" accessType="inputOutput" type="SFBool" />
+					
+					<IS>
+						<connect nodeField="settings" protoField="settings"/>
+						<connect nodeField="setup" protoField="setup"/>
+						<connect nodeField="applyZOrder" protoField="applyZOrder"/>
+						
+						<connect nodeField="size" protoField="size"/>
+						<connect nodeField="text" protoField="text"/>
+						<connect nodeField="enabled" protoField="enabled"/>
+						<connect nodeField="checked" protoField="checked"/>
+						
+						<connect nodeField="getText" protoField="getText"/>
+						<connect nodeField="isEnabled" protoField="isEnabled"/>
+						<connect nodeField="isChecked" protoField="isChecked"/>
+						<connect nodeField="isClicked" protoField="isClicked"/>
+						
+						<connect nodeField="_setSize" protoField="setSize"/>
+						<connect nodeField="_setText" protoField="setText"/>
+						<connect nodeField="_setEnabled" protoField="setEnabled"/>
+						<connect nodeField="_setChecked" protoField="setChecked"/>
+					</IS>
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+					}
+
+					function setup() {
+						INITIALIZED = false;
+										
+						rectangle.settings = settings;
+						rectangle.setup = true;
+					
+						COMPONENT_ID = settings.COMPONENT_ID++;
+					
+						if (settings.DEBUG) print("radio button setup(" + COMPONENT_ID + ")");
+					
+						setSize(size);
+						setText(text);
+						setEnabled(enabled);
+						setChecked(checked);
+						
+						setAppearance();
+						
+						INITIALIZED = true;
+						
+						setSize(rectangle.getSize);
+					}
+					
+					function applyZOrder() {
+						rectangle.applyZOrder = true;
+					
+						if (settings.DEBUG) print("\tradio button applyZOrder(" + settings.Z_ORDER_COUNT + ")");
+					
+						var l = orderedGroup.children.length;
+
+						for (var i = 0; i < l; i++) {
+							orderedGroup.order[i] = settings.Z_ORDER_COUNT + i * settings.Z_ORDER_STEP;
+						}
+						
+						settings.Z_ORDER_COUNT++;
+					}
+					
+					function setAppearance() {
+						radioButtonHolder.translation.z = settings.TOUCH_SENSOR_ELEVATION;
+
+						radioButtonTexture.url[0] = settings.IMAGES_DIR + "radioButtonRing.png";
+						
+						radioHolder.translation = new SFVec3f(settings.DEFAULT_CHOICE_ELEMENT_DIMENSION / 2, -settings.DEFAULT_CHOICE_ELEMENT_DIMENSION / 2, 0);
+						outerCircle.radius = settings.DEFAULT_CHOICE_ELEMENT_DIMENSION / 2;
+						innerCircle.radius = outerCircle.radius - 0.0005;
+						checkedCircle.radius = outerCircle.radius * 0.4;
+					
+						textHolder.translation.x = settings.DEFAULT_CHOICE_ELEMENT_DIMENSION + settings.DEFAULT_DECORATION_GAP;
+						textHolder.translation.y = -settings.DEFAULT_FONT_SCALE * settings.DEFAULT_FONT_SIZE * settings.DEFAULT_FONT_VER_ADJUST_FACTOR;
+						textScale.scale = new SFVec3f(
+							settings.DEFAULT_FONT_SCALE, 
+							settings.DEFAULT_FONT_SCALE,
+							settings.DEFAULT_FONT_SCALE);
+							
+						textStyle.family = settings.DEFAULT_FONT_FAMILY;
+						textStyle.size = settings.DEFAULT_FONT_SIZE;
+					}
+					
+					function _setSize(newSize) {
+						if (INITIALIZED) {
+							setSize(newSize);
+						}
+					}
+					
+					function setSize(newSize) {
+						if (textHolder.getBBox() != null && textHolder.getBBox() != 0) {
+							var bbox = textHolder.getBBox();
+								
+							var width = bbox[1].x - bbox[0].x;
+							var height = bbox[1].y - bbox[0].y;
+							
+							if (newSize.x < width + settings.DEFAULT_CHOICE_ELEMENT_DIMENSION + settings.DEFAULT_DECORATION_GAP) {
+								newSize.x = width + settings.DEFAULT_CHOICE_ELEMENT_DIMENSION + settings.DEFAULT_DECORATION_GAP;
+							}
+							
+							var minHeight = height > settings.DEFAULT_CHOICE_ELEMENT_DIMENSION ? height : settings.DEFAULT_CHOICE_ELEMENT_DIMENSION;
+							
+							if (newSize.y < minHeight) {
+								newSize.y = minHeight;
+							}
+							
+							rectangle.setSize = newSize;
+						} else {
+							if (newSize.x < settings.DEFAULT_CHOICE_ELEMENT_DIMENSION) {
+								newSize.x = settings.DEFAULT_CHOICE_ELEMENT_DIMENSION;
+							}
+							
+							if (newSize.y < settings.DEFAULT_CHOICE_ELEMENT_DIMENSION) {
+								newSize.y = settings.DEFAULT_CHOICE_ELEMENT_DIMENSION;
+							}
+							
+							rectangle.setSize = newSize;
+						}
+						
+						radioHolder.translation.y = -rectangle.getSize.y / 2;
+						
+						if (INITIALIZED) {
+							setText(getText);
+						}
+					}
+					
+					function _setText(newText) {
+						if (INITIALIZED) {
+							setText(newText);
+						}
+					}
+					
+					function setText(newText) {
+						getText = newText;
+
+						textScale.scale = new SFVec3f(
+							settings.DEFAULT_FONT_SCALE, 
+							settings.DEFAULT_FONT_SCALE,
+							settings.DEFAULT_FONT_SCALE);
+							
+						textStyle.size = settings.DEFAULT_FONT_SIZE;
+						textStyle.family = settings.DEFAULT_FONT_FAMILY;
+					
+						textString.string = new MFString(getText);
+					
+						var textBBox;
+						var textWidth = 0;
+						var textAreaWidth = rectangle.getSize.x - settings.DEFAULT_CHOICE_ELEMENT_DIMENSION;
+						var textAreaHeight = rectangle.getSize.y;
+						
+						if (newText != "") {
+							textBBox = textHolder.getBBox();
+							textWidth = textBBox[1].x - textBBox[0].x;
+							
+							var i = newText.length - 1;
+
+							while(textAreaWidth < textWidth + 2 * settings.DEFAULT_DECORATION_GAP && i >= 0) {
+								newText = new SFString(newText.substring(0, i) + "...");
+								textString.string = new MFString(newText);
+								
+								textBBox = textHolder.getBBox();
+								textWidth = textBBox[1].x - textBBox[0].x;
+								
+								i--;
+							}
+						}
+						
+						textHolder.translation.x = settings.DEFAULT_CHOICE_ELEMENT_DIMENSION + settings.DEFAULT_DECORATION_GAP;
+						textHolder.translation.y = -(textAreaHeight + settings.DEFAULT_FONT_SIZE * settings.DEFAULT_FONT_SCALE * 2 / 3) / 2;
+					}
+					
+					function _setEnabled(newEnabled) {
+						if (INITIALIZED) {
+							setEnabled(newEnabled);
+						}
+					}
+					
+					function setEnabled(newEnabled) {
+						isEnabled = newEnabled;
+
+						backgroundColor.diffuseColor = isEnabled ? settings.DEFAULT_ENABLED_INPUT_BG_COLOR : settings.DEFAULT_DISABLED_INPUT_BG_COLOR;
+						textMaterial.diffuseColor = isEnabled ? settings.DEFAULT_ENABLED_TEXT_COLOR : settings.DEFAULT_DISABLED_TEXT_COLOR;
+
+						touchSensor.enabled = isEnabled;
+					}
+
+					function _setChecked(newChecked) {
+						if (INITIALIZED) {
+							setChecked(newChecked);
+						}
+					}
+
+					function setChecked(newChecked) {
+						isChecked = newChecked;
+
+						checkedDisplay.whichChoice = (isChecked ? 0 : -1);
+					}
+
+					function onClick(clicked) {
+						isPressed = clicked;
+					
+						if (!isPressed && touchSensor.isOver) {
+							if (isEnabled) {
+								setChecked(true);
+							}
+							
+							isClicked = true;	
+						}
+						
+						if (isEnabled) {
+							backgroundColor.diffuseColor = !isPressed ? settings.DEFAULT_ENABLED_INPUT_BG_COLOR : settings.DEFAULT_DISABLED_INPUT_BG_COLOR;
+						}
+					}
+				]]>
+				</Script>
+				
+				<ROUTE fromNode="touchSensor" fromField="isActive" toNode="S" toField="onClick" />
+			</ProtoBody>
+		</ProtoDeclare>
+		
+	</Scene>
+</X3D>

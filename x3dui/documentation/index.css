@@ -1,0 +1,103 @@
+h1 {
+	font-size: 200%;
+	margin-top: 0;
+	margin-bottom: 20px;
+}
+
+h2 {
+	font-size: 170%;
+	margin-top: 0;
+	margin-bottom: 15px;
+}
+
+h3 {
+	font-size: 150%;
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+h4 {
+	font-size: 120%;
+	margin-top: 0;
+	margin-bottom: 5px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+td {
+	vertical-align: top;
+	border: 1px solid silver;
+	padding: 5px;
+}
+
+ul {
+	margin-bottom: 0;
+	margin-top: 5px;
+	padding-bottom: 0;
+	padding-top: 0;
+}
+
+
+.bold {
+	font-weight: bold;
+}
+
+.description {
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.disabled {
+	color: #777777;
+}
+
+.fixedWidth {
+	font-family: monospace;
+}
+
+.hidden {
+	display: none;
+}
+
+.indented {
+	padding-left: 10px;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.navigation {
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background-color: #eeeeee;
+	font-weight: bold;
+	font-size: 130%;
+}
+
+.noWrap {
+	white-space: nowrap;
+}
+
+.sectionHeader {
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background-color: #cccccc;
+	font-weight: bold;
+	font-size: 130%;
+	border: 1px solid #444444;
+}
+
+.small {
+	font-size: small;
+}
+
+.toggler {
+	color: blue;
+	cursor: pointer;
+}

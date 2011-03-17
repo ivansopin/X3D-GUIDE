@@ -1,0 +1,1183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.2//EN" "http://www.web3d.org/specifications/x3d-3.2.dtd">
+<X3D profile="Immersive" version="3.2" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.2.xsd">
+	<head />
+	<Scene>
+
+		<ExternProtoDeclare name="Display" url='"x3dui/library/x3dui.x3d#Display"'>
+				<field name="children" type="MFNode" accessType="initializeOnly"></field>
+				<field name="viewProximity" accessType="initializeOnly" type="SFFloat" />
+				<field name="debug" accessType="initializeOnly" type="SFBool" />
+		</ExternProtoDeclare>	
+
+		<ExternProtoDeclare name="TextButton" url='"x3dui/library/x3dui.x3d#TextButton"'>
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+							
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			
+			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+			
+			<field name="isPressed" type="SFBool" accessType="outputOnly" />
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+			
+			<field name="text" type="SFString" accessType="initializeOnly" />
+			
+			<field name="getText" type="SFString" accessType="outputOnly" />
+			
+			<field name="setText" type="SFString" accessType="inputOnly"/>
+		</ExternProtoDeclare>
+	
+		<ExternProtoDeclare name="TextToggleButton" url='"x3dui/library/x3dui.x3d#TextToggleButton"'>
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+							
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="pressed" type="SFBool" accessType="initializeOnly" />
+			
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="isPressed" type="SFBool" accessType="outputOnly" />
+			
+			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+			<field name="setPressed" type="SFBool" accessType="inputOnly"/>
+				
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+			
+			<field name="onText" type="SFString" accessType="initializeOnly" />
+			<field name="offText" type="SFString" accessType="initializeOnly" />
+			
+			<field name="getOnText" type="SFString" accessType="outputOnly" />
+			<field name="getOffText" type="SFString" accessType="outputOnly" />
+			
+			<field name="setOnText" type="SFString" accessType="inputOnly"/>
+			<field name="setOffText" type="SFString" accessType="inputOnly"/>
+		</ExternProtoDeclare>
+	
+		<ExternProtoDeclare name="TextField" url='"x3dui/library/x3dui.x3d#TextField"'>
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+							
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="text" type="SFString" accessType="initializeOnly" />
+			<field name="maxLength" type="SFInt32" accessType="initializeOnly" />
+			
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="getText" type="SFString" accessType="outputOnly" />
+			<field name="getMaxLength" type="SFInt32" accessType="outputOnly" />
+			
+			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+			<field name="setText" type="SFString" accessType="inputOnly" />
+			<field name="setMaxLength" type="SFInt32" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="Frame" url='"x3dui/library/x3dui.x3d#Frame"'>
+			<!-- from Display -->
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="getId" type="SFInt32" accessType="outputOnly" />
+			
+			<!-- from Plane -->
+			<field name="movable" type="SFBool" accessType="initializeOnly" />
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			
+			<field name="isMovable" type="SFBool" accessType="outputOnly" />
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			
+			<field name="setMovable" type="SFBool" accessType="inputOnly" />
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="border" type="SFString" accessType="initializeOnly" /> <!-- NONE|EQUAL|TOP_LEFT|BOTTOM_RIGHT -->
+			
+			<field name="getChildren" type="MFNode" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getBorder" type="SFString" accessType="outputOnly" />
+			
+			<field name="setChildren" type="MFNode" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setBorder" type="SFString" accessType="inputOnly" />
+			
+			<!-- new fields -->
+			<field name="layout" type="SFNode" accessType="initializeOnly" />
+			
+			<field name="header" type="SFBool" accessType="initializeOnly" />
+			<field name="title" type="SFString" accessType="initializeOnly" />
+			<field name="startMaximized" type="SFBool" accessType="initializeOnly" />
+			<field name="resizable" type="SFBool" accessType="initializeOnly" />
+			<field name="minimizable" type="SFBool" accessType="initializeOnly" />
+			<field name="maximizable" type="SFBool" accessType="initializeOnly" />
+			<field name="closeable" type="SFBool" accessType="initializeOnly" />
+			
+			<field name="hasHeader" type="SFBool" accessType="outputOnly" />
+			<field name="getTitle" type="SFString" accessType="outputOnly" />
+			<field name="isResizable" type="SFBool" accessType="outputOnly" />
+			<field name="isMinimizable" type="SFBool" accessType="outputOnly" />
+			<field name="isMinimized" type="SFBool" accessType="outputOnly" />
+			<field name="isMaximizable" type="SFBool" accessType="outputOnly" />
+			<field name="isCloseable" type="SFBool" accessType="outputOnly" />
+			<field name="isClosed" type="SFBool" accessType="outputOnly" />
+			
+			<field name="setHeader" type="SFBool" accessType="inputOnly"/>
+			<field name="setTitle" type="SFString" accessType="inputOnly"/>
+			<field name="setResizable" type="SFBool" accessType="inputOnly"/>
+			<field name="setMinimizable" type="SFBool" accessType="inputOnly"/>
+			<field name="setMinimized" type="SFBool" accessType="inputOnly" />
+			<field name="setMaximizable" type="SFBool" accessType="inputOnly"/>
+			<field name="setCloseable" type="SFBool" accessType="inputOnly"/>
+			<field name="setActive" type="SFBool" accessType="inputOnly" />
+			<field name="setElevation" type="SFFloat" accessType="inputOnly" />
+			<field name="doLayout" type="SFBool" accessType="inputOnly" />
+		</ExternProtoDeclare>
+
+		<ExternProtoDeclare name="FlowLayout" url='"x3dui/library/x3dui.x3d#FlowLayout"'>
+			<field name="align" accessType="initializeOnly" type="SFString" />
+			<field name="hGap" accessType="initializeOnly" type="SFFloat" />
+			<field name="vGap" accessType="initializeOnly" type="SFFloat" />
+			
+			<field name="getAlign" accessType="outputOnly" type="SFString" />
+			<field name="getHGap" accessType="outputOnly" type="SFFloat" />
+			<field name="getVGap" accessType="outputOnly" type="SFFloat" />
+		</ExternProtoDeclare>	
+
+		<ExternProtoDeclare name="BoxLayout" url='"x3dui/library/x3dui.x3d#BoxLayout"'>
+			<field name="direction" accessType="initializeOnly" type="SFString" />
+			<field name="hAlign" accessType="initializeOnly" type="SFString" />
+			<field name="vAlign" accessType="initializeOnly" type="SFString" />
+			<field name="hGap" accessType="initializeOnly" type="SFFloat" />
+			<field name="vGap" accessType="initializeOnly" type="SFFloat" />
+			
+			<field name="getDirection" accessType="outputOnly" type="SFString" />
+			<field name="getHAlign" accessType="outputOnly" type="SFString" />
+			<field name="getVAlign" accessType="outputOnly" type="SFString" />
+			<field name="getHGap" accessType="outputOnly" type="SFFloat" />
+			<field name="getVGap" accessType="outputOnly" type="SFFloat" />
+		</ExternProtoDeclare>
+
+		<ExternProtoDeclare name="BorderLayout" url='"x3dui/library/x3dui.x3d#BorderLayout"'>
+			<field name="hGap" accessType="initializeOnly" type="SFFloat" />
+			<field name="vGap" accessType="initializeOnly" type="SFFloat" />
+			<field name="centerElementId" accessType="initializeOnly" type="SFString" />
+			<field name="northElementId" accessType="initializeOnly" type="SFString" />
+			<field name="southElementId" accessType="initializeOnly" type="SFString" />
+			<field name="westElementId" accessType="initializeOnly" type="SFString" />
+			<field name="eastElementId" accessType="initializeOnly" type="SFString" />
+			
+			<field name="getHGap" accessType="outputOnly" type="SFFloat" />
+			<field name="getVGap" accessType="outputOnly" type="SFFloat" />
+			<field name="getCenterElementId" accessType="outputOnly" type="SFString" />
+			<field name="getNorthElementId" accessType="outputOnly" type="SFString" />
+			<field name="getSouthElementId" accessType="outputOnly" type="SFString" />
+			<field name="getWestElementId" accessType="outputOnly" type="SFString" />
+			<field name="getEastElementId" accessType="outputOnly" type="SFString" />
+		</ExternProtoDeclare>
+
+		<ExternProtoDeclare name="GridLayout" url='"x3dui/library/x3dui.x3d#GridLayout"'>
+			<field name="numOfRows" accessType="initializeOnly" type="SFInt32" />
+			<field name="numOfColumns" accessType="initializeOnly" type="SFInt32" />
+			<field name="hGap" accessType="initializeOnly" type="SFFloat" />
+			<field name="vGap" accessType="initializeOnly" type="SFFloat" />
+			<field name="compressHorizontally" accessType="initializeOnly" type="SFBool" />
+			<field name="compressVertically" accessType="initializeOnly" type="SFBool" />
+			
+			<field name="getNumOfRows" accessType="outputOnly" type="SFInt32" />
+			<field name="getNumOfColumns" accessType="outputOnly" type="SFInt32" />
+			<field name="getHGap" accessType="outputOnly" type="SFFloat" />
+			<field name="getVGap" accessType="outputOnly" type="SFFloat" />
+			<field name="doCompressHorizontally" accessType="outputOnly" type="SFBool" />
+			<field name="doCompressVertically" accessType="outputOnly" type="SFBool" />
+		</ExternProtoDeclare>
+
+		<ExternProtoDeclare name="CheckBox" url='"x3dui/library/x3dui.x3d#CheckBox"'>
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />>
+			<field name="text" type="SFString" accessType="initializeOnly" />
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="checked" type="SFBool" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="getText" type="SFString" accessType="outputOnly" />
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="isChecked" type="SFBool" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="setText" type="SFString" accessType="inputOnly" />
+			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+			<field name="setChecked" type="SFBool" accessType="inputOnly"/>
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+		</ExternProtoDeclare>
+
+		<ExternProtoDeclare name="RadioButton" url='"x3dui/library/x3dui.x3d#RadioButton"'>
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />>
+			<field name="text" type="SFString" accessType="initializeOnly" />
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="checked" type="SFBool" accessType="initializeOnly" />
+			<field name="getText" type="SFString" accessType="outputOnly" />
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="isChecked" type="SFBool" accessType="outputOnly" />
+			<field name="setText" type="SFString" accessType="inputOnly" />
+			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+			<field name="setChecked" type="SFBool" accessType="inputOnly"/>
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="RadioButtonGroup" url='"x3dui/library/x3dui.x3d#RadioButtonGroup"'>
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+		</ExternProtoDeclare>
+
+		<ExternProtoDeclare name="ComboBox" url='"x3dui/library/x3dui.x3d#ComboBox"'>
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="children" type="MFString" accessType="initializeOnly"></field>							
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="selectedIndex" type="SFInt32" accessType="initializeOnly" />
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="getSelectedIndex" type="SFInt32" accessType="outputOnly" />
+			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+			<field name="setSelectedIndex" type="SFInt32" accessType="inputOnly"/>
+			<field name="isSelected" type="SFBool" accessType="outputOnly" />
+			<field name="selectedChanged" type="SFBool" accessType="outputOnly" />
+		</ExternProtoDeclare>
+
+		<ExternProtoDeclare name="Label" url='"x3dui/library/x3dui.x3d#Label"'>
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="text" type="MFString" accessType="initializeOnly" />
+			<field name="justify" type="SFString" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="fontSize" type="SFFloat" accessType="initializeOnly" />
+			<field name="fontStyle" type="SFString" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="getText" type="MFString" accessType="outputOnly" />
+			<field name="getJustify" type="SFString" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getFontSize" type="SFFloat" accessType="outputOnly" />
+			<field name="getFontStyle" type="SFString" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setText" type="MFString" accessType="inputOnly"/>
+			<field name="setJustify" type="SFString" accessType="inputOnly"/>
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />				
+			<field name="setFontSize" type="SFFloat" accessType="inputOnly" />
+			<field name="setFontStyle" type="SFString" accessType="inputOnly" />
+		</ExternProtoDeclare>
+
+		<ExternProtoDeclare name="Panel" url='"x3dui/library/x3dui.x3d#Panel"'>
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="text" type="SFString" accessType="initializeOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getText" type="SFString" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="layout" type="SFNode" accessType="initializeOnly" />
+			<field name="border" type="SFString" accessType="initializeOnly" />
+			<field name="getBorder" type="SFString" accessType="outputOnly" />
+			<field name="doLayout" type="SFBool" accessType="inputOnly" />
+			<field name="setBorder" type="SFString" accessType="inputOnly" />
+			<field name="setText" type="SFString" accessType="inputOnly" />
+		</ExternProtoDeclare>
+
+		<ExternProtoDeclare name="TabPanel" url='"x3dui/library/x3dui.x3d#TabPanel"'>
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="selectedIndex" type="SFInt32" accessType="initializeOnly" />
+			<field name="getSelectedIndex" type="SFInt32" accessType="outputOnly" />
+			<field name="setSelectedIndex" type="SFInt32" accessType="inputOnly" />
+		</ExternProtoDeclare>
+
+		<ExternProtoDeclare name="Rectangle" url='"x3dui/library/x3dui.x3d#Rectangle"'>
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="movable" type="SFBool" accessType="initializeOnly" />
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			
+			<field name="isMovable" type="SFBool" accessType="outputOnly" />
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			
+			<field name="setMovable" type="SFBool" accessType="inputOnly" />
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+			
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="border" type="SFString" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getBorder" type="SFString" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setBorder" type="SFString" accessType="inputOnly" />
+		</ExternProtoDeclare>
+
+		<ExternProtoDeclare name="HorizontalSlider" url='"x3dui/library/x3dui.x3d#HorizontalSlider"'>
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="value" type="SFFloat" accessType="initializeOnly" />
+			<field name="minValue" type="SFFloat" accessType="initializeOnly" />
+			<field name="maxValue" type="SFFloat" accessType="initializeOnly" />
+			<field name="numOfMarkIntervals" type="SFInt32" accessType="initializeOnly" />
+			<field name="snapToMarks" type="SFBool" accessType="initializeOnly" />
+			<field name="leftCaption" type="SFString" accessType="initializeOnly" />
+			<field name="rightCaption" type="SFString" accessType="initializeOnly" />
+			<field name="displayMarks" type="SFBool" accessType="initializeOnly" />
+			
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getValue" type="SFFloat" accessType="outputOnly" />
+			<field name="getMinValue" type="SFFloat" accessType="outputOnly" />
+			<field name="getMaxValue" type="SFFloat" accessType="outputOnly" />
+			<field name="getNumOfMarkIntervals" type="SFInt32" accessType="outputOnly" />
+			<field name="doSnapToMarks" type="SFBool" accessType="outputOnly" />
+			<field name="getLeftCaption" type="SFString" accessType="outputOnly" />
+			<field name="getRightCaption" type="SFString" accessType="outputOnly" />
+			<field name="doDisplayMarks" type="SFBool" accessType="outputOnly" />
+			
+			<field name="setEnabled" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setValue" type="SFFloat" accessType="inputOnly" />
+			<field name="setMinValue" type="SFFloat" accessType="inputOnly" />
+			<field name="setMaxValue" type="SFFloat" accessType="inputOnly" />
+			<field name="setNumOfMarkIntervals" type="SFInt32" accessType="inputOnly" />
+			<field name="setSnapToMarks" type="SFBool" accessType="inputOnly" />
+			<field name="setLeftCaption" type="SFString" accessType="inputOnly" />
+			<field name="setRightCaption" type="SFString" accessType="inputOnly" />
+			<field name="setDisplayMarks" type="SFBool" accessType="inputOnly" />
+		</ExternProtoDeclare>
+
+		<Viewpoint description="front" orientation="0.0 0.0 0.0  0.0" position="0.0 0.0 5.0" centerOfRotation="0 0 0" />
+
+		<Background DEF="background" skyColor="0.8 0.85 1" />
+		
+		<DirectionalLight intensity="0.3" />
+		
+		<Viewpoint DEF="centerView" description="center" orientation="0 0 0  0" position="0 0 5" />
+		<Viewpoint DEF="leftView" description="left" orientation="0 1 0  0.2" position="-0.5 0 5" />
+		<Viewpoint DEF="rightView" description="right" orientation="0 1 0  -0.2" position="0.5 0 5" />
+		<Viewpoint DEF="topView" description="top" orientation="1 0 0  0.2" position="0 0.5 5" />
+		<Viewpoint DEF="bottomView" description="bottom" orientation="1 0 0  -0.2" position="0 -0.5 5" />
+
+		<Transform>
+			<Switch DEF="display" whichChoice="0">
+				<Shape>
+					<Appearance>
+						<Material DEF="material" shininess="0" diffuseColor="1 0 0" />
+					</Appearance>
+					
+					<Box DEF="box" size="1 1 1" />
+				</Shape>
+				
+				<Shape DEF="sphere">
+					<Appearance>
+						<Material USE="material" />
+					</Appearance>
+					
+					<Sphere DEF="sphere" radius="0.5" />
+				</Shape>
+				
+				<Shape DEF="cone">
+					<Appearance>
+						<Material USE="material" />
+					</Appearance>
+					
+					<Cone DEF="cone" bottomRadius="0.5" height="1" />
+				</Shape>
+			</Switch>
+		</Transform>
+
+		<ProtoInstance name="Display">
+			<fieldValue name="debug" value="false" />
+			<fieldValue name="viewProximity" value="-0.5" />
+			<fieldValue name="children">
+				<ProtoInstance DEF="mainFrame" name="Frame">
+					<fieldValue name="position" value="0.0 0.0" />
+					<fieldValue name="header" value="true" />
+					<fieldValue name="closeable" value="false" />
+					<fieldValue name="title" value="Main Control Window" />
+					<fieldValue name="layout">
+						<ProtoInstance name="FlowLayout">
+							<fieldValue name="align" value="RIGHT" />
+							<fieldValue name="hGap" value="0.002" />
+							<fieldValue name="vGap" value="0.002" />
+						</ProtoInstance>
+					</fieldValue>
+					<fieldValue name="children">
+
+						<ProtoInstance name="Panel">
+							<fieldValue name="border" value="LOWERED" />
+							<fieldValue name="layout">
+								<ProtoInstance name="BoxLayout">
+									<fieldValue name="direction" value="VERTICAL" />
+									<fieldValue name="hAlign" value="CENTER" />
+									<fieldValue name="vAlign" value="MIDDLE" />
+									<fieldValue name="hGap" value="0.002" />
+									<fieldValue name="vGap" value="0.001" />
+								</ProtoInstance>
+							</fieldValue>
+							<fieldValue name="children">
+								<ProtoInstance DEF="openFirstFrameButton" name="TextButton">
+									<fieldValue name="size" value="0.05 0.01" />
+									<fieldValue name="text" value="Open Object Controls" />
+									<fieldValue name="enabled" value="false" />
+								</ProtoInstance>
+								
+								<ProtoInstance DEF="openSecondFrameButton" name="TextButton">
+									<fieldValue name="size" value="0.05 0.01" />
+									<fieldValue name="text" value="Open View Controls" />
+									<fieldValue name="enabled" value="false" />
+								</ProtoInstance>
+							</fieldValue>
+						</ProtoInstance>
+
+						<ProtoInstance name="Panel">
+							<fieldValue name="border" value="LOWERED" />
+							<fieldValue name="layout">
+								<ProtoInstance name="BoxLayout">
+									<fieldValue name="direction" value="VERTICAL" />
+									<fieldValue name="hAlign" value="CENTER" />
+									<fieldValue name="vAlign" value="MIDDLE" />
+									<fieldValue name="hGap" value="0.001" />
+									<fieldValue name="vGap" value="0.001" />
+								</ProtoInstance>
+							</fieldValue>	
+							<fieldValue name="children">
+								<ProtoInstance name="Label">
+									<fieldValue name="size" value="0.0868 0.01" />
+									<fieldValue name="text" value='"View Controls Window Transparency"' />
+									<fieldValue name="justify" value="MIDDLE" />
+									<fieldValue name="fontSize" value="8" />
+									<fieldValue name="fontStyle" value="PLAIN" />
+								</ProtoInstance>
+								
+								<ProtoInstance DEF="transparencySlider" name="HorizontalSlider">
+									<fieldValue name="size" value="0.08 0.01" />
+									<fieldValue name="leftCaption" value="none" />
+									<fieldValue name="rightCaption" value="total" />
+									<fieldValue name="value" value="0" />
+									<fieldValue name="minValue" value="0" />
+									<fieldValue name="maxValue" value="1" />
+									<fieldValue name="numOfMarkIntervals" value="10" />
+									<fieldValue name="snapToMarks" value="false" />
+								</ProtoInstance>
+							</fieldValue>
+						</ProtoInstance>
+
+						<ProtoInstance name="Panel">
+							<fieldValue name="border" value="LOWERED" />
+							<fieldValue name="layout">
+								<ProtoInstance name="BoxLayout">
+									<fieldValue name="direction" value="VERTICAL" />
+									<fieldValue name="hAlign" value="CENTER" />
+									<fieldValue name="vAlign" value="MIDDLE" />
+									<fieldValue name="hGap" value="0.002" />
+									<fieldValue name="vGap" value="0.001" />
+								</ProtoInstance>
+							</fieldValue>
+							<fieldValue name="children">
+								<ProtoInstance name="Label">
+									<fieldValue name="size" value="0.0868 0.01" />
+									<fieldValue name="text" value='"Title of this window"' />
+									<fieldValue name="justify" value="MIDDLE" />
+									<fieldValue name="fontSize" value="8" />
+									<fieldValue name="fontStyle" value="PLAIN" />
+								</ProtoInstance>
+								
+								<ProtoInstance DEF="textField" name="TextField">
+									<fieldValue name="size" value="0.07 0.008" />
+									<fieldValue name="maxLength" value="40" />
+									<fieldValue name="text" value="Main Control Window" />
+								</ProtoInstance>
+							</fieldValue>
+						</ProtoInstance>
+
+						<ProtoInstance name="Panel">
+							<fieldValue name="border" value="LOWERED" />
+							<fieldValue name="layout">
+								<ProtoInstance name="BoxLayout">
+									<fieldValue name="direction" value="VERTICAL" />
+									<fieldValue name="hAlign" value="CENTER" />
+									<fieldValue name="vAlign" value="MIDDLE" />
+									<fieldValue name="hGap" value="0.002" />
+									<fieldValue name="vGap" value="0.001" />
+								</ProtoInstance>
+							</fieldValue>
+							<fieldValue name="children">
+								<ProtoInstance name="Label">
+									<fieldValue name="size" value="0.0868 0.01" />
+									<fieldValue name="text" value='"Background color"' />
+									<fieldValue name="justify" value="MIDDLE" />
+									<fieldValue name="fontSize" value="8" />
+									<fieldValue name="fontStyle" value="PLAIN" />
+								</ProtoInstance>
+								
+								<ProtoInstance DEF="comboBox" name="ComboBox">
+									<fieldValue name="children" value='
+										"Light", 
+										"Dimmed", 
+										"Dark",
+										"Black"' />
+									<fieldValue name="size" value="0.07 0.008" />
+									<fieldValue name="selectedIndex" value="0" />
+								</ProtoInstance>
+							</fieldValue>
+						</ProtoInstance>
+
+					</fieldValue>
+				</ProtoInstance>
+
+				<ProtoInstance DEF="objectControlFrame" name="Frame">
+					<fieldValue name="position" value="0.05 0.05" />
+					<fieldValue name="header" value="true" />
+					<fieldValue name="maximizable" value="false" />
+					<fieldValue name="resizable" value="true" />
+					<fieldValue name="title" value="Geometric Object Control Window" />
+					<fieldValue name="layout">
+						<ProtoInstance name="BoxLayout">
+							<fieldValue name="direction" value="VERTICAL" />
+							<fieldValue name="hAlign" value="CENTER" />
+							<fieldValue name="vAlign" value="MIDDLE" />
+							<fieldValue name="hGap" value="0.001" />
+							<fieldValue name="vGap" value="0.005" />
+						</ProtoInstance>
+					</fieldValue>			
+					<fieldValue name="children">
+		
+						<ProtoInstance name="Label">
+							<fieldValue name="size" value="0.09 0.01" />
+							<fieldValue name="text" value='"A Frame with" "Various Controls"' />
+							<fieldValue name="color" value="0 0 1" />
+							<fieldValue name="justify" value="MIDDLE" />
+							<fieldValue name="fontSize" value="15" />
+							<fieldValue name="fontStyle" value="BOLD" />
+						</ProtoInstance>
+		
+						<ProtoInstance name="Panel">
+							<fieldValue name="text" value="Controls" />
+							<fieldValue name="border" value="RAISED" />
+							<fieldValue name="layout">
+								<ProtoInstance name="BoxLayout">
+									<fieldValue name="direction" value="VERTICAL" />
+									<fieldValue name="hAlign" value="CENTER" />
+									<fieldValue name="vAlign" value="MIDDLE" />
+									<fieldValue name="hGap" value="0.001" />
+									<fieldValue name="vGap" value="0.001" />
+								</ProtoInstance>
+							</fieldValue>
+							<fieldValue name="children">
+								
+								<ProtoInstance name="TabPanel">
+									<fieldValue name="size" value="0.05 0.05" />
+									<fieldValue name="children">
+										<ProtoInstance name="Panel">
+											<fieldValue name="size" value="0.034 0.033" />
+											<fieldValue name="text" value="Shape" />
+											<fieldValue name="layout">
+												<ProtoInstance name="FlowLayout">
+													<fieldValue name="align" value="LEFT" />
+													<fieldValue name="hGap" value="0.002" />
+													<fieldValue name="vGap" value="0.003" />
+												</ProtoInstance>
+											</fieldValue>	
+											<fieldValue name="children">
+												<ProtoInstance DEF="boxRadio" name="RadioButton">
+													<fieldValue name="size" value="0.03 0.006" />
+													<fieldValue name="checked" value="true" />
+													<fieldValue name="text" value="Box" />
+												</ProtoInstance>
+			
+												<ProtoInstance DEF="sphereRadio" name="RadioButton">
+													<fieldValue name="size" value="0.03 0.006" />
+													<fieldValue name="checked" value="false" />
+													<fieldValue name="text" value="Sphere" />
+												</ProtoInstance>
+			
+												<ProtoInstance DEF="coneRadio" name="RadioButton">
+													<fieldValue name="size" value="0.03 0.006" />
+													<fieldValue name="checked" value="false" />
+													<fieldValue name="text" value="Cone" />
+												</ProtoInstance>
+												
+												<ProtoInstance DEF="pyramidRadio" name="RadioButton">
+													<fieldValue name="size" value="0.03 0.006" />
+													<fieldValue name="checked" value="false" />
+													<fieldValue name="enabled" value="false" />
+													<fieldValue name="text" value="Pyramid" />
+												</ProtoInstance>
+											</fieldValue>
+										</ProtoInstance>
+																	
+										<ProtoInstance name="Panel">
+											<fieldValue name="size" value="0.034 0.033" />
+											<fieldValue name="text" value="Color" />
+											<fieldValue name="layout">
+												<ProtoInstance name="FlowLayout">
+													<fieldValue name="align" value="LEFT" />
+													<fieldValue name="hGap" value="0.002" />
+													<fieldValue name="vGap" value="0.003" />
+												</ProtoInstance>
+											</fieldValue>	
+											<fieldValue name="children">
+												<ProtoInstance DEF="redCheck" name="CheckBox">
+													<fieldValue name="size" value="0.03 0.006" />
+													<fieldValue name="checked" value="true" />
+													<fieldValue name="text" value="Red" />
+												</ProtoInstance>
+			
+												<ProtoInstance DEF="greenCheck" name="CheckBox">
+													<fieldValue name="size" value="0.03 0.006" />
+													<fieldValue name="checked" value="false" />
+													<fieldValue name="text" value="Green" />
+												</ProtoInstance>
+			
+												<ProtoInstance DEF="blueCheck" name="CheckBox">
+													<fieldValue name="size" value="0.03 0.006" />
+													<fieldValue name="checked" value="false" />
+													<fieldValue name="text" value="Blue" />
+												</ProtoInstance>
+												
+												<ProtoInstance name="CheckBox">
+													<fieldValue name="size" value="0.03 0.006" />
+													<fieldValue name="checked" value="false" />
+													<fieldValue name="text" value="White" />
+													<fieldValue name="enabled" value="false" />
+												</ProtoInstance>
+											</fieldValue>
+										</ProtoInstance>
+										
+										<ProtoInstance name="Panel">
+											<fieldValue name="size" value="0.034 0.033" />
+											<fieldValue name="text" value="Size" />
+											<fieldValue name="layout">
+												<ProtoInstance name="BoxLayout">
+													<fieldValue name="direction" value="VERTICAL" />
+													<fieldValue name="hAlign" value="CENTER" />
+													<fieldValue name="vAlign" value="MIDDLE" />
+													<fieldValue name="hGap" value="0.001" />
+													<fieldValue name="vGap" value="0.001" />
+												</ProtoInstance>
+											</fieldValue>	
+											<fieldValue name="children">												
+												<ProtoInstance DEF="sizeSlider" name="HorizontalSlider">
+													<fieldValue name="size" value="0.08 0.01" />
+													<fieldValue name="leftCaption" value="small" />
+													<fieldValue name="rightCaption" value="large" />
+													<fieldValue name="enabled" value="true" />
+													<fieldValue name="value" value="1" />
+													<fieldValue name="minValue" value="1" />
+													<fieldValue name="maxValue" value="2" />
+													<fieldValue name="numOfMarkIntervals" value="10" />
+													<fieldValue name="snapToMarks" value="true" />
+												</ProtoInstance>
+												
+												<ProtoInstance DEF="sizeLabel" name="Label">
+													<fieldValue name="size" value="0.03 0.01" />
+													<fieldValue name="text" value='"1" "Size Unit"' />
+													<fieldValue name="color" value="0.3 0.3 0.3" />
+													<fieldValue name="justify" value="MIDDLE" />
+													<fieldValue name="fontSize" value="9" />
+													<fieldValue name="fontStyle" value="ITALIC" />
+												</ProtoInstance>
+											</fieldValue>
+										</ProtoInstance>
+									</fieldValue>
+								</ProtoInstance>
+							
+								<ProtoInstance DEF="tintButton" name="TextToggleButton">
+									<fieldValue name="size" value="0.05 0.01" />
+									<fieldValue name="onText" value="Tinted" />
+									<fieldValue name="offText" value="Plain" />
+								</ProtoInstance>
+							</fieldValue>
+						</ProtoInstance>
+
+					</fieldValue>
+				</ProtoInstance>
+
+				<ProtoInstance DEF="viewControlFrame" name="Frame">
+					<fieldValue name="position" value="0.1 0.1" />
+					<fieldValue name="size" value="0.2 0.1" />
+					<fieldValue name="header" value="true" />
+					<fieldValue name="title" value="View Selection" />
+					<fieldValue name="visible" value="true" />
+					<fieldValue name="layout">
+						<ProtoInstance name="BorderLayout">
+							<fieldValue name="hGap" value="0.001" />
+							<fieldValue name="vGap" value="0.001" />
+							<fieldValue name="centerElementId" value="centerButton" />
+							<fieldValue name="northElementId" value="topButton" />
+							<fieldValue name="southElementId" value="bottomButton" />
+							<fieldValue name="westElementId" value="leftButton" />
+							<fieldValue name="eastElementId" value="rightButton" />
+						</ProtoInstance>
+					</fieldValue>	
+					<fieldValue name="children">
+						<ProtoInstance DEF="centerButton" name="TextButton">
+							<fieldValue name="size" value="0.05 0.01" />
+							<fieldValue name="text" value="Center" />
+						</ProtoInstance>
+						
+						<ProtoInstance DEF="topButton" name="TextButton">
+							<fieldValue name="size" value="0.05 0.01" />
+							<fieldValue name="text" value="Top" />
+						</ProtoInstance>
+						
+						<ProtoInstance DEF="bottomButton" name="TextButton">
+							<fieldValue name="size" value="0.05 0.01" />
+							<fieldValue name="text" value="Bottom" />
+						</ProtoInstance>
+						
+						<ProtoInstance DEF="leftButton" name="TextButton">
+							<fieldValue name="size" value="0.05 0.01" />
+							<fieldValue name="text" value="Left" />
+						</ProtoInstance>
+						
+						<ProtoInstance DEF="rightButton" name="TextButton">
+							<fieldValue name="size" value="0.05 0.01" />
+							<fieldValue name="text" value="Right" />
+						</ProtoInstance>
+
+					</fieldValue>
+				</ProtoInstance>
+
+				<ProtoInstance DEF="table" name="Frame">
+					<fieldValue name="position" value="0.15 0.15" />
+					<fieldValue name="size" value="0.2 0.1" />
+					<fieldValue name="header" value="false" />
+					<fieldValue name="title" value="Table Window" />
+					<fieldValue name="layout">
+						<ProtoInstance name="GridLayout">
+							<fieldValue name="hGap" value="0.001" />
+							<fieldValue name="vGap" value="0.001" />
+							<fieldValue name="numOfRows" value="2" />
+							<fieldValue name="numOfColumns" value="3" />
+							<fieldValue name="compressHorizontally" value="false" />
+							<fieldValue name="compressVertically" value="true" />
+						</ProtoInstance>
+					</fieldValue>	
+					<fieldValue name="children">
+						<ProtoInstance name="Panel">
+							<fieldValue name="border" value="LINE" />
+							<fieldValue name="size" value="0.05 0.05" />
+							<fieldValue name="color" value="1 0.6 0.6" />
+						</ProtoInstance>
+						
+						<ProtoInstance name="Panel">
+							<fieldValue name="border" value="LINE" />
+							<fieldValue name="size" value="0.06 0.03" />
+							<fieldValue name="color" value="1 1 0.6" />
+						</ProtoInstance>
+						
+						<ProtoInstance name="Panel">
+							<fieldValue name="border" value="LINE" />
+							<fieldValue name="size" value="0.03 0.06" />
+							<fieldValue name="color" value="0.6 1 0.6" />
+						</ProtoInstance>
+						
+						<ProtoInstance name="Panel">
+							<fieldValue name="border" value="LINE" />
+							<fieldValue name="size" value="0.03 0.06" />
+							<fieldValue name="color" value="0.6 0.6 1" />
+						</ProtoInstance>
+						
+						<ProtoInstance name="Panel">
+							<fieldValue name="border" value="LINE" />
+							<fieldValue name="size" value="0.05 0.05" />
+							<fieldValue name="color" value="0.6 1 1" />
+						</ProtoInstance>
+						
+						<ProtoInstance name="Panel">
+							<fieldValue name="border" value="LINE" />
+							<fieldValue name="size" value="0.06 0.03" />
+							<fieldValue name="color" value="1 0.6 1" />
+						</ProtoInstance>
+					</fieldValue>
+				</ProtoInstance>
+
+			</fieldValue>
+		</ProtoInstance>
+
+		<ProtoInstance name="RadioButtonGroup">
+			<fieldValue name="children">
+				<ProtoInstance USE="boxRadio" />
+				<ProtoInstance USE="sphereRadio" />
+				<ProtoInstance USE="coneRadio" />
+				<ProtoInstance USE="pyramidRadio" />
+			</fieldValue>
+		</ProtoInstance>
+
+		<Script DEF="S" directOutput="true">
+			
+			<field name="display" type="SFNode" accessType="initializeOnly">
+				<Switch USE="display" />
+			</field>
+			<field name="material" type="SFNode" accessType="initializeOnly">
+				<Material USE="material" />
+			</field>
+			<field name="sizeLabel" type="SFNode" accessType="initializeOnly">
+				<ProtoInstance USE="sizeLabel" />
+			</field>
+			<field name="box" type="SFNode" accessType="initializeOnly">
+				<Box USE="box" />
+			</field>
+			<field name="sphere" type="SFNode" accessType="initializeOnly">
+				<Sphere USE="sphere" />
+			</field>
+			<field name="cone" type="SFNode" accessType="initializeOnly">
+				<Cone USE="cone" />
+			</field>
+			<field name="centerView" type="SFNode" accessType="initializeOnly">
+				<Viewpoint USE="centerView" />
+			</field>
+			<field name="leftView" type="SFNode" accessType="initializeOnly">
+				<Viewpoint USE="leftView" />
+			</field>
+			<field name="rightView" type="SFNode" accessType="initializeOnly">
+				<Viewpoint USE="rightView" />
+			</field>
+			<field name="topView" type="SFNode" accessType="initializeOnly">
+				<Viewpoint USE="topView" />
+			</field>
+			<field name="bottomView" type="SFNode" accessType="initializeOnly">
+				<Viewpoint USE="bottomView" />
+			</field>
+			<field name="background" type="SFNode" accessType="initializeOnly">
+				<Background USE="background" />
+			</field>
+			
+
+			<field name="boxRadio" type="SFNode" accessType="initializeOnly">
+				<ProtoInstance USE="boxRadio" />
+			</field>
+			<field name="sphereRadio" type="SFNode" accessType="initializeOnly">
+				<ProtoInstance USE="sphereRadio" />
+			</field>
+			<field name="coneRadio" type="SFNode" accessType="initializeOnly">
+				<ProtoInstance USE="coneRadio" />
+			</field>
+			<field name="redCheck" type="SFNode" accessType="initializeOnly">
+				<ProtoInstance USE="redCheck" />
+			</field>
+			<field name="greenCheck" type="SFNode" accessType="initializeOnly">
+				<ProtoInstance USE="greenCheck" />
+			</field>
+			<field name="blueCheck" type="SFNode" accessType="initializeOnly">
+				<ProtoInstance USE="blueCheck" />
+			</field>
+			<field name="tintButton" type="SFNode" accessType="initializeOnly">
+				<ProtoInstance USE="tintButton" />
+			</field>
+			<field name="openFirstFrameButton" type="SFNode" accessType="initializeOnly">
+				<ProtoInstance USE="openFirstFrameButton" />
+			</field>
+			<field name="openSecondFrameButton" type="SFNode" accessType="initializeOnly">
+				<ProtoInstance USE="openSecondFrameButton" />
+			</field>
+			<field name="objectControlFrame" type="SFNode" accessType="initializeOnly">
+				<ProtoInstance USE="objectControlFrame" />
+			</field>
+			<field name="viewControlFrame" type="SFNode" accessType="initializeOnly">
+				<ProtoInstance USE="viewControlFrame" />
+			</field>
+			<field name="mainFrame" type="SFNode" accessType="initializeOnly">
+				<ProtoInstance USE="mainFrame" />
+			</field>
+			
+			
+
+			<field name="shapeChosen" type="SFBool" accessType="inputOnly" />
+			<field name="colorChosen" type="SFBool" accessType="inputOnly" />
+			<field name="sizeChosen" type="SFFloat" accessType="inputOnly" />
+			<field name="tintChosen" type="SFBool" accessType="inputOnly" />
+			<field name="setCenterView" type="SFBool" accessType="inputOnly" />
+			<field name="setLeftView" type="SFBool" accessType="inputOnly" />
+			<field name="setRightView" type="SFBool" accessType="inputOnly" />
+			<field name="setTopView" type="SFBool" accessType="inputOnly" />
+			<field name="setBottomView" type="SFBool" accessType="inputOnly" />
+			<field name="firstFrameClosed" type="SFBool" accessType="inputOnly" />
+			<field name="secondFrameClosed" type="SFBool" accessType="inputOnly" />
+			<field name="openFirstFrame" type="SFBool" accessType="inputOnly" />
+			<field name="openSecondFrame" type="SFBool" accessType="inputOnly" />
+			<field name="transparencyChosen" type="SFFloat" accessType="inputOnly" />
+			<field name="titleChosen" type="SFString" accessType="inputOnly" />
+			<field name="backgroundChosen" type="SFInt32" accessType="inputOnly" />
+			
+		<![CDATA[
+			ecmascript:
+
+			function initialize() {
+			}
+			
+			function shapeChosen(clicked) {
+				if (boxRadio.isChecked) {
+					display.whichChoice = 0;
+				} else if (sphereRadio.isChecked) {
+					display.whichChoice = 1;
+				} else if (coneRadio.isChecked) {
+					display.whichChoice = 2;
+				}
+			}
+			
+			function colorChosen(clicked) {
+				material.diffuseColor.r = redCheck.isChecked ? 1 : 0;
+				material.diffuseColor.g = greenCheck.isChecked ? 1 : 0;
+				material.diffuseColor.b = blueCheck.isChecked ? 1 : 0;
+			}
+			
+			function sizeChosen(value) {
+				var firstLine = Math.round(value * 10.0) / 10.0 + "";
+				var secondLine = value == 1 ? "Size Unit" : "Size Units";
+				
+				sizeLabel.setText = new MFString(firstLine, secondLine);
+				
+				box.size = new SFVec3f(value, value, value);
+				sphere.radius = value / 2.0;
+				cone.bottomRadius = value / 2.0;
+				cone.height = value;
+			}
+			
+			function tintChosen(clicked) {
+				material.emissiveColor.b = tintButton.isPressed ? 0.4 : 0;
+			}
+			
+			function setCenterView() {
+				Browser.setViewpointByValue(centerView.position, centerView.orientation, 16);
+			}
+
+			function setLeftView() {
+				Browser.setViewpointByValue(leftView.position, leftView.orientation, 16);
+			}
+			
+			function setRightView() {
+				Browser.setViewpointByValue(rightView.position, rightView.orientation, 16);
+			}
+			
+			function setTopView() {
+				Browser.setViewpointByValue(topView.position, topView.orientation, 16);
+			}
+			
+			function setBottomView() {
+				Browser.setViewpointByValue(bottomView.position, bottomView.orientation, 16);
+			}
+			
+			function firstFrameClosed(closed) {
+				openFirstFrameButton.setEnabled = closed;
+			}
+			
+			function secondFrameClosed(closed) {
+				openSecondFrameButton.setEnabled = closed;
+			}
+			
+			function openFirstFrame() {
+				objectControlFrame.setVisible = true;
+			}
+			
+			function openSecondFrame() {
+				viewControlFrame.setVisible = true;
+			}
+			
+			function transparencyChosen(value) {
+				viewControlFrame.setTransparency = value;
+			}
+			
+			function titleChosen(value) {
+				mainFrame.setTitle = value;
+			}
+			
+			function backgroundChosen(value) {
+				if (value == 0) {
+					background.skyColor[0] = new SFColor(0.8, 0.85, 1);
+				} else if (value == 1) {
+					background.skyColor[0] = new SFColor(0.6, 0.65, 0.8);
+				} else if (value == 2) {
+					background.skyColor[0] = new SFColor(0.4, 0.45, 0.6);
+				} else if (value == 3) {
+					background.skyColor[0] = new SFColor(0, 0, 0);
+				}
+			}
+		]]>
+		</Script>
+		
+		<ROUTE fromNode="boxRadio" fromField="isClicked" toNode="S" toField="shapeChosen" />
+		<ROUTE fromNode="sphereRadio" fromField="isClicked" toNode="S" toField="shapeChosen" />
+		<ROUTE fromNode="coneRadio" fromField="isClicked" toNode="S" toField="shapeChosen" />
+		<ROUTE fromNode="redCheck" fromField="isClicked" toNode="S" toField="colorChosen" />
+		<ROUTE fromNode="greenCheck" fromField="isClicked" toNode="S" toField="colorChosen" />
+		<ROUTE fromNode="blueCheck" fromField="isClicked" toNode="S" toField="colorChosen" />
+		<ROUTE fromNode="sizeSlider" fromField="getValue" toNode="S" toField="sizeChosen" />
+		<ROUTE fromNode="tintButton" fromField="isClicked" toNode="S" toField="tintChosen" />
+		<ROUTE fromNode="centerButton" fromField="isClicked" toNode="S" toField="setCenterView" />
+		<ROUTE fromNode="leftButton" fromField="isClicked" toNode="S" toField="setLeftView" />
+		<ROUTE fromNode="rightButton" fromField="isClicked" toNode="S" toField="setRightView" />
+		<ROUTE fromNode="topButton" fromField="isClicked" toNode="S" toField="setTopView" />
+		<ROUTE fromNode="bottomButton" fromField="isClicked" toNode="S" toField="setBottomView" />
+		<ROUTE fromNode="objectControlFrame" fromField="isClosed" toNode="S" toField="firstFrameClosed" />
+		<ROUTE fromNode="viewControlFrame" fromField="isClosed" toNode="S" toField="secondFrameClosed" />
+		<ROUTE fromNode="openFirstFrameButton" fromField="isClicked" toNode="S" toField="openFirstFrame" />
+		<ROUTE fromNode="openSecondFrameButton" fromField="isClicked" toNode="S" toField="openSecondFrame" />
+		<ROUTE fromNode="transparencySlider" fromField="getValue" toNode="S" toField="transparencyChosen" />
+		<ROUTE fromNode="textField" fromField="getText" toNode="S" toField="titleChosen" />
+		<ROUTE fromNode="comboBox" fromField="getSelectedIndex" toNode="S" toField="backgroundChosen" />
+
+	</Scene>
+</X3D>

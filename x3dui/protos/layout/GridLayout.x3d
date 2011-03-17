@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+	
+		<ProtoDeclare name="GridLayout">
+			<ProtoInterface>
+				<field name="numOfRows" accessType="initializeOnly" type="SFInt32" value="1" />
+				<field name="numOfColumns" accessType="initializeOnly" type="SFInt32" value="1" />
+				<field name="hGap" accessType="initializeOnly" type="SFFloat" value="0.001" />
+				<field name="vGap" accessType="initializeOnly" type="SFFloat" value="0.001" />
+				<field name="compressHorizontally" accessType="initializeOnly" type="SFBool" value="true" />
+				<field name="compressVertically" accessType="initializeOnly" type="SFBool" value="true" />
+				
+				<field name="getNumOfRows" accessType="outputOnly" type="SFInt32" />
+				<field name="getNumOfColumns" accessType="outputOnly" type="SFInt32" />
+				<field name="getHGap" accessType="outputOnly" type="SFFloat" />
+				<field name="getVGap" accessType="outputOnly" type="SFFloat" />
+				<field name="doCompressHorizontally" accessType="outputOnly" type="SFBool" />
+				<field name="doCompressVertically" accessType="outputOnly" type="SFBool" />
+			</ProtoInterface>
+			<ProtoBody>				
+				<Group>
+					
+				</Group>
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="numOfRows" accessType="initializeOnly" type="SFInt32" />
+					<field name="numOfColumns" accessType="initializeOnly" type="SFInt32" />
+					<field name="hGap" accessType="initializeOnly" type="SFFloat" />
+					<field name="vGap" accessType="initializeOnly" type="SFFloat" />
+					<field name="compressHorizontally" accessType="initializeOnly" type="SFBool" />
+					<field name="compressVertically" accessType="initializeOnly" type="SFBool" />
+				
+					<field name="getNumOfRows" accessType="outputOnly" type="SFInt32" />
+					<field name="getNumOfColumns" accessType="outputOnly" type="SFInt32" />
+					<field name="getHGap" accessType="outputOnly" type="SFFloat" />
+					<field name="getVGap" accessType="outputOnly" type="SFFloat" />
+					<field name="doCompressHorizontally" accessType="outputOnly" type="SFBool" />
+					<field name="doCompressVertically" accessType="outputOnly" type="SFBool" />
+
+					<IS>
+						<connect nodeField="numOfRows" protoField="numOfRows"/>
+						<connect nodeField="numOfColumns" protoField="numOfColumns"/>
+						<connect nodeField="hGap" protoField="hGap"/>
+						<connect nodeField="vGap" protoField="vGap"/>
+						<connect nodeField="compressHorizontally" protoField="compressHorizontally"/>
+						<connect nodeField="compressVertically" protoField="compressVertically"/>
+						
+						<connect nodeField="getNumOfRows" protoField="getNumOfRows"/>
+						<connect nodeField="getNumOfColumns" protoField="getNumOfColumns"/>
+						<connect nodeField="getHGap" protoField="getHGap"/>
+						<connect nodeField="getVGap" protoField="getVGap"/>
+						<connect nodeField="doCompressHorizontally" protoField="doCompressHorizontally"/>
+						<connect nodeField="doCompressVertically" protoField="doCompressVertically"/>
+					</IS>
+					
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+						getNumOfRows = numOfRows;
+						getNumOfColumns = numOfColumns;
+						getHGap = hGap;
+						getVGap = vGap;
+						doCompressHorizontally = compressHorizontally;
+						doCompressVertically = compressVertically;
+					}
+				]]>
+				</Script>
+			</ProtoBody>
+		</ProtoDeclare>
+		
+	</Scene>
+</X3D>

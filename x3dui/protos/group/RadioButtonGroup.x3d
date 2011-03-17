@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+	
+		<!-- This prototype ensures that of the group of <proto>RadioButton</proto>
+				instances provided in the <field>children</field> parameter only one
+				could be selected at any given moment. -->
+		<ProtoDeclare name="RadioButtonGroup">
+			<ProtoInterface>
+				<!-- Accepts an array of <proto>RadioButton</proto> instances. -->
+				<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			</ProtoInterface>
+			<ProtoBody>				
+				<Group>
+					
+				</Group>
+				
+				<Script DEF="S" directOutput="true">
+					<field name="children" accessType="initializeOnly" type="MFNode">
+					</field>
+					<field name="radioButtonClicked" accessType="inputOnly" type="SFBool" />
+					<field name="lastIndex" accessType="inputOutput" type="SFInt32" value="-1" />
+						
+					<IS>
+						<connect nodeField="children" protoField="children" />
+					</IS>
+					
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+						var l = children.length;
+						
+						for (var i = 0; i < l; i++) {
+							if (children[i].getType() == "RadioButton") {
+								Browser.addRoute(children[i], "isClicked", Browser.getScript(), "radioButtonClicked");
+								
+								if (children[i].isChecked) {
+									lastIndex = i;
+								}
+							}
+						}
+					}
+					
+					function radioButtonClicked() {
+						var l = children.length;
+					
+						var itemChecked = false;
+						var indexChanged = false;
+						
+						for (var i = 0; i < l; i++) {
+							if (children[i].getType() == "RadioButton" && children[i].isChecked) {
+								itemChecked = true;
+								break;
+							}
+						}
+						
+						if (itemChecked) {
+							for (var i = 0; i < l; i++) {
+								if (children[i].getType() == "RadioButton" && children[i].isChecked && i != lastIndex) {
+									itemChanged = true;
+									lastIndex = i;
+									break;
+								}
+							}
+						
+							if (itemChanged) {
+								for (var i = 0; i < l; i++) {
+									if (children[i].getType() == "RadioButton" && i != lastIndex) {
+										children[i].setChecked = false;
+									}
+								}
+							}
+						} else {
+							lastIndex = -1;
+							
+							for (var i = 0; i < l; i++) {
+								if (children[i].getType() == "RadioButton") {
+									children[i].setChecked = false;
+								}
+							}
+						}
+					}
+				]]>
+				</Script>
+			</ProtoBody>
+		</ProtoDeclare>
+		
+	</Scene>
+</X3D>

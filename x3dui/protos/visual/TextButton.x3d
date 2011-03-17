@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+
+		<ExternProtoDeclare name="Button" url='"Button.x3d#Button"'>
+			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+							
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			
+			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+			
+			<field name="isPressed" type="SFBool" accessType="outputOnly" />
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+		</ExternProtoDeclare>
+	
+		<!-- This prototype implements a <proto>Button</proto> with text. -->
+		<ProtoDeclare name="TextButton">
+			<ProtoInterface>
+				<!-- <proto>Settings</proto> object should be passed in this parameter. -->
+				<field name="settings" type="SFNode" accessType="inputOnly"></field>
+				<!-- Initializes the component and prepares it for visualization. -->
+				<field name="setup" type="SFBool" accessType="inputOnly" />
+				<!-- Causes the component to reposition itself and all its children in the z-depth stack. -->
+				<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+				
+				<!-- Specifies the size of the component. -->
+				<field name="size" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				<!-- Specifies whether the component should be visible. -->
+				<field name="visible" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies what color the component should be. -->
+				<field name="color" type="SFColor" accessType="initializeOnly" value="0.832 0.8164 0.7852" />
+				<!-- Specifies the transparency level of the component. 
+						If the value provided is positive, all children will also be assigned
+						the same transparency level; otherwise, only the container object
+						will be of the specified transparency. -->
+				<field name="transparency" type="SFFloat" accessType="initializeOnly" value="0" />
+				<!-- Determines if the button will be interactive. -->
+				<field name="enabled" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies the text to be displayed on the button. -->
+				<field name="text" type="SFString" accessType="initializeOnly" value="" />
+								
+				<!-- Returns the size of the component. -->
+				<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+				<!-- Indicates whether the component is visible. -->
+				<field name="isVisible" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the color of the component. -->
+				<field name="getColor" type="SFColor" accessType="outputOnly" />
+				<!-- Returns the component's transparency level. -->
+				<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+				<!-- Indicates whether the button is enabled. -->
+				<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the text displayed on the button. -->
+				<field name="getText" type="SFString" accessType="outputOnly" />
+				<!-- Fires <tt>true</tt> when the button is pressed down, 
+						and false when the button is released. -->
+				<field name="isPressed" type="SFBool" accessType="outputOnly" />
+				<!-- Fires <tt>true</tt> when the button is first pressed down, 
+						and then released. Compare with <field>isPressed</field>. -->
+				<field name="isClicked" type="SFBool" accessType="outputOnly" />
+				
+				<!-- Sets the size of the component. -->
+				<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+				<!-- Sets the visibility status of the component. -->
+				<field name="setVisible" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the color of the component. -->
+				<field name="setColor" type="SFColor" accessType="inputOnly" />
+				<!-- Sets the component's transparency level. -->
+				<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+				<!-- Sets the status of the button. -->
+				<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
+				<!-- Sets the text to be displayed on the button. -->
+				<field name="setText" type="SFString" accessType="inputOnly"/>
+			</ProtoInterface>
+			<ProtoBody>
+				<Group>
+					<ProtoInstance DEF="button" name="Button">
+						<fieldValue name="children">
+							<Transform DEF="textHolder">
+								<Transform DEF="textScale">
+									<Shape>
+										<Appearance>
+											<Material DEF="textMaterial" diffuseColor="0 0 0" />
+										</Appearance>
+										<Text DEF="textString" solid="true">
+											<FontStyle DEF="textStyle" justify='"BEGIN"' size="11" style="USE_TEXTURE" />
+										</Text> 
+									</Shape>
+								</Transform>
+							</Transform>
+						</fieldValue>
+						<IS>
+							<connect nodeField="visible" protoField="visible"/>
+							<connect nodeField="color" protoField="color"/>
+							<connect nodeField="transparency" protoField="transparency"/>
+							
+							<connect nodeField="getSize" protoField="getSize"/>
+							<connect nodeField="isVisible" protoField="isVisible"/>
+							<connect nodeField="getColor" protoField="getColor"/>
+							<connect nodeField="getTransparency" protoField="getTransparency"/>
+							<connect nodeField="isEnabled" protoField="isEnabled"/>
+							<connect nodeField="isPressed" protoField="isPressed"/>
+							<connect nodeField="isClicked" protoField="isClicked"/>
+
+							<connect nodeField="setColor" protoField="setColor"/>
+							<connect nodeField="setVisible" protoField="setVisible"/>
+						</IS>
+					</ProtoInstance>
+				</Group>
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="button" type="SFNode" accessType="initializeOnly">
+						<Button USE="button" />
+					</field>
+					<field name="textHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="textHolder" />
+					</field>
+					<field name="textScale" type="SFNode" accessType="initializeOnly">
+						<Transform USE="textScale" />
+					</field>
+					<field name="textString" type="SFNode" accessType="initializeOnly">
+						<Text USE="textString" />
+					</field>
+					<field name="textMaterial" type="SFNode" accessType="initializeOnly">
+						<Material USE="textMaterial" />
+					</field>
+					<field name="textStyle" type="SFNode" accessType="initializeOnly">
+						<Text USE="textStyle" />
+					</field>
+					
+					<!-- constants -->
+					<field name="COMPONENT_ID" accessType="inputOutput" type="SFInt32" />
+					
+					<!-- attributes of the class -->
+					<field name="settings" accessType="inputOnly" type="SFNode" />
+					<field name="setup" accessType="inputOnly" type="SFBool" />
+					<field name="applyZOrder" accessType="inputOnly" type="SFBool" />
+					
+					<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+					<field name="size" type="SFVec2f" accessType="initializeOnly" />
+					<field name="enabled" type="SFBool" accessType="initializeOnly" />
+					<field name="text" type="SFString" accessType="initializeOnly" />
+					
+					<field name="getText" type="SFString" accessType="outputOnly" />
+					<field name="isPressed" type="SFBool" accessType="outputOnly" />
+					
+					<field name="_setTransparency" type="SFFloat" accessType="inputOnly" />
+					<field name="_setSize" type="SFVec2f" accessType="inputOnly" />
+					<field name="_setEnabled" type="SFBool" accessType="inputOnly" />
+					<field name="_setText" type="SFString" accessType="inputOnly" />
+					
+					<field name="onPress" type="SFBool" accessType="inputOnly" />
+					
+					<field name="INITIALIZED" accessType="inputOutput" type="SFBool" />
+					
+					<IS>
+						<connect nodeField="settings" protoField="settings"/>
+						<connect nodeField="setup" protoField="setup"/>
+						<connect nodeField="applyZOrder" protoField="applyZOrder"/>
+						
+						<connect nodeField="transparency" protoField="transparency"/>
+						<connect nodeField="size" protoField="size"/>
+						<connect nodeField="enabled" protoField="enabled"/>
+						<connect nodeField="text" protoField="text"/>
+						
+						<connect nodeField="getText" protoField="getText"/>
+						<connect nodeField="isPressed" protoField="isPressed"/>
+						
+						<connect nodeField="_setTransparency" protoField="setTransparency"/>
+						<connect nodeField="_setSize" protoField="setSize"/>
+						<connect nodeField="_setEnabled" protoField="setEnabled"/>
+						<connect nodeField="_setText" protoField="setText"/>
+					</IS>
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+					}
+
+					function setup() {
+						INITIALIZED = false;
+						
+						button.settings = settings;
+						button.setup = true;
+						
+						COMPONENT_ID = settings.COMPONENT_ID++;
+						
+						if (settings.DEBUG) print("text button setup(" + COMPONENT_ID + ")");
+					
+						setTransparency(transparency);
+						setSize(size);
+						setEnabled(enabled);
+						setText(text);
+						
+						INITIALIZED = true;
+						
+						setSize(button.getSize);
+					}
+					
+					function applyZOrder() {
+						button.applyZOrder = true;
+						
+						if (settings.DEBUG) print("\ttext button applyZOrder(" + settings.Z_ORDER_COUNT + ")");
+					}
+
+					function _setTransparency(newTransparency) {
+						if (INITIALIZED) {
+							setTransparency(newTransparency);
+						}
+					}
+
+					function setTransparency(newTransparency) {
+						textMaterial.transparency = newTransparency;
+						
+						button.setTransparency = newTransparency;
+					}
+					
+					function _setSize(newSize) {
+						if (INITIALIZED) {
+							setSize(newSize);
+						}
+					}
+					
+					function setSize(newSize) {
+						if (textHolder.getBBox() != null && textHolder.getBBox() != 0) {
+							var bbox = textHolder.getBBox();
+								
+							var width = bbox[1].x - bbox[0].x;
+							var height = bbox[1].y - bbox[0].y;
+							
+							if (newSize.x < width + 2 * settings.DEFAULT_DECORATION_GAP) {
+								newSize.x = width + 2 * settings.DEFAULT_DECORATION_GAP;
+							}
+							
+							if (newSize.y < height + 2 * settings.DEFAULT_DECORATION_GAP) {
+								newSize.y = height + 2 * settings.DEFAULT_DECORATION_GAP;
+							}
+							
+							button.setSize = newSize;
+						} else {
+							if (newSize.x < settings.DEFAULT_BUTTON_MINIMUM_SIZE.x) {
+								newSize.x = settings.DEFAULT_BUTTON_MINIMUM_SIZE.x;
+							}
+							
+							if (newSize.y < settings.DEFAULT_BUTTON_MINIMUM_SIZE.y) {
+								newSize.y = settings.DEFAULT_BUTTON_MINIMUM_SIZE.y;
+							}
+							
+							button.setSize = newSize;
+						}
+						
+						if (INITIALIZED) {
+							setText(getText);
+						}
+					}
+					
+					function _setEnabled(newEnabled)  {
+						if (INITIALIZED) {
+							setEnabled(newEnabled);
+						}
+					}
+					
+					function setEnabled(newEnabled) {
+						button.setEnabled = newEnabled;
+					
+						textMaterial.diffuseColor = newEnabled ? settings.DEFAULT_ENABLED_TEXT_COLOR : settings.DEFAULT_DISABLED_TEXT_COLOR;
+					}
+					
+					function _setText(newText) {
+						if (INITIALIZED) {
+							setText(newText);
+						}
+					}
+					
+					function setText(newText) {
+						getText = newText;
+
+						textScale.scale = new SFVec3f(
+							settings.DEFAULT_FONT_SCALE, 
+							settings.DEFAULT_FONT_SCALE,
+							settings.DEFAULT_FONT_SCALE);
+							
+						textStyle.size = settings.DEFAULT_FONT_SIZE;
+						textStyle.family = settings.DEFAULT_FONT_FAMILY;
+					
+						textString.string = new MFString(getText);
+					
+						var textBBox;
+						var textWidth = 0;
+						var buttonWidth = button.getSize.x;
+						var buttonHeight = button.getSize.y;
+						
+						if (newText != "") {
+							textBBox = textHolder.getBBox();
+							textWidth = textBBox[1].x - textBBox[0].x;
+							
+							var i = newText.length - 1;
+
+							while(buttonWidth < textWidth + 2 * settings.DEFAULT_DECORATION_GAP && i >= 0) {
+								newText = new SFString(newText.substring(0, i) + "...");
+							
+								textString.string = new MFString(newText);
+								
+								textBBox = textHolder.getBBox();
+								textWidth = textBBox[1].x - textBBox[0].x;
+								
+								i--;
+							}
+						}
+						
+						textHolder.translation.x = settings.DEFAULT_DECORATION_GAP + (buttonWidth - textWidth - 2 * settings.DEFAULT_DECORATION_GAP) / 2;
+						textHolder.translation.y = -(buttonHeight + settings.DEFAULT_FONT_SIZE * settings.DEFAULT_FONT_SCALE * 2 / 3) / 2;
+					}
+					
+					function onPress(pressed) {
+						isPressed = pressed;
+					}
+				]]>
+				</Script>
+				
+				<ROUTE fromNode="button" fromField="isPressed" toNode="S" toField="onPress" />
+			</ProtoBody>
+		</ProtoDeclare>
+		
+	</Scene>
+</X3D>

@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+	<head />
+	<Scene>		
+	
+		<!-- This prototype allows to display configurable text messages, and supports a
+				number of text-specific parameters, such as <field>fontSize</field> and
+				<field>justify</field>. -->
+		<ProtoDeclare name="Label">
+			<ProtoInterface>
+				<!-- <proto>Settings</proto> object should be passed in this parameter. -->
+				<field name="settings" type="SFNode" accessType="inputOnly"></field>
+				<!-- Initializes the component and prepares it for visualization. -->
+				<field name="setup" type="SFBool" accessType="inputOnly" />
+				<!-- Causes the component to reposition itself and all its children in the z-depth stack. -->
+				<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+				
+				<!-- Specifies the size of the component. Note that if the size is too small
+						to fit the entire <field>text</field>, each row of the message will
+						be ellipsized. If, however, after ellipsizing the entire text cannot
+						fit in the area of the component, the size will be enlarged. That is,
+						the vertical dimension will always be at least the total height of 
+						all lines of text. -->
+				<field name="size" type="SFVec2f" accessType="initializeOnly" value="0 0" />
+				<!-- Specifies the text message. Note that the parameter is of type 
+						<tt>MFString</tt> and therefore supports multi-line text. -->
+				<field name="text" type="MFString" accessType="initializeOnly" value='""' />
+				<!-- Specifies the justification to be used on every line of text. The possible
+						options are
+						<ul>
+							<li><tt>BEGIN</tt> &ndash; the text will be left-justified</li>
+							<li><tt>MIDDLE</tt> &ndash; the text will be centered</li>
+							<li><tt>END</tt> &ndash; the text will be right-justified</li>
+						</ul> -->
+				<field name="justify" type="SFString" accessType="initializeOnly" value="BEGIN" />
+				<!-- Specifies whether the component should be visible. -->
+				<field name="visible" type="SFBool" accessType="initializeOnly" value="true" />
+				<!-- Specifies what color the text should be. -->
+				<field name="color" type="SFColor" accessType="initializeOnly" value="0 0 0" />
+				<!-- Specifies the transparency level of the component. -->
+				<field name="transparency" type="SFFloat" accessType="initializeOnly" value="0" />
+				<!-- Specifies the font size of the text. Use a negative value to make the font
+						size equal to <tt>DEFAULT_FONT_SIZE</tt> specified in the 
+						<proto>Settings</proto> prototype. -->
+				<field name="fontSize" type="SFFloat" accessType="initializeOnly" value="-1" />
+				<!-- Specifies the style of the font to use. The possible options are
+						<ul>
+							<li><tt>PLAIN</tt> &ndash; plain text will be displayed</li>
+							<li><tt>BOLD</tt> &ndash; text will be <b>bold</b></li>
+							<li><tt>ITALIC</tt> &ndash; text will be in <i>italic</i></li>
+							<li><tt>BOLDITALIC</tt> &ndash; the text will be both <b><i>bold and italic</i></b></li>
+						</ul> -->
+				<field name="fontStyle" type="SFString" accessType="initializeOnly" value="PLAIN" /> <!--  -->
+				
+				<!-- Returns the size of the component. -->
+				<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+				<!-- Returns the current text of the component. -->
+				<field name="getText" type="MFString" accessType="outputOnly" />
+				<!-- Returns the current justification mode. -->
+				<field name="getJustify" type="SFString" accessType="outputOnly" />
+				<!-- Indicates whether the component is visible. -->
+				<field name="isVisible" type="SFBool" accessType="outputOnly" />
+				<!-- Returns the color of the component. -->
+				<field name="getColor" type="SFColor" accessType="outputOnly" />
+				<!-- Returns the component's transparency level. -->
+				<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+				<!-- Returns the font size used. -->
+				<field name="getFontSize" type="SFFloat" accessType="outputOnly" />
+				<!-- Returns the style of the font. For options, please refer to
+						<field>fontStyle</field>. -->
+				<field name="getFontStyle" type="SFString" accessType="outputOnly" />
+				
+				<!-- Sets the size of the component. -->
+				<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+				<!-- Sets the text of the component. -->
+				<field name="setText" type="MFString" accessType="inputOnly"/>
+				<!-- Sets the justification mode. -->
+				<field name="setJustify" type="SFString" accessType="inputOnly"/>
+				<!-- Sets the visibility status of the component. -->
+				<field name="setVisible" type="SFBool" accessType="inputOnly" />
+				<!-- Sets the color of the component. -->
+				<field name="setColor" type="SFColor" accessType="inputOnly" />
+				<!-- Sets the component's transparency level. -->
+				<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+				<!-- Sets the size of the font. -->				
+				<field name="setFontSize" type="SFFloat" accessType="inputOnly" />
+				<!-- Sets the style of the font. For options, please refer to
+						<field>fontStyle</field>. -->
+				<field name="setFontStyle" type="SFString" accessType="inputOnly" />
+			</ProtoInterface>
+			<ProtoBody>
+				<Group>
+					<Switch DEF="display" whichChoice="0">
+						<Transform DEF="textHolder">
+							<Transform DEF="textScale">
+								<Shape>
+									<Appearance>
+										<Material DEF="textMaterial" diffuseColor="0 0 0" />
+									</Appearance>
+									<Text DEF="textString" solid="true">
+										<FontStyle DEF="textStyle" justify='"BEGIN"' size="11" style="USE_TEXTURE" />
+									</Text> 
+								</Shape>
+							</Transform>
+						</Transform>
+					</Switch>
+				</Group>
+				
+				<Script DEF="S" directOutput="true">
+					<!-- referenced objects -->
+					<field name="display" type="SFNode" accessType="initializeOnly">
+						<Switch USE="display" />
+					</field>
+					<field name="textHolder" type="SFNode" accessType="initializeOnly">
+						<Transform USE="textHolder" />
+					</field>
+					<field name="textScale" type="SFNode" accessType="initializeOnly">
+						<Transform USE="textScale" />
+					</field>
+					<field name="textString" type="SFNode" accessType="initializeOnly">
+						<Text USE="textString" />
+					</field>
+					<field name="textMaterial" type="SFNode" accessType="initializeOnly">
+						<Material USE="textMaterial" />
+					</field>
+					<field name="textStyle" type="SFNode" accessType="initializeOnly">
+						<Text USE="textStyle" />
+					</field>
+					
+					<!-- constants -->
+					<field name="COMPONENT_ID" accessType="inputOutput" type="SFInt32" />
+					
+					
+					<!-- attributes of the class -->
+					<field name="settings" accessType="inputOnly" type="SFNode" />
+					<field name="setup" accessType="inputOnly" type="SFBool" />
+					<field name="applyZOrder" accessType="inputOnly" type="SFBool" />
+
+					<field name="size" type="SFVec2f" accessType="initializeOnly" />
+					<field name="text" type="MFString" accessType="initializeOnly" />
+					<field name="justify" type="SFString" accessType="initializeOnly" />
+					<field name="visible" type="SFBool" accessType="initializeOnly" />
+					<field name="color" type="SFColor" accessType="initializeOnly" />
+					<field name="transparency" type="SFFloat" accessType="initializeOnly"  />
+					<field name="fontSize" type="SFFloat" accessType="initializeOnly" />
+					<field name="fontStyle" type="SFString" accessType="initializeOnly" />
+					
+					<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+					<field name="getText" type="MFString" accessType="outputOnly" />
+					<field name="getJustify" type="SFString" accessType="outputOnly" />
+					<field name="isVisible" type="SFBool" accessType="outputOnly" />
+					<field name="getColor" type="SFColor" accessType="outputOnly" />
+					<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+					<field name="getFontSize" type="SFFloat" accessType="outputOnly" />
+					<field name="getFontStyle" type="SFString" accessType="outputOnly" />
+					
+					<field name="_setSize" type="SFVec2f" accessType="inputOnly"/>
+					<field name="_setText" type="MFString" accessType="inputOnly"/>
+					<field name="_setJustify" type="SFString" accessType="inputOnly"/>
+					<field name="_setVisible" type="SFBool" accessType="inputOnly" />
+					<field name="_setColor" type="SFColor" accessType="inputOnly" />
+					<field name="_setTransparency" type="SFFloat" accessType="inputOnly" />				
+					<field name="_setFontSize" type="SFFloat" accessType="inputOnly" />
+					<field name="_setFontStyle" type="SFString" accessType="inputOnly" />
+					
+					<field name="INITIALIZED" accessType="inputOutput" type="SFBool" />
+					
+					<IS>
+						<connect nodeField="settings" protoField="settings"/>
+						<connect nodeField="setup" protoField="setup"/>
+						<connect nodeField="applyZOrder" protoField="applyZOrder"/>
+						
+						<connect nodeField="size" protoField="size"/>
+						<connect nodeField="text" protoField="text"/>
+						<connect nodeField="justify" protoField="justify"/>
+						<connect nodeField="visible" protoField="visible"/>
+						<connect nodeField="color" protoField="color"/>
+						<connect nodeField="transparency" protoField="transparency"/>
+						<connect nodeField="fontSize" protoField="fontSize"/>
+						<connect nodeField="fontStyle" protoField="fontStyle"/>
+						
+						<connect nodeField="getSize" protoField="getSize"/>
+						<connect nodeField="getText" protoField="getText"/>
+						<connect nodeField="getJustify" protoField="getJustify"/>
+						<connect nodeField="isVisible" protoField="isVisible"/>
+						<connect nodeField="getColor" protoField="getColor"/>
+						<connect nodeField="getTransparency" protoField="getTransparency"/>
+						<connect nodeField="getFontSize" protoField="getFontSize"/>
+						<connect nodeField="getFontStyle" protoField="getFontStyle"/>
+						
+						<connect nodeField="_setSize" protoField="setSize"/>
+						<connect nodeField="_setText" protoField="setText"/>
+						<connect nodeField="_setJustify" protoField="setJustify"/>
+						<connect nodeField="_setVisible" protoField="setVisible"/>
+						<connect nodeField="_setColor" protoField="setColor"/>
+						<connect nodeField="_setTransparency" protoField="setTransparency"/>
+						<connect nodeField="_setFontSize" protoField="setFontSize"/>
+						<connect nodeField="_setFontStyle" protoField="setFontStyle"/>
+					</IS>
+				<![CDATA[
+					ecmascript:
+
+					function initialize() {
+					}
+					
+					function setup() {
+						INITIALIZED = false;
+						
+						COMPONENT_ID = settings.COMPONENT_ID++;
+						
+						if (settings.DEBUG) print("label setup(" + COMPONENT_ID + ")");
+					
+						setSize(size);
+						setText(text);
+						setJustify(justify);
+						setVisible(visible);
+						setColor(color);
+						setTransparency(transparency);
+						setFontSize(fontSize);
+						setFontStyle(fontStyle);
+						
+						setAppearance();
+						adjustPosition();
+						
+						INITIALIZED = true;
+						
+						setSize(getSize);
+					}
+					
+					function applyZOrder() {	
+						if (settings.DEBUG) print("\tlabel applyZOrder(" + settings.Z_ORDER_COUNT + ")");
+					}
+
+					function setAppearance() {
+						textScale.scale = new SFVec3f(
+							settings.DEFAULT_FONT_SCALE, 
+							settings.DEFAULT_FONT_SCALE,
+							settings.DEFAULT_FONT_SCALE);
+							
+						textStyle.family = settings.DEFAULT_FONT_FAMILY;
+					}
+
+					function isEmptryString() {
+						if (getText == null) {
+							return true;
+						}
+					
+						var l = getText.length;
+					
+						if (l == 0) {
+							return true;
+						}
+						 
+						for (var i = 0; i < l; i++) {
+							if (getText[i].length != 0) {
+								return false;
+							}
+						}
+						
+						return true;
+					}
+				
+					function adjustPosition() {
+						if (isEmptryString()) {
+							textHolder.translation.y = 0;
+						} else {					
+							var bbox = textHolder.getBBox();
+							var width = bbox[1].x - bbox[0].x;
+							var height = bbox[1].y - bbox[0].y;
+							
+							if (getText.length == 1) {
+								// to make it look on the same line with other elements
+								textHolder.translation.y = -height * settings.DEFAULT_FONT_VER_ADJUST_FACTOR;
+							} else {
+								textHolder.translation.y = -height / 2;
+							}
+							
+							if (getJustify == "END") {
+								textHolder.translation.x = width;
+							} else if (getJustify == "MIDDLE") {
+								textHolder.translation.x = width / 2;
+							}
+						}
+					}
+				
+					function _setSize(newSize) {
+						if (INITIALIZED) {
+							setSize(newSize);
+						}
+					}
+				
+					function setSize(newSize) {
+						if (textHolder.getBBox() != null && textHolder.getBBox() != 0) {
+							var bbox = textHolder.getBBox();
+								
+							var width = bbox[1].x - bbox[0].x;
+							var height = bbox[1].y - bbox[0].y;
+							
+							if (newSize.x < width) {
+								newSize.x = width;
+							}
+							
+							if (newSize.y < height) {
+								newSize.y = height;
+							}
+							
+							getSize = newSize;
+						} else {
+							if (newSize.x < 0) {
+								newSize.x = 0;
+							}
+							
+							if (newSize.y < 0) {
+								newSize.y = 0;
+							}
+							
+							getSize = newSize;
+						}
+
+						if (INITIALIZED) {
+							setText(getText);
+						}
+					}
+				
+					function _setText(newText) {
+						if (INITIALIZED) {
+							setText(newText);
+						}
+					}
+				
+					function setText(newText) {
+						getText = newText;
+
+						textString.string = getText;
+					
+						var textBBox;
+						var textWidth = 0;
+						var textAreaWidth = getSize.x;
+						var textAreaHeight = getSize.y;
+						
+						var l = newText.length;
+						
+						for (var line = 0; line < l; line++) {
+							if (newText[line] != "") {
+								textString.string = new MFString(newText[line]);
+								
+								textBBox = textHolder.getBBox();
+								textWidth = textBBox[1].x - textBBox[0].x;
+								
+								var i = newText[line].length - 1;
+	
+								while(textAreaWidth < textWidth && i >= 0) {
+									newText[line] = new SFString(newText[line].substring(0, i) + "...");
+									textString.string = new MFString(newText[line]);
+									
+									textBBox = textHolder.getBBox();
+									textWidth = textBBox[1].x - textBBox[0].x;
+									
+									i--;
+								}
+							}
+						}
+						
+						textString.string = newText;
+
+						if (INITIALIZED) {
+							adjustPosition();
+						}
+					}
+					
+					function _setJustify(newJustify) {
+						if (INITIALIZED) {
+							newJustify(newJustify);
+						}
+					}
+
+					function setJustify(newJustify) {
+						if (	newJustify != "BEGIN" &&
+								newJustify != "MIDDLE" &&
+								newJustify != "END") {
+							newJustify = "BEGIN";
+						}
+					
+						getJustify = newJustify;
+						
+						textStyle.justify = new MFString(getJustify);
+						
+						if (INITIALIZED) {
+							adjustPosition();
+						}
+					}
+					
+					function _setVisible(newVisible) {
+						if (INITIALIZED) {
+							setVisible(newVisible);
+						}
+					}
+					
+					function setVisible(newVisible) {
+						isVisible = newVisible;
+						
+						display.whichChoice = (isVisible ? 0 : -1);
+					}
+
+					function _setColor(newColor) {
+						if (INITIALIZED) {
+							setColor(newColor);
+						}
+					}
+
+					function setColor(newColor) {
+						getColor = newColor;
+						
+						textMaterial.diffuseColor = getColor;
+					}
+
+					function _setTransparency(newTransparency) {
+						if (INITIALIZED) {
+							setTransparency(newTransparency);
+						}
+					}
+
+					function setTransparency(newTransparency) {
+						getTransparency = newTransparency;
+					
+						textMaterial.transparency = newTransparency;
+					}
+					
+					function _setFontSize(newFontSize) {
+						if (INITIALIZED) {
+							setFontSize(newFontSize);
+						}
+					}
+					
+					function setFontSize(newFontSize) {
+						if (newFontSize < 0) {
+							newFontSize = settings.DEFAULT_FONT_SIZE;
+						}
+					
+						getFontSize = newFontSize;
+						
+						textStyle.size = getFontSize;
+						
+						if (INITIALIZED) {
+							setSize(getSize);
+						}
+					}
+					
+					function _setFontStyle(newFontStyle) {
+						if (INITIALIZED) {
+							setFontStyle(newFontStyle);
+						}
+					}
+					
+					function setFontStyle(newFontStyle) {
+						if (	newFontStyle != "PLAIN" &&
+								newFontStyle != "BOLD" &&
+								newFontStyle != "ITALIC" &&
+								newFontStyle != "BOLDITALIC") {
+							newFontStyle = "PLAIN";
+						}
+							
+						getFontStyle = newFontStyle;
+						
+						textStyle.style = new SFString(getFontStyle + " USE_TEXTURE");
+							
+						if (INITIALIZED) {
+							setSize(getSize);
+						}
+					}
+				]]>
+				</Script>
+			</ProtoBody>
+		</ProtoDeclare>
+		
+	</Scene>
+</X3D>
