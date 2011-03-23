@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
-
-<X3D profile="Full">
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.2//EN"   "http://www.web3d.org/specifications/x3d-3.2.dtd">
+<X3D profile="Immersive" version="3.2" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.2.xsd">
 	<head />
 	<Scene>
 
@@ -334,7 +333,9 @@
 											
 											<Switch DEF="displayResizeBorder" whichChoice="-1">
 												<Shape>
-													<PixelTexture repeatS="true" repeatT="true" image="2 2 3 0x000000 0xFFFFFF 0xFFFFFF 0x000000" />
+													<Appearance>
+														<PixelTexture repeatS="true" repeatT="true" image="2 2 3 0x000000 0xFFFFFF 0xFFFFFF 0x000000" />
+													</Appearance>
 													<IndexedFaceSet coordIndex="7 3 0 4 -1 4 0 1 5 -1 6 5 1 2 -1 3 7 6 2 -1">
 														<Coordinate DEF="resizeBorderCoords" point="0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0"/>
 														<TextureCoordinate point="0.003 0, 0.003 0.003, 0 0.003, 0 0" />
@@ -345,7 +346,9 @@
 											<Transform DEF="displayArrowsHolder">
 												<Switch DEF="displayArrows" whichChoice="-1">
 													<Shape>
-														<ImageTexture DEF="arrows" url='' repeatS="false" repeatT="false" />
+														<Appearance>
+															<ImageTexture DEF="arrows" url='' repeatS="false" repeatT="false" />
+														</Appearance>
 														<IndexedFaceSet coordIndex="0 1 2 3 -1" texCoordIndex="0 1 2 3 -1">
 															<Coordinate DEF="arrowsCoords" point="0 0 0, 0 0 0, 0 0 0, 0 0 0" />
 														</IndexedFaceSet>
