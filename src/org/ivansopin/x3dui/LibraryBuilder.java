@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
 
 public class LibraryBuilder {
 	private static boolean LOG = false;
@@ -26,7 +28,8 @@ public class LibraryBuilder {
 		// from system folder
 		"system/Settings", "system/Display"
 	};
-	private static final String OUTPUT_FILE_NAME = "x3dui";
+	private static final String LIBRARY_FILE_NAME = "x3dui";
+	private static final String EXTERN_FILE_NAME = "extern";
 	
 	private static final String X3D_HEADER = 
 		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -36,7 +39,32 @@ public class LibraryBuilder {
 		"<Scene>";
 
 	private static final String X3D_FOOTER = "\n</Scene>\n" + "</X3D>";
-	
+
+	private static final String LAYER3D_EXTERN = 
+		"<ExternProtoDeclare name=\"Layer3D\"\n" + 
+			"url='\"urn:inet:bitmanagement.de:node:Layer3D\"\n" + 
+			"http://www.bitmanagement.de/vrml/protos/nodes.wrl#Layer3D\"\n" + 
+			"nodes.wrl#Layer3D\"'>\n" + 
+			  "<field name=\"bboxSize\" type=\"SFVec3f\" accessType=\"inputOutput\" />\n" + 
+			  "<field name=\"bboxCenter\" type=\"SFVec3f\" accessType=\"inputOutput\" />\n" + 
+			  "\n" + 
+			  "<field name=\"addChildrenLayer\" type=\"MFNode\" accessType=\"inputOnly\" />\n" + 
+			  "<field name=\"removeChildrenLayer\" type=\"MFNode\" accessType=\"inputOnly\" />\n" + 
+			  "\n" + 
+			  "<field name=\"childrenLayer\" type=\"MFNode\" accessType=\"inputOutput\" />\n" + 
+			  "<field name=\"translation\" type=\"SFVec2f\" accessType=\"inputOutput\" />\n" + 
+			  "<field name=\"depth\" type=\"SFInt32\" accessType=\"inputOutput\" />\n" + 
+			  "<field name=\"size\" type=\"SFVec2f\" accessType=\"inputOutput\" />\n" + 
+			  "<field name=\"background\" type=\"SFNode\" accessType=\"inputOutput\" />\n" + 
+			  "<field name=\"fog\" type=\"SFNode\" accessType=\"inputOutput\" />\n" + 
+			  "<field name=\"navigationInfo\" type=\"SFNode\" accessType=\"inputOutput\" />\n" + 
+			  "<field name=\"viewpoint\" type=\"SFNode\" accessType=\"inputOutput\" />\n" + 
+			  "<field name=\"children\" type=\"MFNode\" accessType=\"inputOutput\" />\n" + 
+			  "\n" + 
+			  "<field name=\"addChildren\" type=\"MFNode\" accessType=\"inputOnly\" />\n" + 
+			  "<field name=\"removeChildren\" type=\"MFNode\" accessType=\"inputOnly\" />\n" + 
+			"</ExternProtoDeclare>";
+
 	
 	private static File getFile(String fileName) {
 		File file = new File(SRC_DIR + fileName + EXTENSION);
@@ -118,14 +146,41 @@ public class LibraryBuilder {
 		}
 	}
 	
+	private static void simpleWrite(BufferedWriter writer, String content) throws IOException {
+		writer.write(content);
+	}
+	
+	private static String getXMLOnly(String content) throws Exception {
+		BufferedReader reader = new BufferedReader(new StringReader(content));
+		StringBuilder builder = new StringBuilder();
+		String line;
+
+		while ((line = reader.readLine()) != null) {
+			line = line.trim();
+			
+			if (line.startsWith("<?xml")) {
+				continue;
+			} else if (line.startsWith("<!DOCTYPE")) {
+				continue;
+			} else {
+				builder.append(line).append("\n");
+			}
+		}
+
+		return builder.toString();
+	}
+	
 	public static void main(String[] args) {
 		BufferedReader reader;
 		BufferedWriter writer;
 		File inFile;
 		File outFile;
-		String content;
+		String content = null;
 		
-		outFile = new File(DEST_DIR + OUTPUT_FILE_NAME + EXTENSION);
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(X3D_HEADER);
+		
+		outFile = new File(DEST_DIR + LIBRARY_FILE_NAME + EXTENSION);
 		
 		if (outFile.exists()) {
 			outFile.delete();
@@ -133,7 +188,6 @@ public class LibraryBuilder {
 		
 		try {
 			writer = new BufferedWriter(new FileWriter(outFile));
-			write(writer, X3D_HEADER);
 		} catch (Exception e) {
 			e.printStackTrace();
 			
@@ -152,20 +206,96 @@ public class LibraryBuilder {
 				
 				reader = new BufferedReader(new FileReader(inFile));
 
-				content = skipToStart(reader) + /*"\n" +*/ readToEnd(reader);
+				stringBuffer.append(skipToStart(reader));
+				//stringBuffer.append("\n");
+				stringBuffer.append(readToEnd(reader));
 				
 				reader.close();
-				
-				write(writer, content);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		
+		stringBuffer.append(X3D_FOOTER);
+		
 		if (LOG) System.out.println("Saved to  " + outFile.getAbsolutePath());
 		
 		try {
-			write(writer, X3D_FOOTER);
+			content = stringBuffer.toString();
+			write(writer, content);
+			writer.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+
+		stringBuffer = new StringBuffer();
+		
+		outFile = new File(DEST_DIR + EXTERN_FILE_NAME + EXTENSION);
+		
+		if (outFile.exists()) {
+			outFile.delete();
+		}
+		
+		ArrayList<ExternPrototype> externPrototypes = null;
+		ExternPrototype externPrototype;
+		Attribute attribute;
+		Method method;
+		
+		try {
+			externPrototypes = Parser.parseLibraryFile(getXMLOnly(content));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		int l = externPrototypes.size();
+		int m;
+		
+		for (int i = 0; i < l; i++) {
+			externPrototype = externPrototypes.get(i);
+			
+			stringBuffer.append("<ExternProtoDeclare name=\"");
+			stringBuffer.append(externPrototype.getName());
+			stringBuffer.append("\" url='\"");
+			stringBuffer.append("x3dui/library/" + LIBRARY_FILE_NAME + EXTENSION + "#" + externPrototype.getName());
+			stringBuffer.append("\"'>\n");
+
+			m = externPrototype.getNumOfAttributes();
+			
+			for (int j = 0; j < m; j++) {
+				attribute = externPrototype.getAttributeAt(j);
+				
+				stringBuffer.append("\t<field name=\"");
+				stringBuffer.append(attribute.getName());
+				stringBuffer.append("\" type=\"");
+				stringBuffer.append(attribute.getType());
+				stringBuffer.append("\" accessType=\"");
+				stringBuffer.append(attribute.getAccessType());
+				stringBuffer.append("\" />\n");
+			}
+			
+			m = externPrototype.getNumOfMethods();
+			
+			for (int j = 0; j < m; j++) {
+				method = externPrototype.getMethodAt(j);
+				
+				stringBuffer.append("\t<field name=\"");
+				stringBuffer.append(method.getName());
+				stringBuffer.append("\" type=\"");
+				stringBuffer.append(method.getType());
+				stringBuffer.append("\" accessType=\"");
+				stringBuffer.append(method.getAccessType());
+				stringBuffer.append("\" />\n");
+			}
+			
+			stringBuffer.append("</ExternProtoDeclare>\n\n");
+		}
+		
+		try {
+			writer = new BufferedWriter(new FileWriter(outFile));
+			simpleWrite(writer, stringBuffer.toString());
 			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();

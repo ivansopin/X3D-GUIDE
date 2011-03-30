@@ -4,349 +4,164 @@
 	<head />
 	<Scene>
 
+		<ExternProtoDeclare name="Layer3D"
+				url='"urn:inet:bitmanagement.de:node:Layer3D"
+				"http://www.bitmanagement.de/vrml/protos/nodes.wrl#Layer3D"
+				"nodes.wrl#Layer3D"'>
+			<field name="bboxSize" type="SFVec3f" accessType="inputOutput" />
+			<field name="bboxCenter" type="SFVec3f" accessType="inputOutput" />
+			<field name="addChildrenLayer" type="MFNode" accessType="inputOnly" />
+			<field name="removeChildrenLayer" type="MFNode" accessType="inputOnly" />
+			<field name="childrenLayer" type="MFNode" accessType="inputOutput" />
+			<field name="translation" type="SFVec2f" accessType="inputOutput" />
+			<field name="depth" type="SFInt32" accessType="inputOutput" />
+			<field name="size" type="SFVec2f" accessType="inputOutput" />
+			<field name="background" type="SFNode" accessType="inputOutput" />
+			<field name="fog" type="SFNode" accessType="inputOutput" />
+			<field name="navigationInfo" type="SFNode" accessType="inputOutput" />
+			<field name="viewpoint" type="SFNode" accessType="inputOutput" />
+			<field name="children" type="MFNode" accessType="inputOutput" />
+			<field name="addChildren" type="MFNode" accessType="inputOnly" />
+			<field name="removeChildren" type="MFNode" accessType="inputOnly" />
+		</ExternProtoDeclare>
+
 		<ExternProtoDeclare name="Display" url='"x3dui/library/x3dui.x3d#Display"'>
-				<field name="children" type="MFNode" accessType="initializeOnly"></field>
-				<field name="viewProximity" accessType="initializeOnly" type="SFFloat" />
-				<field name="debug" accessType="initializeOnly" type="SFBool" />
-		</ExternProtoDeclare>	
-
-		<ExternProtoDeclare name="TextButton" url='"x3dui/library/x3dui.x3d#TextButton"'>
-			<field name="settings" type="SFNode" accessType="inputOnly"></field>
-			<field name="setup" type="SFBool" accessType="inputOnly" />
-			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
-			
-			<field name="position" type="SFVec2f" accessType="initializeOnly" />
-			
-			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
-			
-			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
-							
-			<field name="size" type="SFVec2f" accessType="initializeOnly" />
-			<field name="visible" type="SFBool" accessType="initializeOnly" />
-			<field name="color" type="SFColor" accessType="initializeOnly" />
-			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
-			
-			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
-			<field name="isVisible" type="SFBool" accessType="outputOnly" />
-			<field name="getColor" type="SFColor" accessType="outputOnly" />
-			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
-			
-			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
-			<field name="setVisible" type="SFBool" accessType="inputOnly" />
-			<field name="setColor" type="SFColor" accessType="inputOnly" />
-			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
-			
-			<field name="enabled" type="SFBool" accessType="initializeOnly" />
-			
-			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
-			
-			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
-			
-			<field name="isPressed" type="SFBool" accessType="outputOnly" />
-			<field name="isClicked" type="SFBool" accessType="outputOnly" />
-			
-			<field name="text" type="SFString" accessType="initializeOnly" />
-			
-			<field name="getText" type="SFString" accessType="outputOnly" />
-			
-			<field name="setText" type="SFString" accessType="inputOnly"/>
+			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			<field name="viewProximity" accessType="initializeOnly" type="SFFloat" />
+			<field name="debug" accessType="initializeOnly" type="SFBool" />
 		</ExternProtoDeclare>
-	
-		<ExternProtoDeclare name="TextToggleButton" url='"x3dui/library/x3dui.x3d#TextToggleButton"'>
-			<field name="settings" type="SFNode" accessType="inputOnly"></field>
-			<field name="setup" type="SFBool" accessType="inputOnly" />
-			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
 			
-			<field name="position" type="SFVec2f" accessType="initializeOnly" />
-			
-			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
-			
-			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
-							
-			<field name="size" type="SFVec2f" accessType="initializeOnly" />
-			<field name="visible" type="SFBool" accessType="initializeOnly" />
-			<field name="color" type="SFColor" accessType="initializeOnly" />
-			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
-			
-			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
-			<field name="isVisible" type="SFBool" accessType="outputOnly" />
-			<field name="getColor" type="SFColor" accessType="outputOnly" />
-			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
-			
-			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
-			<field name="setVisible" type="SFBool" accessType="inputOnly" />
-			<field name="setColor" type="SFColor" accessType="inputOnly" />
-			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
-			
-			<field name="enabled" type="SFBool" accessType="initializeOnly" />
-			<field name="pressed" type="SFBool" accessType="initializeOnly" />
-			
-			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
-			<field name="isPressed" type="SFBool" accessType="outputOnly" />
-			
-			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
-			<field name="setPressed" type="SFBool" accessType="inputOnly"/>
-				
-			<field name="isClicked" type="SFBool" accessType="outputOnly" />
-			
-			<field name="onText" type="SFString" accessType="initializeOnly" />
-			<field name="offText" type="SFString" accessType="initializeOnly" />
-			
-			<field name="getOnText" type="SFString" accessType="outputOnly" />
-			<field name="getOffText" type="SFString" accessType="outputOnly" />
-			
-			<field name="setOnText" type="SFString" accessType="inputOnly"/>
-			<field name="setOffText" type="SFString" accessType="inputOnly"/>
-		</ExternProtoDeclare>
-	
-		<ExternProtoDeclare name="TextField" url='"x3dui/library/x3dui.x3d#TextField"'>
-			<field name="settings" type="SFNode" accessType="inputOnly"></field>
-			<field name="setup" type="SFBool" accessType="inputOnly" />
-			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
-			
-			<field name="position" type="SFVec2f" accessType="initializeOnly" />
-			
-			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
-			
-			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
-							
-			<field name="size" type="SFVec2f" accessType="initializeOnly" />
-			<field name="visible" type="SFBool" accessType="initializeOnly" />
-			<field name="color" type="SFColor" accessType="initializeOnly" />
-			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
-			
-			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
-			<field name="isVisible" type="SFBool" accessType="outputOnly" />
-			<field name="getColor" type="SFColor" accessType="outputOnly" />
-			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
-			
-			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
-			<field name="setVisible" type="SFBool" accessType="inputOnly" />
-			<field name="setColor" type="SFColor" accessType="inputOnly" />
-			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
-
-			<field name="enabled" type="SFBool" accessType="initializeOnly" />
-			<field name="text" type="SFString" accessType="initializeOnly" />
-			<field name="maxLength" type="SFInt32" accessType="initializeOnly" />
-			
-			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
-			<field name="getText" type="SFString" accessType="outputOnly" />
-			<field name="getMaxLength" type="SFInt32" accessType="outputOnly" />
-			
-			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
-			<field name="setText" type="SFString" accessType="inputOnly" />
-			<field name="setMaxLength" type="SFInt32" accessType="inputOnly" />
+		<ExternProtoDeclare name="LayoutManager" url='"x3dui/library/x3dui.x3d#LayoutManager"'>
+			<field name="layout" type="SFNode" accessType="initializeOnly" />
+			<field name="children" type="MFNode" accessType="initializeOnly" />
+			<field name="doLayout" type="SFVec2f" accessType="inputOnly" />
+			<field name="getMinimumWidth" type="SFFloat" accessType="outputOnly" />
+			<field name="getMinimumHeight" type="SFFloat" accessType="outputOnly" />
+			<field name="getMinimumSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="getChildren" type="MFNode" accessType="outputOnly" />
 		</ExternProtoDeclare>
 		
-		<ExternProtoDeclare name="Frame" url='"x3dui/library/x3dui.x3d#Frame"'>
-			<!-- from Display -->
-			<field name="settings" type="SFNode" accessType="inputOnly"></field>
-			<field name="setup" type="SFBool" accessType="inputOnly" />
-			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
-			
-			<field name="getId" type="SFInt32" accessType="outputOnly" />
-			
-			<!-- from Plane -->
-			<field name="movable" type="SFBool" accessType="initializeOnly" />
-			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+		<ExternProtoDeclare name="BorderLayout" url='"x3dui/library/x3dui.x3d#BorderLayout"'>
+			<field name="hGap" type="SFFloat" accessType="initializeOnly" />
+			<field name="vGap" type="SFFloat" accessType="initializeOnly" />
+			<field name="centerElementId" type="SFString" accessType="initializeOnly" />
+			<field name="northElementId" type="SFString" accessType="initializeOnly" />
+			<field name="southElementId" type="SFString" accessType="initializeOnly" />
+			<field name="westElementId" type="SFString" accessType="initializeOnly" />
+			<field name="eastElementId" type="SFString" accessType="initializeOnly" />
+			<field name="getHGap" type="SFFloat" accessType="outputOnly" />
+			<field name="getVGap" type="SFFloat" accessType="outputOnly" />
+			<field name="getCenterElementId" type="SFString" accessType="outputOnly" />
+			<field name="getNorthElementId" type="SFString" accessType="outputOnly" />
+			<field name="getSouthElementId" type="SFString" accessType="outputOnly" />
+			<field name="getWestElementId" type="SFString" accessType="outputOnly" />
+			<field name="getEastElementId" type="SFString" accessType="outputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="BoxLayout" url='"x3dui/library/x3dui.x3d#BoxLayout"'>
+			<field name="direction" type="SFString" accessType="initializeOnly" />
+			<field name="hAlign" type="SFString" accessType="initializeOnly" />
+			<field name="vAlign" type="SFString" accessType="initializeOnly" />
+			<field name="hGap" type="SFFloat" accessType="initializeOnly" />
+			<field name="vGap" type="SFFloat" accessType="initializeOnly" />
+			<field name="getDirection" type="SFString" accessType="outputOnly" />
+			<field name="getHAlign" type="SFString" accessType="outputOnly" />
+			<field name="getVAlign" type="SFString" accessType="outputOnly" />
+			<field name="getHGap" type="SFFloat" accessType="outputOnly" />
+			<field name="getVGap" type="SFFloat" accessType="outputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="FlowLayout" url='"x3dui/library/x3dui.x3d#FlowLayout"'>
+			<field name="align" type="SFString" accessType="initializeOnly" />
+			<field name="hGap" type="SFFloat" accessType="initializeOnly" />
+			<field name="vGap" type="SFFloat" accessType="initializeOnly" />
+			<field name="getAlign" type="SFString" accessType="outputOnly" />
+			<field name="getHGap" type="SFFloat" accessType="outputOnly" />
+			<field name="getVGap" type="SFFloat" accessType="outputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="GridLayout" url='"x3dui/library/x3dui.x3d#GridLayout"'>
+			<field name="numOfRows" type="SFInt32" accessType="initializeOnly" />
+			<field name="numOfColumns" type="SFInt32" accessType="initializeOnly" />
+			<field name="hGap" type="SFFloat" accessType="initializeOnly" />
+			<field name="vGap" type="SFFloat" accessType="initializeOnly" />
+			<field name="compressHorizontally" type="SFBool" accessType="initializeOnly" />
+			<field name="compressVertically" type="SFBool" accessType="initializeOnly" />
+			<field name="getNumOfRows" type="SFInt32" accessType="outputOnly" />
+			<field name="getNumOfColumns" type="SFInt32" accessType="outputOnly" />
+			<field name="getHGap" type="SFFloat" accessType="outputOnly" />
+			<field name="getVGap" type="SFFloat" accessType="outputOnly" />
+			<field name="doCompressHorizontally" type="SFBool" accessType="outputOnly" />
+			<field name="doCompressVertically" type="SFBool" accessType="outputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="Rectangle" url='"x3dui/library/x3dui.x3d#Rectangle"'>
 			<field name="size" type="SFVec2f" accessType="initializeOnly" />
-			
-			<field name="isMovable" type="SFBool" accessType="outputOnly" />
-			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
-			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
-			
-			<field name="setMovable" type="SFBool" accessType="inputOnly" />
-			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
-			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
-			
-			<field name="children" type="MFNode" accessType="initializeOnly"></field>
 			<field name="visible" type="SFBool" accessType="initializeOnly" />
 			<field name="color" type="SFColor" accessType="initializeOnly" />
 			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
-			<field name="border" type="SFString" accessType="initializeOnly" /> <!-- NONE|EQUAL|TOP_LEFT|BOTTOM_RIGHT -->
-			
-			<field name="getChildren" type="MFNode" accessType="outputOnly" />
+			<field name="border" type="SFString" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="children" type="MFNode" accessType="initializeOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
 			<field name="isVisible" type="SFBool" accessType="outputOnly" />
 			<field name="getColor" type="SFColor" accessType="outputOnly" />
 			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
 			<field name="getBorder" type="SFString" accessType="outputOnly" />
-			
-			<field name="setChildren" type="MFNode" accessType="inputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
 			<field name="setVisible" type="SFBool" accessType="inputOnly" />
 			<field name="setColor" type="SFColor" accessType="inputOnly" />
 			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
 			<field name="setBorder" type="SFString" accessType="inputOnly" />
-			
-			<!-- new fields -->
-			<field name="layout" type="SFNode" accessType="initializeOnly" />
-			
-			<field name="header" type="SFBool" accessType="initializeOnly" />
-			<field name="title" type="SFString" accessType="initializeOnly" />
-			<field name="startMaximized" type="SFBool" accessType="initializeOnly" />
-			<field name="resizable" type="SFBool" accessType="initializeOnly" />
-			<field name="minimizable" type="SFBool" accessType="initializeOnly" />
-			<field name="maximizable" type="SFBool" accessType="initializeOnly" />
-			<field name="closeable" type="SFBool" accessType="initializeOnly" />
-			
-			<field name="hasHeader" type="SFBool" accessType="outputOnly" />
-			<field name="getTitle" type="SFString" accessType="outputOnly" />
-			<field name="isResizable" type="SFBool" accessType="outputOnly" />
-			<field name="isMinimizable" type="SFBool" accessType="outputOnly" />
-			<field name="isMinimized" type="SFBool" accessType="outputOnly" />
-			<field name="isMaximizable" type="SFBool" accessType="outputOnly" />
-			<field name="isCloseable" type="SFBool" accessType="outputOnly" />
-			<field name="isClosed" type="SFBool" accessType="outputOnly" />
-			
-			<field name="setHeader" type="SFBool" accessType="inputOnly"/>
-			<field name="setTitle" type="SFString" accessType="inputOnly"/>
-			<field name="setResizable" type="SFBool" accessType="inputOnly"/>
-			<field name="setMinimizable" type="SFBool" accessType="inputOnly"/>
-			<field name="setMinimized" type="SFBool" accessType="inputOnly" />
-			<field name="setMaximizable" type="SFBool" accessType="inputOnly"/>
-			<field name="setCloseable" type="SFBool" accessType="inputOnly"/>
-			<field name="setActive" type="SFBool" accessType="inputOnly" />
-			<field name="setElevation" type="SFFloat" accessType="inputOnly" />
-			<field name="doLayout" type="SFBool" accessType="inputOnly" />
-		</ExternProtoDeclare>
-
-		<ExternProtoDeclare name="FlowLayout" url='"x3dui/library/x3dui.x3d#FlowLayout"'>
-			<field name="align" accessType="initializeOnly" type="SFString" />
-			<field name="hGap" accessType="initializeOnly" type="SFFloat" />
-			<field name="vGap" accessType="initializeOnly" type="SFFloat" />
-			
-			<field name="getAlign" accessType="outputOnly" type="SFString" />
-			<field name="getHGap" accessType="outputOnly" type="SFFloat" />
-			<field name="getVGap" accessType="outputOnly" type="SFFloat" />
-		</ExternProtoDeclare>	
-
-		<ExternProtoDeclare name="BoxLayout" url='"x3dui/library/x3dui.x3d#BoxLayout"'>
-			<field name="direction" accessType="initializeOnly" type="SFString" />
-			<field name="hAlign" accessType="initializeOnly" type="SFString" />
-			<field name="vAlign" accessType="initializeOnly" type="SFString" />
-			<field name="hGap" accessType="initializeOnly" type="SFFloat" />
-			<field name="vGap" accessType="initializeOnly" type="SFFloat" />
-			
-			<field name="getDirection" accessType="outputOnly" type="SFString" />
-			<field name="getHAlign" accessType="outputOnly" type="SFString" />
-			<field name="getVAlign" accessType="outputOnly" type="SFString" />
-			<field name="getHGap" accessType="outputOnly" type="SFFloat" />
-			<field name="getVGap" accessType="outputOnly" type="SFFloat" />
-		</ExternProtoDeclare>
-
-		<ExternProtoDeclare name="BorderLayout" url='"x3dui/library/x3dui.x3d#BorderLayout"'>
-			<field name="hGap" accessType="initializeOnly" type="SFFloat" />
-			<field name="vGap" accessType="initializeOnly" type="SFFloat" />
-			<field name="centerElementId" accessType="initializeOnly" type="SFString" />
-			<field name="northElementId" accessType="initializeOnly" type="SFString" />
-			<field name="southElementId" accessType="initializeOnly" type="SFString" />
-			<field name="westElementId" accessType="initializeOnly" type="SFString" />
-			<field name="eastElementId" accessType="initializeOnly" type="SFString" />
-			
-			<field name="getHGap" accessType="outputOnly" type="SFFloat" />
-			<field name="getVGap" accessType="outputOnly" type="SFFloat" />
-			<field name="getCenterElementId" accessType="outputOnly" type="SFString" />
-			<field name="getNorthElementId" accessType="outputOnly" type="SFString" />
-			<field name="getSouthElementId" accessType="outputOnly" type="SFString" />
-			<field name="getWestElementId" accessType="outputOnly" type="SFString" />
-			<field name="getEastElementId" accessType="outputOnly" type="SFString" />
-		</ExternProtoDeclare>
-
-		<ExternProtoDeclare name="GridLayout" url='"x3dui/library/x3dui.x3d#GridLayout"'>
-			<field name="numOfRows" accessType="initializeOnly" type="SFInt32" />
-			<field name="numOfColumns" accessType="initializeOnly" type="SFInt32" />
-			<field name="hGap" accessType="initializeOnly" type="SFFloat" />
-			<field name="vGap" accessType="initializeOnly" type="SFFloat" />
-			<field name="compressHorizontally" accessType="initializeOnly" type="SFBool" />
-			<field name="compressVertically" accessType="initializeOnly" type="SFBool" />
-			
-			<field name="getNumOfRows" accessType="outputOnly" type="SFInt32" />
-			<field name="getNumOfColumns" accessType="outputOnly" type="SFInt32" />
-			<field name="getHGap" accessType="outputOnly" type="SFFloat" />
-			<field name="getVGap" accessType="outputOnly" type="SFFloat" />
-			<field name="doCompressHorizontally" accessType="outputOnly" type="SFBool" />
-			<field name="doCompressVertically" accessType="outputOnly" type="SFBool" />
-		</ExternProtoDeclare>
-
-		<ExternProtoDeclare name="CheckBox" url='"x3dui/library/x3dui.x3d#CheckBox"'>
-			<field name="settings" type="SFNode" accessType="inputOnly"></field>
-			<field name="setup" type="SFBool" accessType="inputOnly" />
-			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
-			<field name="size" type="SFVec2f" accessType="initializeOnly" />
-			<field name="visible" type="SFBool" accessType="initializeOnly" />
-			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
-			<field name="isVisible" type="SFBool" accessType="outputOnly" />
-			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
-			<field name="setVisible" type="SFBool" accessType="inputOnly" />>
-			<field name="text" type="SFString" accessType="initializeOnly" />
-			<field name="enabled" type="SFBool" accessType="initializeOnly" />
-			<field name="checked" type="SFBool" accessType="initializeOnly" />
-			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
-			<field name="getText" type="SFString" accessType="outputOnly" />
-			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
-			<field name="isChecked" type="SFBool" accessType="outputOnly" />
-			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
-			<field name="setText" type="SFString" accessType="inputOnly" />
-			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
-			<field name="setChecked" type="SFBool" accessType="inputOnly"/>
-			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
-			<field name="isClicked" type="SFBool" accessType="outputOnly" />
-		</ExternProtoDeclare>
-
-		<ExternProtoDeclare name="RadioButton" url='"x3dui/library/x3dui.x3d#RadioButton"'>
-			<field name="settings" type="SFNode" accessType="inputOnly"></field>
-			<field name="setup" type="SFBool" accessType="inputOnly" />
-			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
-			<field name="size" type="SFVec2f" accessType="initializeOnly" />
-			<field name="visible" type="SFBool" accessType="initializeOnly" />
-			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
-			<field name="isVisible" type="SFBool" accessType="outputOnly" />
-			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
-			<field name="setVisible" type="SFBool" accessType="inputOnly" />>
-			<field name="text" type="SFString" accessType="initializeOnly" />
-			<field name="enabled" type="SFBool" accessType="initializeOnly" />
-			<field name="checked" type="SFBool" accessType="initializeOnly" />
-			<field name="getText" type="SFString" accessType="outputOnly" />
-			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
-			<field name="isChecked" type="SFBool" accessType="outputOnly" />
-			<field name="setText" type="SFString" accessType="inputOnly" />
-			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
-			<field name="setChecked" type="SFBool" accessType="inputOnly"/>
-			<field name="isClicked" type="SFBool" accessType="outputOnly" />
 		</ExternProtoDeclare>
 		
-		<ExternProtoDeclare name="RadioButtonGroup" url='"x3dui/library/x3dui.x3d#RadioButtonGroup"'>
-			<field name="children" type="MFNode" accessType="initializeOnly"></field>
-		</ExternProtoDeclare>
-
-		<ExternProtoDeclare name="ComboBox" url='"x3dui/library/x3dui.x3d#ComboBox"'>
-			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+		<ExternProtoDeclare name="Layer" url='"x3dui/library/x3dui.x3d#Layer"'>
+			<field name="movable" type="SFBool" accessType="initializeOnly" />
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
 			<field name="setup" type="SFBool" accessType="inputOnly" />
 			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
-			<field name="children" type="MFString" accessType="initializeOnly"></field>							
+			<field name="children" type="MFNode" accessType="initializeOnly" />
+			<field name="isMovable" type="SFBool" accessType="outputOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			<field name="setMovable" type="SFBool" accessType="inputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="Plane" url='"x3dui/library/x3dui.x3d#Plane"'>
 			<field name="size" type="SFVec2f" accessType="initializeOnly" />
 			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
 			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
-			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
-			<field name="isVisible" type="SFBool" accessType="outputOnly" />
-			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
-			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
-			<field name="setVisible" type="SFBool" accessType="inputOnly" />
-			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
-			<field name="enabled" type="SFBool" accessType="initializeOnly" />
-			<field name="selectedIndex" type="SFInt32" accessType="initializeOnly" />
-			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
-			<field name="getSelectedIndex" type="SFInt32" accessType="outputOnly" />
-			<field name="setEnabled" type="SFBool" accessType="inputOnly"/>
-			<field name="setSelectedIndex" type="SFInt32" accessType="inputOnly"/>
-			<field name="isSelected" type="SFBool" accessType="outputOnly" />
-			<field name="selectedChanged" type="SFBool" accessType="outputOnly" />
-		</ExternProtoDeclare>
-
-		<ExternProtoDeclare name="Label" url='"x3dui/library/x3dui.x3d#Label"'>
-			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+			<field name="border" type="SFString" accessType="initializeOnly" />
+			<field name="movable" type="SFBool" accessType="initializeOnly" />
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
 			<field name="setup" type="SFBool" accessType="inputOnly" />
 			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
-
+			<field name="children" type="MFNode" accessType="initializeOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getBorder" type="SFString" accessType="outputOnly" />
+			<field name="isMovable" type="SFBool" accessType="outputOnly" />
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setBorder" type="SFString" accessType="inputOnly" />
+			<field name="setMovable" type="SFBool" accessType="inputOnly" />
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="Label" url='"x3dui/library/x3dui.x3d#Label"'>
 			<field name="size" type="SFVec2f" accessType="initializeOnly" />
 			<field name="text" type="MFString" accessType="initializeOnly" />
 			<field name="justify" type="SFString" accessType="initializeOnly" />
@@ -355,7 +170,9 @@
 			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
 			<field name="fontSize" type="SFFloat" accessType="initializeOnly" />
 			<field name="fontStyle" type="SFString" accessType="initializeOnly" />
-			
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
 			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
 			<field name="getText" type="MFString" accessType="outputOnly" />
 			<field name="getJustify" type="SFString" accessType="outputOnly" />
@@ -364,110 +181,242 @@
 			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
 			<field name="getFontSize" type="SFFloat" accessType="outputOnly" />
 			<field name="getFontStyle" type="SFString" accessType="outputOnly" />
-			
 			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
-			<field name="setText" type="MFString" accessType="inputOnly"/>
-			<field name="setJustify" type="SFString" accessType="inputOnly"/>
+			<field name="setText" type="MFString" accessType="inputOnly" />
+			<field name="setJustify" type="SFString" accessType="inputOnly" />
 			<field name="setVisible" type="SFBool" accessType="inputOnly" />
 			<field name="setColor" type="SFColor" accessType="inputOnly" />
-			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />				
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
 			<field name="setFontSize" type="SFFloat" accessType="inputOnly" />
 			<field name="setFontStyle" type="SFString" accessType="inputOnly" />
 		</ExternProtoDeclare>
-
-		<ExternProtoDeclare name="Panel" url='"x3dui/library/x3dui.x3d#Panel"'>
-			<field name="settings" type="SFNode" accessType="inputOnly"></field>
+		
+		<ExternProtoDeclare name="Button" url='"x3dui/library/x3dui.x3d#Button"'>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
 			<field name="setup" type="SFBool" accessType="inputOnly" />
 			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
-			<field name="children" type="MFNode" accessType="initializeOnly"></field>
+			<field name="children" type="MFNode" accessType="initializeOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="isPressed" type="SFBool" accessType="outputOnly" />
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setEnabled" type="SFBool" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="CheckBox" url='"x3dui/library/x3dui.x3d#CheckBox"'>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="text" type="SFString" accessType="initializeOnly" />
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="checked" type="SFBool" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getText" type="SFString" accessType="outputOnly" />
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="isChecked" type="SFBool" accessType="outputOnly" />
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setText" type="SFString" accessType="inputOnly" />
+			<field name="setEnabled" type="SFBool" accessType="inputOnly" />
+			<field name="setChecked" type="SFBool" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="ComboBox" url='"x3dui/library/x3dui.x3d#ComboBox"'>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="selectedIndex" type="SFInt32" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="children" type="MFString" accessType="initializeOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="getSelectedIndex" type="SFInt32" accessType="outputOnly" />
+			<field name="isSelected" type="SFBool" accessType="outputOnly" />
+			<field name="selectedChanged" type="SFBool" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setEnabled" type="SFBool" accessType="inputOnly" />
+			<field name="setSelectedIndex" type="SFInt32" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="ControlButton" url='"x3dui/library/x3dui.x3d#ControlButton"'>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="type" type="SFString" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="getType" type="SFString" accessType="outputOnly" />
+			<field name="isPressed" type="SFBool" accessType="outputOnly" />
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setEnabled" type="SFBool" accessType="inputOnly" />
+			<field name="setType" type="SFString" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="Frame" url='"x3dui/library/x3dui.x3d#Frame"'>
+			<field name="movable" type="SFBool" accessType="initializeOnly" />
+			<field name="position" type="SFVec2f" accessType="initializeOnly" />
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="border" type="SFString" accessType="initializeOnly" />
+			<field name="header" type="SFBool" accessType="initializeOnly" />
+			<field name="title" type="SFString" accessType="initializeOnly" />
+			<field name="startMaximized" type="SFBool" accessType="initializeOnly" />
+			<field name="resizable" type="SFBool" accessType="initializeOnly" />
+			<field name="minimizable" type="SFBool" accessType="initializeOnly" />
+			<field name="maximizable" type="SFBool" accessType="initializeOnly" />
+			<field name="closeable" type="SFBool" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="children" type="MFNode" accessType="initializeOnly" />
+			<field name="layout" type="SFNode" accessType="initializeOnly" />
+			<field name="getChildren" type="MFNode" accessType="outputOnly" />
+			<field name="isMovable" type="SFBool" accessType="outputOnly" />
+			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getBorder" type="SFString" accessType="outputOnly" />
+			<field name="hasHeader" type="SFBool" accessType="outputOnly" />
+			<field name="getTitle" type="SFString" accessType="outputOnly" />
+			<field name="isResizable" type="SFBool" accessType="outputOnly" />
+			<field name="isMinimizable" type="SFBool" accessType="outputOnly" />
+			<field name="isMaximizable" type="SFBool" accessType="outputOnly" />
+			<field name="isCloseable" type="SFBool" accessType="outputOnly" />
+			<field name="isMinimized" type="SFBool" accessType="outputOnly" />
+			<field name="isClosed" type="SFBool" accessType="outputOnly" />
+			<field name="getId" type="SFInt32" accessType="outputOnly" />
+			<field name="setChildren" type="MFNode" accessType="inputOnly" />
+			<field name="setMovable" type="SFBool" accessType="inputOnly" />
+			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setBorder" type="SFString" accessType="inputOnly" />
+			<field name="setHeader" type="SFBool" accessType="inputOnly" />
+			<field name="setTitle" type="SFString" accessType="inputOnly" />
+			<field name="setResizable" type="SFBool" accessType="inputOnly" />
+			<field name="setMinimizable" type="SFBool" accessType="inputOnly" />
+			<field name="setMaximizable" type="SFBool" accessType="inputOnly" />
+			<field name="setCloseable" type="SFBool" accessType="inputOnly" />
+			<field name="setMinimized" type="SFBool" accessType="inputOnly" />
+			<field name="setActive" type="SFBool" accessType="inputOnly" />
+			<field name="setElevation" type="SFFloat" accessType="inputOnly" />
+			<field name="doLayout" type="SFBool" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="Panel" url='"x3dui/library/x3dui.x3d#Panel"'>
 			<field name="size" type="SFVec2f" accessType="initializeOnly" />
 			<field name="visible" type="SFBool" accessType="initializeOnly" />
 			<field name="color" type="SFColor" accessType="initializeOnly" />
 			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
 			<field name="text" type="SFString" accessType="initializeOnly" />
+			<field name="border" type="SFString" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="children" type="MFNode" accessType="initializeOnly" />
+			<field name="layout" type="SFNode" accessType="initializeOnly" />
 			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
 			<field name="isVisible" type="SFBool" accessType="outputOnly" />
 			<field name="getColor" type="SFColor" accessType="outputOnly" />
 			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
 			<field name="getText" type="SFString" accessType="outputOnly" />
+			<field name="getBorder" type="SFString" accessType="outputOnly" />
 			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
 			<field name="setVisible" type="SFBool" accessType="inputOnly" />
 			<field name="setColor" type="SFColor" accessType="inputOnly" />
 			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
-			<field name="layout" type="SFNode" accessType="initializeOnly" />
-			<field name="border" type="SFString" accessType="initializeOnly" />
-			<field name="getBorder" type="SFString" accessType="outputOnly" />
-			<field name="doLayout" type="SFBool" accessType="inputOnly" />
-			<field name="setBorder" type="SFString" accessType="inputOnly" />
 			<field name="setText" type="SFString" accessType="inputOnly" />
-		</ExternProtoDeclare>
-
-		<ExternProtoDeclare name="TabPanel" url='"x3dui/library/x3dui.x3d#TabPanel"'>
-			<field name="settings" type="SFNode" accessType="inputOnly"></field>
-			<field name="setup" type="SFBool" accessType="inputOnly" />
-			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
-			<field name="children" type="MFNode" accessType="initializeOnly"></field>
-			<field name="size" type="SFVec2f" accessType="initializeOnly" />
-			<field name="visible" type="SFBool" accessType="initializeOnly" />
-			<field name="color" type="SFColor" accessType="initializeOnly" />
-			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
-			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
-			<field name="isVisible" type="SFBool" accessType="outputOnly" />
-			<field name="getColor" type="SFColor" accessType="outputOnly" />
-			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
-			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
-			<field name="setVisible" type="SFBool" accessType="inputOnly" />
-			<field name="setColor" type="SFColor" accessType="inputOnly" />
-			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
-			<field name="selectedIndex" type="SFInt32" accessType="initializeOnly" />
-			<field name="getSelectedIndex" type="SFInt32" accessType="outputOnly" />
-			<field name="setSelectedIndex" type="SFInt32" accessType="inputOnly" />
-		</ExternProtoDeclare>
-
-		<ExternProtoDeclare name="Rectangle" url='"x3dui/library/x3dui.x3d#Rectangle"'>
-			<field name="settings" type="SFNode" accessType="inputOnly" />
-			<field name="setup" type="SFBool" accessType="inputOnly" />
-			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
-			
-			<field name="movable" type="SFBool" accessType="initializeOnly" />
-			<field name="position" type="SFVec2f" accessType="initializeOnly" />
-			
-			<field name="isMovable" type="SFBool" accessType="outputOnly" />
-			<field name="getPosition" type="SFVec2f" accessType="outputOnly" />
-			
-			<field name="setMovable" type="SFBool" accessType="inputOnly" />
-			<field name="setPosition" type="SFVec2f" accessType="inputOnly" />
-			
-			<field name="children" type="MFNode" accessType="initializeOnly"></field>
-			<field name="size" type="SFVec2f" accessType="initializeOnly" />
-			<field name="visible" type="SFBool" accessType="initializeOnly" />
-			<field name="color" type="SFColor" accessType="initializeOnly" />
-			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
-			<field name="border" type="SFString" accessType="initializeOnly" />
-			
-			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
-			<field name="isVisible" type="SFBool" accessType="outputOnly" />
-			<field name="getColor" type="SFColor" accessType="outputOnly" />
-			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
-			<field name="getBorder" type="SFString" accessType="outputOnly" />
-			
-			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
-			<field name="setVisible" type="SFBool" accessType="inputOnly" />
-			<field name="setColor" type="SFColor" accessType="inputOnly" />
-			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
 			<field name="setBorder" type="SFString" accessType="inputOnly" />
+			<field name="doLayout" type="SFBool" accessType="inputOnly" />
 		</ExternProtoDeclare>
-
-		<ExternProtoDeclare name="HorizontalSlider" url='"x3dui/library/x3dui.x3d#HorizontalSlider"'>
+		
+		<ExternProtoDeclare name="RadioButton" url='"x3dui/library/x3dui.x3d#RadioButton"'>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="text" type="SFString" accessType="initializeOnly" />
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="checked" type="SFBool" accessType="initializeOnly" />
 			<field name="settings" type="SFNode" accessType="inputOnly" />
 			<field name="setup" type="SFBool" accessType="inputOnly" />
 			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
-
-			<field name="enabled" type="SFBool" accessType="initializeOnly" />
-			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getText" type="SFString" accessType="outputOnly" />
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="isChecked" type="SFBool" accessType="outputOnly" />
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setText" type="SFString" accessType="inputOnly" />
+			<field name="setEnabled" type="SFBool" accessType="inputOnly" />
+			<field name="setChecked" type="SFBool" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="HorizontalRunner" url='"x3dui/library/x3dui.x3d#HorizontalRunner"'>
 			<field name="size" type="SFVec2f" accessType="initializeOnly" />
 			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
 			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="HorizontalSlider" url='"x3dui/library/x3dui.x3d#HorizontalSlider"'>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
 			<field name="value" type="SFFloat" accessType="initializeOnly" />
 			<field name="minValue" type="SFFloat" accessType="initializeOnly" />
 			<field name="maxValue" type="SFFloat" accessType="initializeOnly" />
@@ -476,12 +425,14 @@
 			<field name="leftCaption" type="SFString" accessType="initializeOnly" />
 			<field name="rightCaption" type="SFString" accessType="initializeOnly" />
 			<field name="displayMarks" type="SFBool" accessType="initializeOnly" />
-			
-			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
-			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
 			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
 			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
 			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
 			<field name="getValue" type="SFFloat" accessType="outputOnly" />
 			<field name="getMinValue" type="SFFloat" accessType="outputOnly" />
 			<field name="getMaxValue" type="SFFloat" accessType="outputOnly" />
@@ -490,12 +441,11 @@
 			<field name="getLeftCaption" type="SFString" accessType="outputOnly" />
 			<field name="getRightCaption" type="SFString" accessType="outputOnly" />
 			<field name="doDisplayMarks" type="SFBool" accessType="outputOnly" />
-			
-			<field name="setEnabled" type="SFBool" accessType="inputOnly" />
-			<field name="setColor" type="SFColor" accessType="inputOnly" />
 			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
 			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
 			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setEnabled" type="SFBool" accessType="inputOnly" />
 			<field name="setValue" type="SFFloat" accessType="inputOnly" />
 			<field name="setMinValue" type="SFFloat" accessType="inputOnly" />
 			<field name="setMaxValue" type="SFFloat" accessType="inputOnly" />
@@ -505,6 +455,163 @@
 			<field name="setRightCaption" type="SFString" accessType="inputOnly" />
 			<field name="setDisplayMarks" type="SFBool" accessType="inputOnly" />
 		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="TabPanel" url='"x3dui/library/x3dui.x3d#TabPanel"'>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="selectedIndex" type="SFInt32" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="children" type="MFNode" accessType="initializeOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="getSelectedIndex" type="SFInt32" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setSelectedIndex" type="SFInt32" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="TaskBar" url='"x3dui/library/x3dui.x3d#TaskBar"'>
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setChildrenTitles" type="MFString" accessType="inputOnly" />
+			<field name="setChildrenIds" type="MFString" accessType="inputOnly" />
+			<field name="setElevation" type="SFFloat" accessType="inputOnly" />
+			<field name="doLayout" type="SFInt32" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="TextButton" url='"x3dui/library/x3dui.x3d#TextButton"'>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="text" type="SFString" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="getText" type="SFString" accessType="outputOnly" />
+			<field name="isPressed" type="SFBool" accessType="outputOnly" />
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setEnabled" type="SFBool" accessType="inputOnly" />
+			<field name="setText" type="SFString" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="TextField" url='"x3dui/library/x3dui.x3d#TextField"'>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="text" type="SFString" accessType="initializeOnly" />
+			<field name="maxLength" type="SFInt32" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="getText" type="SFString" accessType="outputOnly" />
+			<field name="getMaxLength" type="SFInt32" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setEnabled" type="SFBool" accessType="inputOnly" />
+			<field name="setText" type="SFString" accessType="inputOnly" />
+			<field name="setMaxLength" type="SFInt32" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="ToggleButton" url='"x3dui/library/x3dui.x3d#ToggleButton"'>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="pressed" type="SFBool" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="children" type="MFNode" accessType="initializeOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="isPressed" type="SFBool" accessType="outputOnly" />
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setEnabled" type="SFBool" accessType="inputOnly" />
+			<field name="setPressed" type="SFBool" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="TextToggleButton" url='"x3dui/library/x3dui.x3d#TextToggleButton"'>
+			<field name="size" type="SFVec2f" accessType="initializeOnly" />
+			<field name="visible" type="SFBool" accessType="initializeOnly" />
+			<field name="color" type="SFColor" accessType="initializeOnly" />
+			<field name="transparency" type="SFFloat" accessType="initializeOnly" />
+			<field name="enabled" type="SFBool" accessType="initializeOnly" />
+			<field name="pressed" type="SFBool" accessType="initializeOnly" />
+			<field name="onText" type="SFString" accessType="initializeOnly" />
+			<field name="offText" type="SFString" accessType="initializeOnly" />
+			<field name="settings" type="SFNode" accessType="inputOnly" />
+			<field name="setup" type="SFBool" accessType="inputOnly" />
+			<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
+			<field name="children" type="MFNode" accessType="initializeOnly" />
+			<field name="getSize" type="SFVec2f" accessType="outputOnly" />
+			<field name="isVisible" type="SFBool" accessType="outputOnly" />
+			<field name="getColor" type="SFColor" accessType="outputOnly" />
+			<field name="getTransparency" type="SFFloat" accessType="outputOnly" />
+			<field name="isEnabled" type="SFBool" accessType="outputOnly" />
+			<field name="isPressed" type="SFBool" accessType="outputOnly" />
+			<field name="getOnText" type="SFString" accessType="outputOnly" />
+			<field name="getOffText" type="SFString" accessType="outputOnly" />
+			<field name="isClicked" type="SFBool" accessType="outputOnly" />
+			<field name="setSize" type="SFVec2f" accessType="inputOnly" />
+			<field name="setVisible" type="SFBool" accessType="inputOnly" />
+			<field name="setColor" type="SFColor" accessType="inputOnly" />
+			<field name="setTransparency" type="SFFloat" accessType="inputOnly" />
+			<field name="setEnabled" type="SFBool" accessType="inputOnly" />
+			<field name="setPressed" type="SFBool" accessType="inputOnly" />
+			<field name="setOnText" type="SFString" accessType="inputOnly" />
+			<field name="setOffText" type="SFString" accessType="inputOnly" />
+		</ExternProtoDeclare>
+		
+		<ExternProtoDeclare name="RadioButtonGroup" url='"x3dui/library/x3dui.x3d#RadioButtonGroup"'>
+			<field name="children" type="MFNode" accessType="initializeOnly" />
+		</ExternProtoDeclare>
 
 		<Viewpoint description="front" orientation="0.0 0.0 0.0  0.0" position="0.0 0.0 5.0" centerOfRotation="0 0 0" />
 
@@ -512,7 +619,7 @@
 		
 		<DirectionalLight intensity="0.3" />
 		
-		<Viewpoint DEF="centerView" description="center" orientation="0 0 0  0" position="0 0 5" />
+		<Viewpoint DEF="centerView" description="center" orientation="1 1 1  0" position="0 0 5" />
 		<Viewpoint DEF="leftView" description="left" orientation="0 1 0  0.2" position="-0.5 0 5" />
 		<Viewpoint DEF="rightView" description="right" orientation="0 1 0  -0.2" position="0.5 0 5" />
 		<Viewpoint DEF="topView" description="top" orientation="1 0 0  0.2" position="0 0.5 5" />

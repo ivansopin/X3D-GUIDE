@@ -178,6 +178,8 @@
 				<field name="CURSOR_SCALE_MULTIPLIER" type="SFFloat" accessType="inputOutput" value="1000" />
 			</ProtoInterface>
 			<ProtoBody>
+				<Group>
+				</Group>
 			</ProtoBody>
 		</ProtoDeclare>
 
