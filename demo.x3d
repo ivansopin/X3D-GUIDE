@@ -3,28 +3,6 @@
 <X3D profile="Immersive" version="3.2" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.2.xsd">
 	<head />
 	<Scene>
-
-		<ExternProtoDeclare name="Layer3D"
-				url='"urn:inet:bitmanagement.de:node:Layer3D"
-				"http://www.bitmanagement.de/vrml/protos/nodes.wrl#Layer3D"
-				"nodes.wrl#Layer3D"'>
-			<field name="bboxSize" type="SFVec3f" accessType="inputOutput" />
-			<field name="bboxCenter" type="SFVec3f" accessType="inputOutput" />
-			<field name="addChildrenLayer" type="MFNode" accessType="inputOnly" />
-			<field name="removeChildrenLayer" type="MFNode" accessType="inputOnly" />
-			<field name="childrenLayer" type="MFNode" accessType="inputOutput" />
-			<field name="translation" type="SFVec2f" accessType="inputOutput" />
-			<field name="depth" type="SFInt32" accessType="inputOutput" />
-			<field name="size" type="SFVec2f" accessType="inputOutput" />
-			<field name="background" type="SFNode" accessType="inputOutput" />
-			<field name="fog" type="SFNode" accessType="inputOutput" />
-			<field name="navigationInfo" type="SFNode" accessType="inputOutput" />
-			<field name="viewpoint" type="SFNode" accessType="inputOutput" />
-			<field name="children" type="MFNode" accessType="inputOutput" />
-			<field name="addChildren" type="MFNode" accessType="inputOnly" />
-			<field name="removeChildren" type="MFNode" accessType="inputOnly" />
-		</ExternProtoDeclare>
-
 		<ExternProtoDeclare name="Display" url='"x3dui/library/x3dui.x3d#Display"'>
 			<field name="children" type="MFNode" accessType="initializeOnly"></field>
 			<field name="viewProximity" accessType="initializeOnly" type="SFFloat" />

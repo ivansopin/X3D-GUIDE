@@ -41,28 +41,25 @@ public class LibraryBuilder {
 	private static final String X3D_FOOTER = "\n</Scene>\n" + "</X3D>";
 
 	private static final String LAYER3D_EXTERN = 
-		"<ExternProtoDeclare name=\"Layer3D\"\n" + 
-			"url='\"urn:inet:bitmanagement.de:node:Layer3D\"\n" + 
-			"http://www.bitmanagement.de/vrml/protos/nodes.wrl#Layer3D\"\n" + 
-			"nodes.wrl#Layer3D\"'>\n" + 
-			  "<field name=\"bboxSize\" type=\"SFVec3f\" accessType=\"inputOutput\" />\n" + 
-			  "<field name=\"bboxCenter\" type=\"SFVec3f\" accessType=\"inputOutput\" />\n" + 
-			  "\n" + 
-			  "<field name=\"addChildrenLayer\" type=\"MFNode\" accessType=\"inputOnly\" />\n" + 
-			  "<field name=\"removeChildrenLayer\" type=\"MFNode\" accessType=\"inputOnly\" />\n" + 
-			  "\n" + 
-			  "<field name=\"childrenLayer\" type=\"MFNode\" accessType=\"inputOutput\" />\n" + 
-			  "<field name=\"translation\" type=\"SFVec2f\" accessType=\"inputOutput\" />\n" + 
-			  "<field name=\"depth\" type=\"SFInt32\" accessType=\"inputOutput\" />\n" + 
-			  "<field name=\"size\" type=\"SFVec2f\" accessType=\"inputOutput\" />\n" + 
-			  "<field name=\"background\" type=\"SFNode\" accessType=\"inputOutput\" />\n" + 
-			  "<field name=\"fog\" type=\"SFNode\" accessType=\"inputOutput\" />\n" + 
-			  "<field name=\"navigationInfo\" type=\"SFNode\" accessType=\"inputOutput\" />\n" + 
-			  "<field name=\"viewpoint\" type=\"SFNode\" accessType=\"inputOutput\" />\n" + 
-			  "<field name=\"children\" type=\"MFNode\" accessType=\"inputOutput\" />\n" + 
-			  "\n" + 
-			  "<field name=\"addChildren\" type=\"MFNode\" accessType=\"inputOnly\" />\n" + 
-			  "<field name=\"removeChildren\" type=\"MFNode\" accessType=\"inputOnly\" />\n" + 
+		"<ExternProtoDeclare name=\"Layer3D\" " + 
+			"url='\"urn:inet:bitmanagement.de:node:Layer3D\" " + 
+			"\"http://www.bitmanagement.de/vrml/protos/nodes.wrl#Layer3D\" " + 
+			"\"nodes.wrl#Layer3D\"'>" + 
+			  "<field name=\"bboxSize\" type=\"SFVec3f\" accessType=\"inputOutput\" />" + 
+			  "<field name=\"bboxCenter\" type=\"SFVec3f\" accessType=\"inputOutput\" />" + 
+			  "<field name=\"addChildrenLayer\" type=\"MFNode\" accessType=\"inputOnly\" />" + 
+			  "<field name=\"removeChildrenLayer\" type=\"MFNode\" accessType=\"inputOnly\" />" + 
+			  "<field name=\"childrenLayer\" type=\"MFNode\" accessType=\"inputOutput\" />" + 
+			  "<field name=\"translation\" type=\"SFVec2f\" accessType=\"inputOutput\" />" + 
+			  "<field name=\"depth\" type=\"SFInt32\" accessType=\"inputOutput\" />" + 
+			  "<field name=\"size\" type=\"SFVec2f\" accessType=\"inputOutput\" />" + 
+			  "<field name=\"background\" type=\"SFNode\" accessType=\"inputOutput\" />" + 
+			  "<field name=\"fog\" type=\"SFNode\" accessType=\"inputOutput\" />" + 
+			  "<field name=\"navigationInfo\" type=\"SFNode\" accessType=\"inputOutput\" />" + 
+			  "<field name=\"viewpoint\" type=\"SFNode\" accessType=\"inputOutput\" />" + 
+			  "<field name=\"children\" type=\"MFNode\" accessType=\"inputOutput\" />" +  
+			  "<field name=\"addChildren\" type=\"MFNode\" accessType=\"inputOnly\" />" + 
+			  "<field name=\"removeChildren\" type=\"MFNode\" accessType=\"inputOnly\" />" + 
 			"</ExternProtoDeclare>";
 
 	
@@ -179,6 +176,8 @@ public class LibraryBuilder {
 		
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append(X3D_HEADER);
+		stringBuffer.append("\n");
+		stringBuffer.append(LAYER3D_EXTERN);
 		
 		outFile = new File(DEST_DIR + LIBRARY_FILE_NAME + EXTENSION);
 		
