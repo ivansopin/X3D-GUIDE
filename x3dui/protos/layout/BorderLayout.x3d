@@ -4,22 +4,42 @@
 	<head />
 	<Scene>		
 	
+		<!-- This prototype implements the traditional border layout that can 
+				operate on up to five regions: <tt>CENTER</tt>, <tt>NORTH</tt>,
+				<tt>SOUTH</tt>, <tt>WEST</tt>, and <tt>EAST</tt>, with 
+				<tt>CENTER</tt> being the only mandatory region. A 
+				<proto>BorderLayout</proto> instance can be passed as a child to 
+				<tt>layout</tt> attribute, for instance, in <proto>Panel</proto>. -->
 		<ProtoDeclare name="BorderLayout">
 			<ProtoInterface>
+				<!-- Specifies the horizontal gap between regions. -->
 				<field name="hGap" accessType="initializeOnly" type="SFFloat" value="0.001" />
+				<!-- Specifies the vertical gap between regions. -->
 				<field name="vGap" accessType="initializeOnly" type="SFFloat" value="0.001" />
+				<!-- Takes the DEF id of the element to be put in the <tt>CENTER</tt> region. -->
 				<field name="centerElementId" accessType="initializeOnly" type="SFString" value="" />
+				<!-- Takes the DEF id of the element to be put in the <tt>NORTH</tt> region. -->
 				<field name="northElementId" accessType="initializeOnly" type="SFString" value="" />
+				<!-- Takes the DEF id of the element to be put in the <tt>SOUTH</tt> region. -->
 				<field name="southElementId" accessType="initializeOnly" type="SFString" value="" />
+				<!-- Takes the DEF id of the element to be put in the <tt>WEST</tt> region. -->
 				<field name="westElementId" accessType="initializeOnly" type="SFString" value="" />
+				<!-- Takes the DEF id of the element to be put in the <tt>EAST</tt> region. -->
 				<field name="eastElementId" accessType="initializeOnly" type="SFString" value="" />
 				
+				<!-- Returns the horizontal gap between regions. -->
 				<field name="getHGap" accessType="outputOnly" type="SFFloat" />
+				<!-- Returns the vertical gap between regions. -->
 				<field name="getVGap" accessType="outputOnly" type="SFFloat" />
+				<!-- Returns the DEF id of the element in the <tt>CENTER</tt> region. -->
 				<field name="getCenterElementId" accessType="outputOnly" type="SFString" />
+				<!-- Returns the DEF id of the element in the <tt>NORTH</tt> region. -->
 				<field name="getNorthElementId" accessType="outputOnly" type="SFString" />
+				<!-- Returns the DEF id of the element in the <tt>SOUTH</tt> region. -->
 				<field name="getSouthElementId" accessType="outputOnly" type="SFString" />
+				<!-- Returns the DEF id of the element in the <tt>WEST</tt> region. -->
 				<field name="getWestElementId" accessType="outputOnly" type="SFString" />
+				<!-- Returns the DEF id of the element in the <tt>EAST</tt> region. -->
 				<field name="getEastElementId" accessType="outputOnly" type="SFString" />
 			</ProtoInterface>
 			<ProtoBody>				

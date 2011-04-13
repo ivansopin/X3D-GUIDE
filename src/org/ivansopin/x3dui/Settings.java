@@ -6,8 +6,8 @@ public class Settings {
 	static final String SRC_EXT = ".x3d";
 	static final String DEST_EXT = ".html";
 	
-	static final String SRC_DIR = "C:/Documents and Settings/SoVa/workspace/X3D GUI Library/x3dui/protos/";
-	static final String DEST_DIR = "C:/Documents and Settings/SoVa/workspace/X3D GUI Library/x3dui/documentation/";
+	static final String SRC_DIR = "D:/workspace/X3D GUI Library/x3dui/protos/";
+	static final String DEST_DIR = "D:/workspace/X3D GUI Library/x3dui/documentation/";
 	
 	static final String[] FILE_LIST = new String[] {
 		// from layout folder
@@ -28,7 +28,7 @@ public class Settings {
 
 	static final String DOC_TITLE_PREFIX = "X3DUI Documentation : ";
 	
-	static final String FILE_SYSTEM_PREFIX = "C:/";
+	static final String FILE_SYSTEM_PREFIX = "D:/";
 	
 	
 	static final String OVERVIEW_DESCRIPTION = 

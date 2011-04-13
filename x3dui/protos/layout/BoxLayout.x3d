@@ -4,18 +4,52 @@
 	<head />
 	<Scene>		
 	
+		<!-- This prototype implements the traditional box layout that lines up all elements
+			in either a row or column, unlike <proto>GridLayout</proto>, which is capable of
+			positioning elements in two dimensions. A <proto>BoxLayout</proto> instance can be 
+			passed as a child to <tt>layout</tt> attribute, for instance, in <proto>Panel</proto>. -->
 		<ProtoDeclare name="BoxLayout">
 			<ProtoInterface>
-				<field name="direction" accessType="initializeOnly" type="SFString" value="HORIZONTAL" /> <!-- HORIZONTAL|VERTICAL -->
-				<field name="hAlign" accessType="initializeOnly" type="SFString" value="CENTER" /> <!-- LEFT|RIGHT|CENTER -->
-				<field name="vAlign" accessType="initializeOnly" type="SFString" value="MIDDLE" /> <!-- TOP|BOTTOM|MIDDLE -->
+				<!-- Specifies how the elements will be queued up. 
+						Possible options are 
+						<ul>
+							<li><tt>HORIZONTAL</tt> &ndash; elements will be lined up in a row</li>
+							<li><tt>VERTICAL</tt> &ndash; elements will be lined up in a column</li>
+						</ul> -->
+				<field name="direction" accessType="initializeOnly" type="SFString" value="HORIZONTAL" />
+				<!-- Specifies how the elements will be distributed along the horizontal axis, 
+						regardless of chosen <field>direction</field>. Possible options are 
+						<ul>
+							<li><tt>LEFT</tt> &ndash; elements will grouped on the left</li>
+							<li><tt>RIGHT</tt> &ndash; elements will be grouped on the right</li>
+							<li><tt>CENTER</tt> &ndash; elements will be grouped in the center</li>
+						</ul> -->
+				<field name="hAlign" accessType="initializeOnly" type="SFString" value="CENTER" />
+				<!-- Specifies how the elements will be distributed along the vertical axis, 
+						regardless of chosen <field>direction</field>. Possible options are 
+						<ul>
+							<li><tt>TOP</tt> &ndash; elements will grouped at the top</li>
+							<li><tt>BOTTOM</tt> &ndash; elements will be grouped at the bottom</li>
+							<li><tt>MIDDLE</tt> &ndash; elements will be grouped in the middle</li>
+						</ul> -->
+				<field name="vAlign" accessType="initializeOnly" type="SFString" value="MIDDLE" />
+				<!-- Specifies the horizontal gap between elements. -->
 				<field name="hGap" accessType="initializeOnly" type="SFFloat" value="0.001" />
+				<!-- Specifies the vertical gap between elements. -->
 				<field name="vGap" accessType="initializeOnly" type="SFFloat" value="0.001" />
 				
+				<!-- Returns the direction of elements' queuing. For more details refer to the
+						<field>direction</field> parameter. -->
 				<field name="getDirection" accessType="outputOnly" type="SFString" />
+				<!-- Returns the elements' horizontal alignment mode. For more details refer 
+						to the <field>hAlign</field> parameter. -->
 				<field name="getHAlign" accessType="outputOnly" type="SFString" />
+				<!-- Returns the elements' vertical alignment mode. For more details refer 
+						to the <field>vAlign</field> parameter. -->
 				<field name="getVAlign" accessType="outputOnly" type="SFString" />
+				<!-- Returns the horizontal gap used between elements. -->
 				<field name="getHGap" accessType="outputOnly" type="SFFloat" />
+				<!-- Returns the vertical gap used between elements. -->
 				<field name="getVGap" accessType="outputOnly" type="SFFloat" />
 			</ProtoInterface>
 			<ProtoBody>				

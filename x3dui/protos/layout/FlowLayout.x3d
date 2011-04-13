@@ -4,14 +4,31 @@
 	<head />
 	<Scene>		
 	
+		<!-- This prototype implements the traditional flow layout that consecutively fills 
+			rows with elements, starting a new row when there is not enough space in the
+			current row to accommodate the next element. A <proto>FlowLayout</proto> instance can be 
+			passed as a child to <tt>layout</tt> attribute, for instance, in <proto>Panel</proto>. -->
 		<ProtoDeclare name="FlowLayout">
 			<ProtoInterface>
-				<field name="align" accessType="initializeOnly" type="SFString" value="LEFT" /> <!-- LEFT|RIGHT|CENTER -->
+				<!-- Specifies which side of a row the elements will be pushed to.
+						Possible options are 
+						<ul>
+							<li><tt>LEFT</tt> &ndash; elements will grouped on the left</li>
+							<li><tt>RIGHT</tt> &ndash; elements will be grouped on the right</li>
+							<li><tt>CENTER</tt> &ndash; elements will be grouped in the center</li>
+						</ul> -->
+				<field name="align" accessType="initializeOnly" type="SFString" value="LEFT" />
+				<!-- Specifies the horizontal gap between elements. -->
 				<field name="hGap" accessType="initializeOnly" type="SFFloat" value="0.001" />
+				<!-- Specifies the vertical gap between elements. -->
 				<field name="vGap" accessType="initializeOnly" type="SFFloat" value="0.001" />
 				
+				<!-- Indicates the alignment of elements in a row. For more details refer to the
+						<field>align</field> parameter. -->
 				<field name="getAlign" accessType="outputOnly" type="SFString" />
+				<!-- Returns the horizontal gap used between elements. -->
 				<field name="getHGap" accessType="outputOnly" type="SFFloat" />
+				<!-- Returns the vertical gap used between elements. -->
 				<field name="getVGap" accessType="outputOnly" type="SFFloat" />
 			</ProtoInterface>
 			<ProtoBody>				
