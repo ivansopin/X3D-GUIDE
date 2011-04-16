@@ -7,7 +7,9 @@
 		<!-- This prototype implements the traditional flow layout that consecutively fills 
 			rows with elements, starting a new row when there is not enough space in the
 			current row to accommodate the next element. A <proto>FlowLayout</proto> instance can be 
-			passed as a child to <tt>layout</tt> attribute, for instance, in <proto>Panel</proto>. -->
+			passed as a child to <tt>layout</tt> attribute, for instance, in <proto>Panel</proto>. 
+			<proto>FlowLayout</proto> is the layout used by default whenever no other layout is 
+			specified. -->
 		<ProtoDeclare name="FlowLayout">
 			<ProtoInterface>
 				<!-- Specifies which side of a row the elements will be pushed to.

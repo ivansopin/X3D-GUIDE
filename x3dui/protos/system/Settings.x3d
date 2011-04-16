@@ -10,7 +10,7 @@
 				change any of the parameters after the initial configuration. -->
 		<ProtoDeclare name="Settings">
 			<ProtoInterface>
-				<!-- System parameters -->
+				<!-- [SYSTEM PREFERENCES] -->
 				
 				<!-- Specifies how close to the viewpoint the UI layer will be placed. 
 						You should not normally change this parameter. -->
@@ -28,81 +28,127 @@
 						<proto>Frame</proto> objects, the increment will always be 1; but 
 						the value of this parameter will be used for its children. -->
 				<field name="Z_ORDER_STEP" type="SFFloat" accessType="inputOutput" value="0.0001" />
-				<!--  -->
+				<!-- Indicates the numeric id to be assigned to the next <group>visual</group>
+						component. All <group>visual</group> prototypes access this parameter
+						during setup. -->
 				<field name="COMPONENT_ID" type="SFInt32" accessType="inputOutput" value="0" />
-				<!--  -->
+				<!-- Indicates the <field>COMPONENT_ID</field> of the object holding the focus.
+						If nothing is focused, the value is -1. -->
 				<field name="FOCUS_ID" type="SFInt32" accessType="inputOutput" value="-1" />
-				<!--  -->
+				<!-- Indicates the <field>COMPONENT_ID</field> of the <proto>Frame</proto> that 
+						is currently active. If no <proto>Frame</proto> is active, the value is -1. -->
 				<field name="ACTIVE_ID" type="SFInt32" accessType="inputOutput" value="-1" />
-				<!--  -->
+				<!-- Indicates the current mouse cursor position on the screen. -->
 				<field name="MOUSE_POSITION" type="SFVec2f" accessType="inputOutput" value="0 0" />
 				
 								
-				<!-- Renderer- and player-specific parameters -->
+				<!-- [RENDERER- AND PLAYER-SPECIFIC PREFERENCES] -->
 				
-				<!-- these two greatly depend on how good the renderer is; the better, the smaller can the values be -->
+				<!-- Specifies how far apart on z-axis should two consecutive (in the order of user-initiated 
+						activation) frames be placed. This is in addition to <tt>OrderedGroup</tt> rendering
+						used internally.
+						
+						<br />
+						<br/>  
+				
+						<b>Note:</b> 
+						
+						<br />
+						
+						Generally, the better the renderer and graphics card the smaller the value can be. 
+						But to stay on the safe side, stick with the default or above. 
+				 -->
 				<field name="FRAME_ELEVATION" type="SFFloat" accessType="inputOutput" value="0.00001" />				
-				<!--  -->
+				<!-- Specifies how far apart on z-axis should two consecutive (in the order of user-initiated 
+						activation) frames be placed. This is in addition to <tt>OrderedGroup</tt> rendering
+						used internally.
+						
+						<br />
+						<br/>  
+				
+						<b>Note:</b> 
+						
+						<br />
+						
+						Generally, the better the renderer and graphics card the smaller the value can be. 
+						But to stay on the safe side, stick with the default or above. 
+				 -->
 				<field name="SYSTEM_LEVEL_Z_ORDER" type="SFFloat" accessType="inputOutput" value="10000" />
-				<!--  -->
+				<!-- Value currently not used. -->
 				<field name="TOUCH_SENSOR_ELEVATION" type="SFFloat" accessType="inputOutput" value="0.000001" />
 				
 				
-				<!-- Deployment preferences -->
+				<!-- [DEPLOYMENT PREFERENCES] -->
 				
-				<!--  -->
+				<!-- Specifies whether the debug mode is enabled. -->
 				<field name="DEBUG" type="SFBool" accessType="inputOutput" value="false" />
-				<!--  -->
+				<!-- Specifies the directory where image files are stored, relatively to the location of
+						the scene file. -->
 				<field name="IMAGES_DIR" type="SFString" accessType="inputOutput" value="x3dui/images/" />
 				
 				
-				<!-- Font parameters -->
-				<!--  -->
+				<!-- [FONT PREFERENCES] -->
+				
+				<!-- Specifies the default font family to use for all labels. -->
 				<field name="DEFAULT_FONT_FAMILY" type="MFString" accessType="inputOutput" value='"TAHOMA", "ARIAL", "SERIF"' />
-				<!--  -->
+				<!-- Specifies the absolute scale factor to be applied to all labels for smoother 
+						appearance. Adjusting <field>DEFAULT_FONT_SCALE</field> should suffice for
+						most purposes. -->
 				<field name="DEFAULT_FONT_SCALE" type="SFFloat" accessType="inputOutput" value="0.0008" />
-				<!--  -->
+				<!-- Specifies the default font size to use for all labels. -->
 				<field name="DEFAULT_FONT_SIZE" type="SFFloat" accessType="inputOutput" value="8" />
-				<!--  -->
+				<!-- Specifies the vertical adjustment factor for labels, so that they align with
+						the white space provided for them. For most regular fonts, this should not
+						be adjusted. -->
 				<field name="DEFAULT_FONT_VER_ADJUST_FACTOR" type="SFFloat" accessType="inputOutput" value="0.82" />
 				
 				
-				<!-- CheckBox and RadioButton parameters -->
-				<!--  -->
+				<!-- [CHECKBOX AND RADIOBUTTON PREFERENCES] -->
+				
+				<!-- Specifies the side dimension of the graphical clickable area represented by a square 
+						in <proto>CheckBox</proto>'s and circle in <proto>RadioButton</proto> prototypes. -->
 				<field name="DEFAULT_CHOICE_ELEMENT_DIMENSION" type="SFFloat" accessType="inputOutput" value="0.006" />
 				
 				
-				<!-- Slider parameters -->
-				<!--  -->
+				<!-- [SLIDER PREFERENCES] -->
+				
+				<!-- Specifies the dimensions of the bounding box for a slider runner. -->
 				<field name="DEFAULT_SLIDER_RUNNER_SIZE" type="SFVec2f" accessType="inputOutput" value="0.004 0.008" />
-				<!--  -->
+				<!-- Specifies the length of a graduation mark line. -->
 				<field name="DEFAULT_SLIDER_MARK_LENGTH" type="SFFloat" accessType="inputOutput" value="0.0015" />
-				<!--  -->
+				<!-- Specifies the minimum dimensions of the area a <proto>HorizontalSlider</proto> instance should occupy. -->
 				<field name="DEFAULT_HOR_SLIDER_MINIMUM_SIZE" type="SFVec2f" accessType="inputOutput" value="0.01 0.005" />
-				<!--  -->
-				<field name="DEFAULT_HOR_SLIDER_MINIMUM_CENTER_SIZE" type="SFVec2f" accessType="inputOutput" value="0.005 0.005" />
+				<!-- Specifies the minimum dimensions of the area a <proto>HorizontalSlider</proto>'s (middle) functional part
+						should occupy. -->
+				<field name="DEFAULT_HOR_SLIDER_MINIMUM_CENTER_SIZE" type="SFVec2f" accessType="inputOutput" value="0.05 0.005" />
 				
 				
-				<!-- Rectangle parameters -->
-				<!--  -->
+				<!-- [RECTANGLE PREFERENCES] -->
+				
+				<!-- Specifies the bright color used for volume representation in rectangular and
+						rectangle-derived shapes. -->
 				<field name="DEFAULT_RECTANGLE_BORDER_BRIGHT_COLOR" type="SFColor" accessType="inputOutput" value="1 1 1" />
-				<!--  -->
+				<!-- Specifies the dark color used for volume representation in rectangular and
+						rectangle-derived shapes. -->
 				<field name="DEFAULT_RECTANGLE_BORDER_DARK_COLOR" type="SFColor" accessType="inputOutput" value="0.3 0.3 0.3" />
 
 
-				<!-- ComboBox parameters -->
-				<!--  -->
+				<!-- [COMBOBOX PREFERENCES] -->
+				
+				<!-- Specifies the minimum size of a <proto>ComboBox</proto> instance. -->
 				<field name="DEFAULT_COMBO_BOX_MINIMUM_SIZE" type="SFVec2f" accessType="inputOutput" value="0.01 0.005" />
 				
 				
-				<!-- TextField parameters -->
-				<!--  -->
+				<!-- [TEXTFIELD PREFERENCES] -->
+				
+				<!-- Specifies the minimum size of a <proto>TextField</proto> instance. -->
 				<field name="DEFAULT_TEXT_FIELD_MINIMUM_SIZE" type="SFVec2f" accessType="inputOutput" value="0.01 0.005" />
-				<!--  -->
+				<!-- Specifies the width of a blinking cursor graphics used in <proto>TextField</proto> prototype. -->
 				<field name="DEFAULT_TEXT_FIELD_BLINKING_CURSOR_WIDTH" type="SFFloat" accessType="inputOutput" value="0.0005" />
 				
 				
-				<!-- Button -->
+				<!-- [BUTTON PREFERENCES] -->
+				
 				<!--  -->
 				<field name="DEFAULT_BUTTON_PRESS_SHIFT" type="SFFloat" accessType="inputOutput" value="0.0005" />
 				<!--  -->

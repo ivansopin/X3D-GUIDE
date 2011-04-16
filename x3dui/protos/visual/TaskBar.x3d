@@ -197,7 +197,7 @@
 					function applyZOrder() {
 						rectangle.applyZOrder = true;
 					
-						if (settings.DEBUG) print("\task bar applyZOrder(" + settings.Z_ORDER_COUNT + ")");
+						if (settings.DEBUG) print("\ttask bar applyZOrder(" + settings.Z_ORDER_COUNT + ")");
 					
 						var l = orderedGroup.children.length;
 

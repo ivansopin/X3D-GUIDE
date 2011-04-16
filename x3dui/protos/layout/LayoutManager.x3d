@@ -2,19 +2,38 @@
 <!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.2//EN"   "http://www.web3d.org/specifications/x3d-3.2.dtd">
 <X3D profile="Immersive" version="3.2" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.2.xsd">
 	<head />
-	<Scene>		
+	<Scene>
 	
+		<!-- This prototype implements the logic of all <group>layout</group> managers, 
+				and should not be normally utilized as a stand-alone instance.
+				<proto>LayoutManager</proto> is used internally in prototypes that rely
+				on layouts for element positioning, such as <proto>Panel</proto> and 
+				<proto>Frame</proto>. -->
 		<ProtoDeclare name="LayoutManager">
 			<ProtoInterface>
+				<!-- Specifies the type of layout scheme to use for element alignment. 
+						A valid object should be an instance of one of the following 
+						prototypes: <proto>BorderLayout</proto>, <proto>BoxLayout</proto>, 
+						<proto>FlowLayout</proto>, <proto>GridLayout</proto>.
+				-->  
 				<field name="layout" type="SFNode" accessType="initializeOnly"></field>
+				<!-- Specifies the elements to be laid out. -->
 				<field name="children" type="MFNode" accessType="initializeOnly"></field>
 				
+				<!-- Initiates the layout process. -->
 				<field name="doLayout" type="SFVec2f" accessType="inputOnly" />
 				
+				<!-- Returns the estimated minimum width that will be required to 
+						properly position all elements. -->
 				<field name="getMinimumWidth" type="SFFloat" accessType="outputOnly" />
+				<!-- Returns the estimated minimum height that will be required to 
+						properly position all elements. -->
 				<field name="getMinimumHeight" type="SFFloat" accessType="outputOnly" />
+				<!-- Returns the estimated minimum size (width and height) that will be 
+						required to properly position all elements. -->
 				<field name="getMinimumSize" accessType="outputOnly" type="SFVec2f" />
 				
+				<!-- Returns the children upon applying the specified layout. -->
 				<field name="getChildren" type="MFNode" accessType="outputOnly">
 				</field>
 			</ProtoInterface>

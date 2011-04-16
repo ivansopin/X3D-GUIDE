@@ -4,20 +4,49 @@
 	<head />
 	<Scene>		
 	
+		<!-- This prototype implements the traditional grid layout that places
+				all elements within consecutive grid cells, going 
+				column-by-column, row-by-row. <proto>GridLayout</proto> instance
+				can be passed as a child to <tt>layout</tt> attribute, for 
+				instance, in <proto>Panel</proto>. -->
 		<ProtoDeclare name="GridLayout">
 			<ProtoInterface>
+				<!-- Sets the number of rows that the grid will have. -->
 				<field name="numOfRows" accessType="initializeOnly" type="SFInt32" value="1" />
+				<!-- Sets the number of columns that the grid will have. -->
 				<field name="numOfColumns" accessType="initializeOnly" type="SFInt32" value="1" />
+				<!-- Specifies the horizontal gap between elements. -->
 				<field name="hGap" accessType="initializeOnly" type="SFFloat" value="0.001" />
+				<!-- Specifies the vertical gap between elements. -->
 				<field name="vGap" accessType="initializeOnly" type="SFFloat" value="0.001" />
+				<!-- Specifies how the horizontal white space will be distributed among elements.
+						When set to <tt>true</tt>, each column will only be as wide as the widest
+						element within that column; therefore, columns might have different widths, 
+						and the grid as a whole will be positioned on the left of the container. 
+						When set to <tt>false</tt>, the entire horizontal white space will be evenly 
+						distributed among all columns. -->
 				<field name="compressHorizontally" accessType="initializeOnly" type="SFBool" value="true" />
+				<!-- Specifies how the vertical white space will be distributed among elements.
+						When set to <tt>true</tt>, each row will only be as tall as the tallest
+						element within that row; therefore, rows might have different heights, and 
+						the grid as a whole will be positioned at the top of the container. When set 
+						to <tt>false</tt>, the entire vertical white space will be evenly distributed 
+						among all rows. -->
 				<field name="compressVertically" accessType="initializeOnly" type="SFBool" value="true" />
 				
+				<!-- Indicated the number of rows in the grid. -->
 				<field name="getNumOfRows" accessType="outputOnly" type="SFInt32" />
+				<!-- Indicated the columns of rows in the grid. -->
 				<field name="getNumOfColumns" accessType="outputOnly" type="SFInt32" />
+				<!-- Returns the horizontal gap used between elements. -->
 				<field name="getHGap" accessType="outputOnly" type="SFFloat" />
+				<!-- Returns the vertical gap used between elements. -->
 				<field name="getVGap" accessType="outputOnly" type="SFFloat" />
+				<!-- Indicates how the horizontal white space is distributed among elements. For
+						more details refer to the <field>compressHorizontally</field> parameter. -->
 				<field name="doCompressHorizontally" accessType="outputOnly" type="SFBool" />
+				<!-- Indicates how the vertical white space is distributed among elements. For
+						more details refer to the <field>compressVertically</field> parameter. -->
 				<field name="doCompressVertically" accessType="outputOnly" type="SFBool" />
 			</ProtoInterface>
 			<ProtoBody>				

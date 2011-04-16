@@ -90,7 +90,8 @@
 							<li><tt>LINE</tt> &ndash; a solid single line will drawn</li>
 							<li><tt>RAISED</tt> &ndash; embossed-style border will be used</li>
 							<li><tt>LOWERED</tt> &ndash; bulged-in-style border will be used</li>
-						</ul>-->
+						</ul>
+				-->
 				<field name="border" type="SFString" accessType="initializeOnly" value="NONE" />
 								
 				<!-- Returns the size of the component. -->
