@@ -120,12 +120,18 @@
 		</ExternProtoDeclare>
 
 
-		<!-- Display class to be extended by all heads-up UI objects -->
+		<!-- Display class to be extended by all heads-up UI objects. -->
 		<ProtoDeclare name="Display">
 			<ProtoInterface>
+				<!-- Accepts X3DUI nodes to be displayed within this component. -->
 				<field name="children" type="MFNode" accessType="initializeOnly"></field>
+				<!-- Specifies how close to the viewpoint the UI layer will be placed. 
+						You should not normally change this parameter. -->
 				<field name="viewProximity" type="SFFloat" accessType="initializeOnly" />
+				<!-- Specifies whether the debug mode is enabled. -->
 				<field name="debug" type="SFBool" accessType="initializeOnly" />
+				<!-- Specifies the directory where image files are stored, relatively to the location of
+						the scene file. -->
 				<field name="imagesDir" type="SFString" accessType="initializeOnly" />
 			</ProtoInterface>
 			<ProtoBody>

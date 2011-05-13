@@ -4,10 +4,11 @@
 	<head />
 	<Scene>
 
-		<!-- This prototype contains the parameters that determine the overall "look-and-feel"
-				of the interface. The prototype is used by <proto>Display</proto> and all
-				prototypes in the <group>visual</group> group. You should not normally 
-				change any of the parameters after the initial configuration. -->
+		<!-- This prototype contains the parameters that determine the overall 
+				&quot;look-and-feel&quot; of the interface. The prototype is used by
+				<proto>Display</proto> and all prototypes in the <group>visual</group> 
+				group. You should not normally change any of the parameters after the 
+				initial configuration (during runtime). -->
 		<ProtoDeclare name="Settings">
 			<ProtoInterface>
 				<!-- [SYSTEM PREFERENCES] -->
@@ -149,78 +150,86 @@
 				
 				<!-- [BUTTON PREFERENCES] -->
 				
-				<!--  -->
+				<!-- Specifies the horizontal and vertical displacement of <ptoto>Button</proto>'s label to simulate the &quot;push-down&quot; effect  -->
 				<field name="DEFAULT_BUTTON_PRESS_SHIFT" type="SFFloat" accessType="inputOutput" value="0.0005" />
-				<!--  -->
+				<!-- Specifies the minimum <proto>Button</proto> dimensions. -->
 				<field name="DEFAULT_BUTTON_MINIMUM_SIZE" type="SFVec2f" accessType="inputOutput" value="0.005 0.005" />
 				
 				
-				<!-- TabPanel -->
-				<!--  -->
+				<!-- [TABPANEL PREFERENCES] -->
+				
+				<!-- Specifies the height of <proto>TabPanel</proto>'s header section (containing child panels' subheaders). -->
 				<field name="DEFAULT_TAB_PANEL_HEADER_HEIGHT" type="SFFloat" accessType="inputOutput" value="0.005" />
 				
 				
-				<!-- Plane -->
-				<!--  -->
+				<!-- [PLANE PREFERENCES] -->
+				
+				<!-- Specifies the minimum <proto>Plane</proto> dimensions. -->
 				<field name="DEFAULT_PLANE_MINIMUM_SIZE" type="SFVec2f" accessType="inputOutput" value="0.005 0.005" />
 				
 				
-				<!-- Frame -->
-				<!--  -->
+				<!-- [FRAME PREFERENCES] -->
+				
+				<!-- Specifies the height of <proto>Frame</proto>'s header (showing the title). -->
 				<field name="DEFAULT_FRAME_HEADER_HEIGHT" type="SFFloat" accessType="inputOutput" value="0.01" />
-				<!--  -->
+				<!-- Specifies the title text color when the frame is enabled. -->
 				<field name="DEFAULT_FRAME_HEADER_ENABLED_TEXT_COLOR" type="SFColor" accessType="inputOutput" value="1 1 1" />
-				<!--  -->
+				<!-- Specifies the title text color when the frame is disabled. -->
 				<field name="DEFAULT_FRAME_HEADER_DISABLED_TEXT_COLOR" type="SFColor" accessType="inputOutput" value="0.8314 0.8157 0.7843" />
-				<!--  -->
+				<!-- Specifies the header's background left gradient color when the frame is enabled. -->
 				<field name="DEFAULT_FRAME_HEADER_ENABLED_LEFT_COLOR" type="SFColor" accessType="inputOutput" value="0.043 0.1445 0.418" />
-				<!--  -->
+				<!-- Specifies the header's background right gradient color when the frame is enabled. -->
 				<field name="DEFAULT_FRAME_HEADER_ENABLED_RIGHT_COLOR" type="SFColor" accessType="inputOutput" value="0.6523 0.793 0.9414" />
-				<!--  -->
+				<!-- Specifies the header's background left gradient color when the frame is disabled. -->
 				<field name="DEFAULT_FRAME_HEADER_DISABLED_LEFT_COLOR" type="SFColor" accessType="inputOutput" value="0.5 0.5 0.5" />
-				<!--  -->
+				<!-- Specifies the header's background right gradient color when the frame is disabled. -->
 				<field name="DEFAULT_FRAME_HEADER_DISABLED_RIGHT_COLOR" type="SFColor" accessType="inputOutput" value="0.75 0.75 0.75" />
-				<!--  -->
+				<!-- Specifies how far inward from the frame's border resizing mode is active. -->
 				<field name="DEFAULT_FRAME_RESIZE_AREA_WIDTH" type="SFFloat" accessType="inputOutput" value="0.0025" />
-				<!--  -->
+				<!-- Specifies the width of the border indicating the size of the frame after resizing. -->
 				<field name="DEFAULT_FRAME_RESIZE_BORDER_WIDTH" type="SFFloat" accessType="inputOutput" value="0.0015" />
-				<!--  -->
+				<!-- Specifies the minimum <proto>Frame</proto> dimensions. -->
 				<field name="DEFAULT_FRAME_MINIMUM_SIZE" type="SFVec2f" accessType="inputOutput" value="0.05 0.01" />
-				<!--  -->
+				<!-- Specifies the gap that will be left around the frame when it is maximized to the entire screen. -->
 				<field name="DEFAULT_FRAME_MAXIMIZE_LOCK_GAP" type="SFFloat" accessType="inputOutput" value="0.0001" />
 								
 
-				<!-- TaskBar -->
-				<!--  -->
+				<!-- [TASKBAR PREFERENCES] -->
+				
+				<!-- Specifies the <proto>TaskBar</proto> object width. -->
 				<field name="DEFAULT_TASK_BAR_BUTTON_WIDTH" type="SFFloat" accessType="inputOutput" value="0.05" />
 				
 				
-				<!-- Color parameters -->
-				<!--  -->
+				<!-- [COLOR PREFERENCES] -->
+				
+				<!-- Specifies common color for enabled components. -->
 				<field name="DEFAULT_ENABLED_BG_COLOR" type="SFColor" accessType="inputOutput" value="0.832 0.8164 0.7852" />
-				<!--  -->
+				<!-- Specifies common color for disabled components. -->
 				<field name="DEFAULT_DISABLED_BG_COLOR" type="SFColor" accessType="inputOutput" value="0.9 0.9 0.9" />
-				<!--  -->
+				<!-- Specifies common text color for enabled components. -->
 				<field name="DEFAULT_ENABLED_TEXT_COLOR" type="SFColor" accessType="inputOutput" value="0 0 0" />
-				<!--  -->
+				<!-- Specifies common text color for disabled components. -->
 				<field name="DEFAULT_DISABLED_TEXT_COLOR" type="SFColor" accessType="inputOutput" value="0.5 0.5 0.5" />
-				<!--  -->
+				<!-- Specifies common input background color for enabled components. -->
 				<field name="DEFAULT_ENABLED_INPUT_BG_COLOR" type="SFColor" accessType="inputOutput" value="1 1 1" />
-				<!--  -->
+				<!-- Specifies common input background color for disabled components. -->
 				<field name="DEFAULT_DISABLED_INPUT_BG_COLOR" type="SFColor" accessType="inputOutput" value="0.832 0.8164 0.7852" />
 				
 				
-				<!-- Decoration -->
-				<!--  -->
+				<!-- [DECORATION PREFERENCES] -->
+				
+				<!-- Specifies the width of the gap used to nicer space elements of various prototypes. -->
 				<field name="DEFAULT_DECORATION_GAP" type="SFFloat" accessType="inputOutput" value="0.001" />
-				<!--  -->
+				<!-- Specifies the width of the gap used to separate the borders of adjacent objects with simulated depth. -->
 				<field name="DEFAULT_ADJACENT_GAP" type="SFFloat" accessType="inputOutput" value="0.0005" />
 				
 				
-				<!-- Cursors -->
-				<!--  -->
+				<!-- [CURSOR PREFERENCES] -->
+				
+				<!-- Specifies the base cursor side to be multiplied by <field>CURSOR_SCALE_MULTIPLIER</field> 
+						for smoothness, before further adjusted to the size of the screen. -->
 				<field name="INITIAL_CURSOR_DIMENSION" type="SFFloat" accessType="inputOutput" value="0.013" />
-				<!--  -->
+				<!-- Specifies the multiplier for cursor dimensions. -->
 				<field name="CURSOR_SCALE_MULTIPLIER" type="SFFloat" accessType="inputOutput" value="1000" />
 			</ProtoInterface>
 			<ProtoBody>

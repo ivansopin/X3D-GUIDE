@@ -91,7 +91,7 @@
 				<!-- Causes the component to reposition itself and all its children in the z-depth stack. -->
 				<field name="applyZOrder" type="SFBool" accessType="inputOnly" />
 				
-				<!-- Accepts X3DUI nodes to be displayed within this component -->
+				<!-- Accepts X3DUI nodes to be displayed within this component. -->
 				<field name="children" type="MFNode" accessType="initializeOnly"></field>
 				<!-- Specifies whether the objects in the <field>children</field> attribute
 						should be movable. -->
